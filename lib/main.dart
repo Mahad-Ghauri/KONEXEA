@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_swap/consts.dart';
+import 'package:social_swap/utils/routes.dart';
 import 'package:social_swap/utils/theme.dart';
-import 'package:social_swap/views/Authentication/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -16,6 +16,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(theme: lightMode, home: AuthGate());
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Social Swap',
+      theme: lightMode,
+      initialRoute: Routes.login,
+      onGenerateRoute: Routes.generateRoute,
+    );
   }
 }

@@ -4,9 +4,9 @@ import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
 import 'package:social_swap/utils/routes.dart';
 
-class LoginPage extends StatelessWidget {
-  static const String id = 'LoginPage';
-  const LoginPage({super.key});
+class SignUpPage extends StatelessWidget {
+  static const String id = 'SignUpPage';
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Log In",
+                              "Sign Up",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -63,7 +63,7 @@ class LoginPage extends StatelessWidget {
                             ),
                             SizedBox(height: height * 0.01),
                             Text(
-                              "Welcome back You've been missed",
+                              "Welcome to Social Swap",
                               style: TextStyle(
                                 color: Colors.white.withOpacity(0.9),
                                 fontSize: height * 0.018,
@@ -76,6 +76,11 @@ class LoginPage extends StatelessWidget {
                               child: Column(
                                 children: [
                                   MyFormField(
+                                    hintText: "Enter your name",
+                                    prefixIcon: Icons.person,
+                                  ),
+                                  SizedBox(height: height * 0.02),
+                                  MyFormField(
                                     hintText: "Email",
                                     prefixIcon: Icons.alternate_email,
                                   ),
@@ -83,6 +88,12 @@ class LoginPage extends StatelessWidget {
                                   MyFormField(
                                     hintText: "Password",
                                     prefixIcon: Icons.lock,
+                                  ),
+                                  SizedBox(height: height * 0.02),
+                                  MyFormField(
+                                    hintText: "Confirm Password",
+                                    prefixIcon: Icons.lock,
+                                    
                                   ),
                                 ],
                               ),
@@ -110,7 +121,7 @@ class LoginPage extends StatelessWidget {
                                   Routes.home,
                                 );
                               },
-                              text: "Log In",
+                              text: "Sign Up",
                             ),
                             SizedBox(height: height * 0.025),
                             Row(
@@ -146,21 +157,15 @@ class LoginPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Not a Member?",
+                                  "Already a member?",
                                   style: TextStyle(
                                     color: Colors.white.withOpacity(0.9),
                                     fontSize: height * 0.017,
                                   ),
                                 ),
                                 TextButton(
-                                  onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      Routes.signup,
-                                    );
-                                  },
                                   child: Text(
-                                    "Sign up",
+                                    "Log In",
                                     style: TextStyle(
                                       color:
                                           Theme.of(
@@ -170,6 +175,12 @@ class LoginPage extends StatelessWidget {
                                       fontSize: height * 0.018,
                                     ),
                                   ),
+                                  onPressed: () {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      Routes.login,
+                                    );
+                                  },
                                 ),
                               ],
                             ),
