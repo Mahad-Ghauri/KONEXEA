@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MyFormField extends StatefulWidget {
   final String? hintText;
@@ -103,6 +104,10 @@ class _MyFormFieldState extends State<MyFormField>
                 horizontal: 20,
               ),
               hintText: widget.hintText,
+              errorStyle: TextStyle(
+                color: _isFocused ? Colors.red : Colors.white70,
+                fontFamily: GoogleFonts.urbanist().fontFamily,
+              ),
               hintStyle: TextStyle(
                 color: _isFocused ? Colors.black : Colors.white,
               ),
@@ -135,23 +140,24 @@ class _MyFormFieldState extends State<MyFormField>
                         },
                       )
                       : null,
+
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(
                   color: colorScheme.onSurface.withOpacity(0.2),
                   width: 1.5,
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: colorScheme.primary, width: 2),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: colorScheme.error, width: 1.5),
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide(color: Colors.white70, width: 1.5),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: colorScheme.error, width: 2),
               ),
               filled: true,
