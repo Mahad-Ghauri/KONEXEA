@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/authentication_controller.dart';
+import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
 import 'package:social_swap/utils/routes.dart';
@@ -16,13 +17,11 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final AuthenticationController _authController = AuthenticationController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final InputControllers _inputControllers = InputControllers();
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _inputControllers.dispose();
     super.dispose();
   }
 
@@ -30,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
     if (_formKey.currentState!.validate()) {
       await _authController
           .signInWithEmailPassword(
-            _emailController.text,
-            _passwordController.text,
+            _inputControllers.emailController.text,
+            _inputControllers.passwordController.text,
           )
           .then((_) {
             Navigator.pushReplacementNamed(context, Routes.home);
@@ -111,7 +110,8 @@ class _LoginPageState extends State<LoginPage> {
                                   MyFormField(
                                     hintText: "Email",
                                     prefixIcon: Icons.alternate_email,
-                                    controller: _emailController,
+                                    controller:
+                                        _inputControllers.emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -122,12 +122,14 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                       return null;
                                     },
+                                    onChanged: (value) => {setState(() {})},
                                   ),
                                   SizedBox(height: height * 0.02),
                                   MyFormField(
                                     hintText: "Password",
                                     prefixIcon: Icons.lock,
-                                    controller: _passwordController,
+                                    controller:
+                                        _inputControllers.passwordController,
                                     obscureText: true,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -138,6 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                                       }
                                       return null;
                                     },
+                                    onChanged: (value) => {setState(() {})},
                                   ),
                                 ],
                               ),

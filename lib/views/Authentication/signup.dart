@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/authentication_controller.dart';
+import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
 import 'package:social_swap/utils/routes.dart';
@@ -16,24 +17,18 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final AuthenticationController _authController = AuthenticationController();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController =
-      TextEditingController();
+  final InputControllers _inputControllers = InputControllers();
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
+    _inputControllers.dispose();
     super.dispose();
   }
 
   Future<void> _handleSignUp() async {
     if (_formKey.currentState!.validate()) {
-      if (_passwordController.text != _confirmPasswordController.text) {
+      if (_inputControllers.passwordController.text !=
+          _inputControllers.confirmPasswordController.text) {
         ScaffoldMessenger.of(
           context,
         ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
@@ -41,8 +36,8 @@ class _SignUpPageState extends State<SignUpPage> {
       }
       await _authController
           .signUpWithEmailPassword(
-            _emailController.text,
-            _passwordController.text,
+            _inputControllers.emailController.text,
+            _inputControllers.passwordController.text,
             context,
           )
           .then((_) {
@@ -122,19 +117,22 @@ class _SignUpPageState extends State<SignUpPage> {
                                   MyFormField(
                                     hintText: "Enter your name",
                                     prefixIcon: Icons.person,
-                                    controller: _nameController,
+                                    controller:
+                                        _inputControllers.nameController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter your name';
                                       }
                                       return null;
                                     },
+                                    onChanged: (value) => {setState(() {})},
                                   ),
                                   SizedBox(height: height * 0.02),
                                   MyFormField(
                                     hintText: "Email",
                                     prefixIcon: Icons.alternate_email,
-                                    controller: _emailController,
+                                    controller:
+                                        _inputControllers.emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -145,12 +143,14 @@ class _SignUpPageState extends State<SignUpPage> {
                                       }
                                       return null;
                                     },
+                                    onChanged: (value) => {setState(() {})},
                                   ),
                                   SizedBox(height: height * 0.02),
                                   MyFormField(
                                     hintText: "Password",
                                     prefixIcon: Icons.lock,
-                                    controller: _passwordController,
+                                    controller:
+                                        _inputControllers.passwordController,
                                     obscureText: true,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -161,22 +161,29 @@ class _SignUpPageState extends State<SignUpPage> {
                                       }
                                       return null;
                                     },
+                                    onChanged: (value) => {setState(() {})},
                                   ),
                                   SizedBox(height: height * 0.02),
                                   MyFormField(
                                     hintText: "Confirm Password",
                                     prefixIcon: Icons.lock,
-                                    controller: _confirmPasswordController,
+                                    controller:
+                                        _inputControllers
+                                            .confirmPasswordController,
                                     obscureText: true,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please confirm your password';
                                       }
-                                      if (value != _passwordController.text) {
+                                      if (value !=
+                                          _inputControllers
+                                              .passwordController
+                                              .text) {
                                         return 'Passwords do not match';
                                       }
                                       return null;
                                     },
+                                    onChanged: (value) => {setState(() {})},
                                   ),
                                 ],
                               ),
@@ -194,7 +201,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   "Already have an account?",
                                   style: TextStyle(
                                     color: Colors.white.withOpacity(0.9),
-                                    fontSize: height * 0.017, 
+                                    fontSize: height * 0.017,
                                   ),
                                 ),
                                 TextButton(

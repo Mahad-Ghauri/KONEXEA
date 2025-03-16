@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AuthButton extends StatefulWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final IconData? icon;
   final bool isLoading;
@@ -78,7 +78,7 @@ class _AuthButtonState extends State<AuthButton>
                 _isPressed = false;
               });
               _controller.reverse();
-              widget.onPressed();
+              widget.onPressed?.call();
             },
             onTapCancel: () {
               setState(() {

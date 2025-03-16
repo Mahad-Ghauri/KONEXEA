@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:social_swap/views/Interface/interface.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthenticationController {
@@ -13,9 +14,13 @@ class AuthenticationController {
     BuildContext context,
   ) async {
     try {
-      await supabase.auth
-          .signUp(email: email, password: password)
-          .then((value) {});
+      await supabase.auth.signUp(email: email, password: password).then((
+        value,
+      ) {
+        Navigator.of(
+          context,
+        ).push(MaterialPageRoute(builder: (context) => const InterfacePage()));
+      });
     } catch (error) {
       log(error.toString());
     }
