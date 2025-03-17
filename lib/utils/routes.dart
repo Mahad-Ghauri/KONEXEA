@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:social_swap/views/Authentication/login.dart';
 import 'package:social_swap/views/Authentication/signup.dart';
+import 'package:social_swap/views/Interface/interface.dart';
 import 'package:social_swap/views/home/home_page.dart';
 
 class CustomPageRoute extends PageRouteBuilder {
@@ -33,6 +34,7 @@ class Routes {
   static const String login = LoginPage.id;
   static const String home = HomePage.id;
   static const String signup = SignUpPage.id;
+  static const String interface = InterfacePage.id;
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -42,6 +44,8 @@ class Routes {
         return CustomPageRoute(child: const HomePage());
       case signup:
         return CustomPageRoute(child: const SignUpPage());
+      case interface:
+        return CustomPageRoute(child: const InterfacePage());
       default:
         return CustomPageRoute(
           child: const Scaffold(body: Center(child: Text('Route not found!'))),

@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
             _inputControllers.passwordController.text,
           )
           .then((_) {
-            Navigator.pushReplacementNamed(context, Routes.home);
+            Navigator.pushReplacementNamed(context, Routes.interface);
           });
     }
   }
