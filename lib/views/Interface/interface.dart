@@ -26,9 +26,13 @@ class _InterfacePageState extends State<InterfacePage> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (_selectedIndex != index) {
+      Navigator.of(context).push(_elegantRoute(_pages[index])).then((_) {
+        setState(() {
+          _selectedIndex = index;
+        });
+      });
+    }
   }
 
   @override
@@ -38,62 +42,96 @@ class _InterfacePageState extends State<InterfacePage> {
 
     return Scaffold(
       body: _pages[_selectedIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _selectedIndex,
-        onDestinationSelected: _onItemTapped,
-        destinations: [
-          NavigationDestination(
-            icon: Icon(
-              _selectedIndex == 0 ? Icons.home : Icons.home_outlined,
-              color:
-                  _selectedIndex == 0
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, -5),
             ),
-            label: 'Feed',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              _selectedIndex == 1 ? Icons.add_box : Icons.add_box_outlined,
-              color:
-                  _selectedIndex == 1
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
+          ],
+        ),
+        child: NavigationBar(
+          selectedIndex: _selectedIndex,
+          onDestinationSelected: _onItemTapped,
+          destinations: [
+            NavigationDestination(
+              icon: Icon(
+                _selectedIndex == 0 ? Icons.home : Icons.home_outlined,
+                color:
+                    _selectedIndex == 0
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+              ),
+              label: 'Feed',
             ),
-            label: 'Upload',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              _selectedIndex == 2 ? Icons.store : Icons.store_outlined,
-              color:
-                  _selectedIndex == 2
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
+            NavigationDestination(
+              icon: Icon(
+                _selectedIndex == 1 ? Icons.add_box : Icons.add_box_outlined,
+                color:
+                    _selectedIndex == 1
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+              ),
+              label: 'Upload',
             ),
-            label: 'Marketplace',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              _selectedIndex == 3 ? Icons.newspaper : Icons.newspaper_outlined,
-              color:
-                  _selectedIndex == 3
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
+            NavigationDestination(
+              icon: Icon(
+                _selectedIndex == 2 ? Icons.store : Icons.store_outlined,
+                color:
+                    _selectedIndex == 2
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+              ),
+              label: 'Marketplace',
             ),
-            label: 'News',
-          ),
-          NavigationDestination(
-            icon: Icon(
-              _selectedIndex == 4 ? Icons.person : Icons.person_outline,
-              color:
-                  _selectedIndex == 4
-                      ? Theme.of(context).colorScheme.primary
-                      : null,
+            NavigationDestination(
+              icon: Icon(
+                _selectedIndex == 3
+                    ? Icons.newspaper
+                    : Icons.newspaper_outlined,
+                color:
+                    _selectedIndex == 3
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+              ),
+              label: 'News',
             ),
-            label: 'Profile',
-          ),
-        ],
+            NavigationDestination(
+              icon: Icon(
+                _selectedIndex == 4 ? Icons.person : Icons.person_outline,
+                color:
+                    _selectedIndex == 4
+                        ? Theme.of(context).colorScheme.primary
+                        : null,
+              ),
+              label: 'Profile',
+            ),
+          ],
+        ),
       ),
+    );
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(
+          begin: 0,
+          end: 1,
+        ).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOut));
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+      reverseTransitionDuration: const Duration(milliseconds: 500),
     );
   }
 }

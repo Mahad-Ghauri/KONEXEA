@@ -4,6 +4,7 @@ import 'package:social_swap/views/Authentication/login.dart';
 import 'package:social_swap/views/Interface/interface.dart';
 
 class AuthGate extends StatelessWidget {
+  static const String id = 'AuthGate';
   const AuthGate({super.key});
 
   @override
@@ -20,9 +21,9 @@ class AuthGate extends StatelessWidget {
         final session = snapshot.hasData ? snapshot.data!.session : null;
 
         if (session != null) {
-          return InterfacePage();
-        } else {
           return LoginPage();
+        } else {
+          return InterfacePage();
         }
       },
     );

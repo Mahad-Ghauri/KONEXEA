@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:social_swap/views/Interface/interface.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-class AuthenticationController {
+class AuthenticationController extends ChangeNotifier {
   //  Instance for supabase client
   final supabase = Supabase.instance.client;
   //  Sign up method
@@ -45,11 +45,13 @@ class AuthenticationController {
   }
 
   //  Sign out method
-  Future<void> signOutCurrentSession() async {
+  Future<void> signOut() async {
     try {
       await supabase.auth.signOut();
-    } catch (error) {
-      log(error.toString());
+      notifyListeners();
+    } catch (e) {
+      debugPrint('Error signing out: $e');
+      rethrow;
     }
   }
 

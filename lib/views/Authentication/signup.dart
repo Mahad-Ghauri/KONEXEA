@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
+import 'package:social_swap/views/Authentication/login.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
-import 'package:social_swap/utils/routes.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = 'SignUpPage';
@@ -41,7 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
             context,
           )
           .then((_) {
-            Navigator.pushReplacementNamed(context, Routes.home);
+            Navigator.of(context).pushReplacement(_elegantRoute(LoginPage()));
           });
     }
   }
@@ -206,9 +206,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.pushReplacementNamed(
-                                      context,
-                                      Routes.login,
+                                    Navigator.of(context).pushReplacement(
+                                      _elegantRoute(LoginPage()),
                                     );
                                   },
                                   child: Text(
@@ -236,6 +235,23 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
         ),
       ),
+    );
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
     );
   }
 }
