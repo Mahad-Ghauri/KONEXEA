@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/Authentication/login.dart';
+import 'package:social_swap/views/Interface/interface.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
 
@@ -43,7 +44,9 @@ class _SignUpPageState extends State<SignUpPage> {
             context,
           )
           .then((_) {
-            Navigator.of(context).pushReplacement(_elegantRoute(LoginPage()));
+            Navigator.of(
+              context,
+            ).pushReplacement(_elegantRoute(InterfacePage()));
           });
     }
   }

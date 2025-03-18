@@ -1,7 +1,8 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
@@ -19,7 +20,7 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.sizeOf(context).height;
-    final width = MediaQuery.sizeOf(context).width;
+    // final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -36,7 +37,7 @@ class _FeedPageState extends State<FeedPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications_outlined, color: Colors.black),
+            icon: const Icon(Iconsax.document_upload, color: Colors.black),
             onPressed: () {},
           ),
         ],
@@ -56,7 +57,8 @@ class _FeedPageState extends State<FeedPage> {
                     child:
                         value.image != null
                             ? Image.file(value.image!)
-                            : Icon(Icons.image_outlined, color: Colors.black),
+                            : Icon(Iconsax.wallet_minus
+                            , color: Colors.black),
                   ),
                 ),
               );
