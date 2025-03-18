@@ -1,164 +1,117 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_swap/controllers/authentication_controller.dart';
+import 'package:social_swap/views/Authentication/login.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
-    final width = MediaQuery.of(context).size.width;
-
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
         title: Text(
           'Profile',
-          style: GoogleFonts.italiana(
-            color: Theme.of(context).colorScheme.primary,
-            fontSize: height * 0.03,
-            fontWeight: FontWeight.bold,
+          style: GoogleFonts.urbanist(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+            fontSize: 24,
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Icons.settings_outlined, color: Colors.black),
             onPressed: () {},
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.all(width * 0.05),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: height * 0.05,
-                    backgroundColor: Theme.of(context).colorScheme.primary,
-                    child: const Icon(Icons.person, size: 40),
-                  ),
-                  SizedBox(height: height * 0.02),
-                  Text(
-                    'User Name',
-                    style: GoogleFonts.urbanist(
-                      fontSize: height * 0.024,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.01),
-                  Text(
-                    '@username',
-                    style: GoogleFonts.urbanist(
-                      color: Colors.grey,
-                      fontSize: height * 0.016,
-                    ),
-                  ),
-                  SizedBox(height: height * 0.02),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildStatColumn(context, 'Posts', '123', height),
-                      _buildStatColumn(context, 'Followers', '1.2K', height),
-                      _buildStatColumn(context, 'Following', '890', height),
-                    ],
-                  ),
-                  SizedBox(height: height * 0.02),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Edit Profile',
-                      style: GoogleFonts.urbanist(fontSize: height * 0.016),
-                    ),
-                  ),
-                ],
+      body: Column(
+        children: [
+          const Expanded(child: Center(child: Text('Profile Page Content'))),
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: ElevatedButton(
+              onPressed: () => _showLogoutDialog(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 50),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                'Logout',
+                style: GoogleFonts.urbanist(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-            Divider(height: height * 0.02),
-            _buildProfileSection(context, 'My Posts', Icons.grid_on, height),
-            _buildProfileSection(
-              context,
-              'Saved Posts',
-              Icons.bookmark_outline,
-              height,
-            ),
-            _buildProfileSection(
-              context,
-              'Settings',
-              Icons.settings_outlined,
-              height,
-            ),
-            _buildProfileSection(
-              context,
-              'Help & Support',
-              Icons.help_outline,
-              height,
-            ),
-            _buildProfileSection(
-              context,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _showLogoutDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text(
               'Logout',
-              Icons.logout,
-              height,
-              isLogout: true,
+              style: GoogleFonts.urbanist(
+                color: Colors.red,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStatColumn(
-    BuildContext context,
-    String label,
-    String count,
-    double height,
-  ) {
-    return Column(
-      children: [
-        Text(
-          count,
-          style: GoogleFonts.urbanist(
-            fontSize: height * 0.02,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).colorScheme.primary,
+            content: Text(
+              'Are you sure you want to logout?',
+              style: GoogleFonts.urbanist(),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text('Cancel', style: GoogleFonts.urbanist()),
+              ),
+              TextButton(
+                onPressed: () async {
+                  try {
+                    await AuthenticationController().signOutCurrentSession();
+                    if (context.mounted) {
+                      Navigator.of(context).pushAndRemoveUntil(
+                        _elegantRoute(LoginPage()),
+                        (route) => false,
+                      );
+                    }
+                  } catch (e) {
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Error logging out: ${e.toString()}',
+                            style: GoogleFonts.urbanist(),
+                          ),
+                        ),
+                      );
+                    }
+                  }
+                },
+                child: Text(
+                  'Logout',
+                  style: GoogleFonts.urbanist(
+                    color: Colors.red,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-        Text(
-          label,
-          style: GoogleFonts.urbanist(
-            fontSize: height * 0.014,
-            color: Colors.grey,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildProfileSection(
-    BuildContext context,
-    String title,
-    IconData icon,
-    double height, {
-    bool isLogout = false,
-  }) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: isLogout ? Colors.red : Theme.of(context).colorScheme.primary,
-      ),
-      title: Text(
-        title,
-        style: GoogleFonts.urbanist(
-          fontSize: height * 0.016,
-          color: isLogout ? Colors.red : null,
-        ),
-      ),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () {
-        if (isLogout) {
-          // Handle logout
-        }
-      },
     );
   }
 
