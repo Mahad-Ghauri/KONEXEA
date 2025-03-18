@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/components/auth_button.dart';
+import 'package:social_swap/views/components/divider.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
 import 'package:social_swap/utils/routes.dart';
 
@@ -42,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+    CustomeDivider _customDivider = CustomeDivider();
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
@@ -165,34 +167,7 @@ class _LoginPageState extends State<LoginPage> {
                             SizedBox(height: height * 0.02),
                             AuthButton(onPressed: _handleLogin, text: "Log In"),
                             SizedBox(height: height * 0.025),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Divider(
-                                    color: Colors.white.withOpacity(0.5),
-                                    thickness: 1,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: width * 0.03,
-                                  ),
-                                  child: Text(
-                                    "OR",
-                                    style: TextStyle(
-                                      color: Colors.white.withOpacity(0.8),
-                                      fontSize: height * 0.015,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Divider(
-                                    color: Colors.white.withOpacity(0.5),
-                                    thickness: 1,
-                                  ),
-                                ),
-                              ],
-                            ),
+                            _customDivider,
                             SizedBox(height: height * 0.025),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,

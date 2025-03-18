@@ -6,24 +6,25 @@ class CustomeDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Row(
       children: [
         Expanded(
-          child: Divider(color: Colors.grey.withAlpha(128), thickness: 1),
+          child: Divider(color: Colors.white70.withOpacity(0.5), thickness: 1),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: EdgeInsets.symmetric(horizontal: width * 0.03),
           child: Text(
-            "or",
-            style: GoogleFonts.poppins(
-              color: Colors.black45,
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
+            "OR",
+            style: GoogleFonts.urbanist(
+              color: Colors.white70,
+              fontSize: height * 0.015,
             ),
           ),
         ),
         Expanded(
-          child: Divider(color: Colors.grey.withAlpha(128), thickness: 1),
+          child: Divider(color: Colors.white.withOpacity(0.5), thickness: 1),
         ),
       ],
     );
