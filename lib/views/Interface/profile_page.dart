@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:social_swap/controllers/authentication_controller.dart';
-import 'package:social_swap/views/Authentication/login.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -156,58 +154,9 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       trailing: const Icon(Icons.chevron_right),
-      onTap: () async {
+      onTap: () {
         if (isLogout) {
-          // Show confirmation dialog
-          final bool? confirm = await showDialog<bool>(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Logout', style: GoogleFonts.urbanist()),
-                content: Text(
-                  'Are you sure you want to logout?',
-                  style: GoogleFonts.urbanist(),
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text('Cancel', style: GoogleFonts.urbanist()),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(true),
-                    child: Text(
-                      'Logout',
-                      style: GoogleFonts.urbanist(color: Colors.red),
-                    ),
-                  ),
-                ],
-              );
-            },
-          );
-
-          if (confirm == true) {
-            try {
-              await AuthenticationController().signOut();
-              if (context.mounted) {
-                Navigator.of(context).pushAndRemoveUntil(
-                  _elegantRoute(LoginPage()),
-                  (route) => false,
-                );
-              }
-            } catch (error) {
-              if (context.mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      'Error logging out: ${error.toString()}',
-                      style: GoogleFonts.urbanist(),
-                    ),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-            }
-          }
+          // Handle logout
         }
       },
     );
