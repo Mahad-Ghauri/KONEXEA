@@ -97,7 +97,7 @@ class _AuthButtonState extends State<AuthButton>
                 //           HSLColor.fromColor(buttonColor).lightness * 0.85,
                 //         )
                 //         .toColor(),
-                color: Theme.of(context).colorScheme.surface,
+                color: Theme.of(context).colorScheme.primary,
                 boxShadow:
                     _isPressed
                         ? []
@@ -123,7 +123,7 @@ class _AuthButtonState extends State<AuthButton>
                               child: CircularProgressIndicator(
                                 strokeWidth: 3,
                                 valueColor: AlwaysStoppedAnimation<Color>(
-                                  textColor,
+                                  Theme.of(context).colorScheme.surface,
                                 ),
                               ),
                             )

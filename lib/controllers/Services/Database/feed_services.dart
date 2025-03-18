@@ -80,9 +80,16 @@ class FeedServices extends ChangeNotifier {
           })
           .then((value) {
             log("Post Uploaded");
+            descriptionController.clear();
+            _image == null;
+            loading = false;
+            notifyListeners();
           })
           .onError((error, stacktrace) {
+            loading = false;
+            FlutterToast().toastMessage(error.toString());
             log(error.toString());
+            notifyListeners();
           });
     } catch (error) {
       log(error.toString());

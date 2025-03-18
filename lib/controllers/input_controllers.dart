@@ -1,6 +1,10 @@
 import 'package:flutter/widgets.dart';
 
 class InputControllers {
+  //  Loading variable
+  bool loading = false;
+  //  Form Validator
+  final formKey = GlobalKey<FormState>();
   //  Text Field Controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();

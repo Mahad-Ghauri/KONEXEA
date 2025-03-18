@@ -55,190 +55,190 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      body: SingleChildScrollView(
-        child: SizedBox(
-          height: height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: width * 0.05,
-                    vertical: height * 0.02,
-                  ),
-                  child: Card(
-                    elevation: 10,
-                    shadowColor: Theme.of(
-                      context,
-                    ).colorScheme.primary.withOpacity(0.5),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    color: Theme.of(context).colorScheme.primary,
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05,
-                          vertical: height * 0.05,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background.jpeg',
+              fit: BoxFit.cover,
+            ),
+          ),
+          Positioned.fill(
+            child: Container(color: Colors.black.withOpacity(0.5)),
+          ),
+          SingleChildScrollView(
+            child: SizedBox(
+              height: height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: width * 0.05,
+                        vertical: height * 0.02,
+                      ),
+                      child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: height * 0.045,
-                                letterSpacing: 2,
-                                fontFamily: GoogleFonts.italiana().fontFamily,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    offset: const Offset(2, 2),
-                                    blurRadius: 4,
-                                  ),
-                                ],
-                              ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.surface.withOpacity(0.6),
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05,
+                              vertical: height * 0.05,
                             ),
-                            SizedBox(height: height * 0.01),
-                            Text(
-                              "Welcome to Social Swap",
-                              style: TextStyle(
-                                color: Colors.white.withOpacity(0.9),
-                                fontSize: height * 0.018,
-                                fontFamily: GoogleFonts.urbanist().fontFamily,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            SizedBox(height: height * 0.035),
-                            Form(
-                              key: _formKey,
-                              child: Column(
-                                children: [
-                                  MyFormField(
-                                    hintText: "Enter your name",
-                                    prefixIcon: Icons.person,
-                                    controller:
-                                        _inputControllers.nameController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your name';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) => {setState(() {})},
-                                  ),
-                                  SizedBox(height: height * 0.02),
-                                  MyFormField(
-                                    hintText: "Email",
-                                    prefixIcon: Icons.alternate_email,
-                                    controller:
-                                        _inputControllers.emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your email';
-                                      }
-                                      if (!value.contains('@')) {
-                                        return 'Please enter a valid email';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) => {setState(() {})},
-                                  ),
-                                  SizedBox(height: height * 0.02),
-                                  MyFormField(
-                                    hintText: "Password",
-                                    prefixIcon: Icons.lock,
-                                    controller:
-                                        _inputControllers.passwordController,
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your password';
-                                      }
-                                      if (value.length < 6) {
-                                        return 'Password must be at least 6 characters';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) => {setState(() {})},
-                                  ),
-                                  SizedBox(height: height * 0.02),
-                                  MyFormField(
-                                    hintText: "Confirm Password",
-                                    prefixIcon: Icons.lock,
-                                    controller:
-                                        _inputControllers
-                                            .confirmPasswordController,
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please confirm your password';
-                                      }
-                                      if (value !=
-                                          _inputControllers
-                                              .passwordController
-                                              .text) {
-                                        return 'Passwords do not match';
-                                      }
-                                      return null;
-                                    },
-                                    onChanged: (value) => {setState(() {})},
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: height * 0.035),
-                            AuthButton(
-                              onPressed: _handleSignUp,
-                              text: "Sign Up",
-                            ),
-                            SizedBox(height: height * 0.025),
-                            Row(
+                            child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Already have an account?",
+                                  "Sign Up",
                                   style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
-                                    fontSize: height * 0.017,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.045,
+                                    letterSpacing: 2,
+                                    fontFamily:
+                                        GoogleFonts.italiana().fontFamily,
+                                    shadows: [
+                                      Shadow(
+                                        color: Colors.black26,
+                                        offset: const Offset(2, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushReplacement(
-                                      _elegantRoute(LoginPage()),
-                                    );
-                                  },
-                                  child: Text(
-                                    "Log In",
-                                    style: TextStyle(
-                                      color:
-                                          Theme.of(
-                                            context,
-                                          ).colorScheme.tertiary,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: height * 0.018,
-                                    ),
+                                SizedBox(height: height * 0.01),
+                                Text(
+                                  "Welcome to Social Swap",
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.9),
+                                    fontSize: height * 0.018,
+                                    fontFamily:
+                                        GoogleFonts.urbanist().fontFamily,
+                                    letterSpacing: 0.5,
                                   ),
+                                ),
+                                SizedBox(height: height * 0.035),
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      MyFormField(
+                                        hintText: "Enter your name",
+                                        prefixIcon: Icons.person,
+                                        controller:
+                                            _inputControllers.nameController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your name';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+                                      MyFormField(
+                                        hintText: "Email",
+                                        prefixIcon: Icons.alternate_email,
+                                        controller:
+                                            _inputControllers.emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your email';
+                                          }
+                                          if (!value.contains('@')) {
+                                            return 'Please enter a valid email';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+                                      MyFormField(
+                                        hintText: "Password",
+                                        prefixIcon: Icons.lock,
+                                        controller:
+                                            _inputControllers
+                                                .passwordController,
+                                        obscureText: true,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your password';
+                                          }
+                                          if (value.length < 6) {
+                                            return 'Password must be at least 6 characters';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+                                      MyFormField(
+                                        hintText: "Confirm Password",
+                                        prefixIcon: Icons.lock,
+                                        controller:
+                                            _inputControllers
+                                                .confirmPasswordController,
+                                        obscureText: true,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please confirm your password';
+                                          }
+                                          if (value !=
+                                              _inputControllers
+                                                  .passwordController
+                                                  .text) {
+                                            return 'Passwords do not match';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.035),
+                                AuthButton(
+                                  onPressed: _handleSignUp,
+                                  text: "Sign Up",
+                                ),
+                                SizedBox(height: height * 0.02),
+                                Row(
+                                  spacing: 4.0,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Already have not account?',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(
+                                          context,
+                                        ).push(_elegantRoute(LoginPage()));
+                                      },
+                                      child: Text('Login'),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

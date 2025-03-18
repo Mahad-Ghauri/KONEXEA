@@ -1,27 +1,159 @@
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// ignore_for_file: deprecated_member_use
 
-class UploadPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:social_swap/controllers/Services/Database/feed_services.dart';
+import 'package:social_swap/controllers/input_controllers.dart';
+import 'package:social_swap/views/components/auth_button.dart';
+
+class UploadPage extends StatefulWidget {
   const UploadPage({super.key});
 
   @override
+  State<UploadPage> createState() => _UploadPageState();
+}
+
+class _UploadPageState extends State<UploadPage> {
+  //  Input Controllers instance
+  final InputControllers inputControllers = InputControllers();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: Text(
-          'Upload',
-          style: GoogleFonts.urbanist(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
+      resizeToAvoidBottomInset: true,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/background.jpeg',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
+          Positioned.fill(
+            child: Container(color: Colors.black.withOpacity(0.5)),
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.sizeOf(context).width * 0.025,
+            ),
+            child: Column(
+              spacing: 8,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Consumer<FeedServices>(
+                    builder: (context, value, child) {
+                      return GestureDetector(
+                        onTap: () => value.pickImageFromGallery(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.surface.withOpacity(0.65),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                          ),
+                          width: double.infinity,
+
+                          child: Center(
+                            child:
+                                value.image != null
+                                    ? Image.file(value.image!)
+                                    : Icon(
+                                      Icons.image,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            'Tell us what\'s on your mind?',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Form(
+                        key: inputControllers.formKey,
+                        child: TextFormField(
+                          style: TextStyle(color: Colors.white),
+                          maxLines: 5,
+                          validator: (value) {
+                            if (value == null) {
+                              return "Please Enter a Description";
+                            } else {
+                              return null;
+                            }
+                          },
+                          controller: inputControllers.descriptionController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              borderRadius: BorderRadius.circular(18),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(18),
+                              borderSide: BorderSide(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Theme.of(
+                              context,
+                            ).colorScheme.surface.withOpacity(0.55),
+                          ),
+                        ),
+                      ),
+                      Consumer<FeedServices>(
+                        builder: (context, value, child) {
+                          return AuthButton(
+                            isLoading: inputControllers.loading,
+                            onPressed: () {
+                              if (inputControllers.formKey.currentState!
+                                  .validate()) {
+                                value.uploadDataToDatabase(
+                                  inputControllers.descriptionController,
+                                  context,
+                                );
+                              } else {
+                                return;
+                              }
+                            },
+                            text: 'Post',
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-      body: const Center(child: Text('Upload Page Content')),
     );
   }
 }
