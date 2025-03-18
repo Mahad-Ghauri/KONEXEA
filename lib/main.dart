@@ -50,6 +50,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Social Swap',
       theme: lightMode,
+
       home: AuthGate(),
     );
   }
