@@ -34,21 +34,4 @@ class MarketplacePage extends StatelessWidget {
       body: const Center(child: Text('Marketplace Page Content')),
     );
   }
-
-  PageRouteBuilder _elegantRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
-        );
-        return FadeTransition(
-          opacity: fadeAnimation,
-          child: ScaleTransition(scale: scaleAnimation, child: child),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 500),
-    );
-  }
 }

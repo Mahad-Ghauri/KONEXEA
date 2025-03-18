@@ -1,11 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:social_swap/controllers/Services/Database/feed_services.dart';
+import 'package:social_swap/controllers/input_controllers.dart';
+import 'package:social_swap/views/components/auth_button.dart';
 
-class FeedPage extends StatelessWidget {
+class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
 
   @override
+  State<FeedPage> createState() => _FeedPageState();
+}
+
+class _FeedPageState extends State<FeedPage> {
+  final InputControllers inputControllers = InputControllers();
+  @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.sizeOf(context).height;
+    final width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -27,24 +41,49 @@ class FeedPage extends StatelessWidget {
           ),
         ],
       ),
-      body: const Center(child: Text('Feed Page Content')),
-    );
-  }
+      body: Column(
+        children: [
+          Consumer<FeedServices>(
+            builder: (context, value, child) {
+              return GestureDetector(
+                onTap: () => value.pickImageFromGallery(),
+                child: Container(
+                  height: height * 0.3,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                  ),
+                  child: Center(
+                    child:
+                        value.image != null
+                            ? Image.file(value.image!)
+                            : Icon(Icons.image_outlined, color: Colors.black),
+                  ),
+                ),
+              );
+            },
+          ),
 
-  PageRouteBuilder _elegantRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
-        );
-        return FadeTransition(
-          opacity: fadeAnimation,
-          child: ScaleTransition(scale: scaleAnimation, child: child),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 500),
+          SizedBox(height: height * 0.01),
+          TextField(
+            controller: inputControllers.descriptionController,
+            maxLines: 4,
+            decoration: InputDecoration(border: OutlineInputBorder()),
+          ),
+          SizedBox(height: height * 0.01),
+          Consumer<FeedServices>(
+            builder: (context, value, child) {
+              return AuthButton(
+                onPressed:
+                    () => value.uploadDataToDatabase(
+                      inputControllers.descriptionController,
+                      context,
+                    ),
+                text: "Post",
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }

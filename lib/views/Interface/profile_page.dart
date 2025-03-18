@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:social_swap/controllers/authentication_controller.dart';
+import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Authentication/login.dart';
 
 class ProfilePage extends StatelessWidget {

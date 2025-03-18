@@ -1,5 +1,7 @@
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+
 import 'package:flutter/material.dart';
-import 'package:social_swap/controllers/api_services.dart';
+import 'package:social_swap/controllers/Services/API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -500,20 +502,4 @@ class _NewsPageState extends State<NewsPage> {
     );
   }
 
-  PageRouteBuilder _elegantRoute(Widget page) {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => page,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
-        );
-        return FadeTransition(
-          opacity: fadeAnimation,
-          child: ScaleTransition(scale: scaleAnimation, child: child),
-        );
-      },
-      transitionDuration: const Duration(milliseconds: 500),
-    );
-  }
 }

@@ -1,6 +1,8 @@
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:social_swap/controllers/authentication_controller.dart';
+import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/Authentication/login.dart';
 import 'package:social_swap/views/components/auth_button.dart';

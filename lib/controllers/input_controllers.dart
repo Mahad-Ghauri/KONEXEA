@@ -5,6 +5,7 @@ class InputControllers {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
 
@@ -13,5 +14,6 @@ class InputControllers {
     emailController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    descriptionController.dispose();
   }
 }

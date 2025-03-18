@@ -20,12 +20,6 @@ class UploadPage extends StatelessWidget {
             fontSize: 20,
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.close, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
-          ),
-        ],
       ),
       body: const Center(child: Text('Upload Page Content')),
     );
