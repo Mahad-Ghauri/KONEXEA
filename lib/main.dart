@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'dart:developer';
 import 'package:social_swap/consts.dart';
+import 'package:social_swap/controllers/api_services.dart';
 import 'package:social_swap/utils/routes.dart';
 import 'package:social_swap/utils/theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,7 +11,14 @@ Future<void> main() async {
   Supabase.initialize(url: url, anonKey: anonKey)
       .then((value) {
         log("Supabase Initiallized");
-        runApp(const MainApp());
+        runApp(
+          MultiProvider(
+            providers: [
+              ChangeNotifierProvider(create: (context) => ApiServices()),
+            ],
+            child: const MainApp(),
+          ),
+        );
       })
       .onError((error, StackTrace) {
         log(error.toString());
