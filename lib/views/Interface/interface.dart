@@ -42,11 +42,11 @@ class _InterfacePageState extends State<InterfacePage> {
       ),
       body: _screens[_page], // This is where the selected screen is displayed
       bottomNavigationBar: CurvedNavigationBar(
-        animationCurve: Curves.easeInCirc,
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        // animationCurve: Curves.easeInCirc,
         buttonBackgroundColor: Theme.of(context).colorScheme.primary,
         color: Theme.of(context).colorScheme.surface,
-        animationDuration: Duration(milliseconds: 200),
+        animationDuration: Duration(milliseconds: 400),
         items: [
           Icon(Icons.feed_outlined, color: Colors.white),
           Icon(Icons.add, color: Colors.white),

@@ -37,7 +37,6 @@ class _UploadPageState extends State<UploadPage> {
             ),
 
             child: Column(
-              spacing: 8,
               children: [
                 const SizedBox(height: 20),
                 Expanded(
@@ -57,102 +56,110 @@ class _UploadPageState extends State<UploadPage> {
                             ),
                           ),
                           width: double.infinity,
-
-                          child: Center(
-                            child:
-                                value.image != null
-                                    ? Image.file(value.image!)
-                                    : Icon(
-                                      Icons.image,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Center(
+                              child:
+                                  value.image != null
+                                      ? Image.file(
+                                        value.image!,
+                                        fit: BoxFit.cover,
+                                      )
+                                      : Icon(
+                                        Icons.image,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                      ),
+                            ),
                           ),
                         ),
                       );
                     },
                   ),
                 ),
+                const SizedBox(height: 16),
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Text(
-                            'Tell us what\'s on your mind?',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: Text(
+                              'Tell us what\'s on your mind?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      Form(
-                        key: inputControllers.formKey,
-                        child: TextFormField(
-                          style: TextStyle(color: Colors.white),
-                          maxLines: 5,
-                          validator: (value) {
-                            if (value == null) {
-                              return "Please Enter a Description";
-                            } else {
-                              return null;
-                            }
-                          },
-                          controller: inputControllers.descriptionController,
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18),
-                              borderSide: BorderSide(
-                                // color: Theme.of(context).colorScheme.primary,
-                                color: Colors.black87.withOpacity(0.6),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                // color: Theme.of(context).colorScheme.primary,
-                                color: Colors.black87.withOpacity(0.6),
-                              ),
-                              borderRadius: BorderRadius.circular(18),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(18),
-                              borderSide: BorderSide(
-                                // color: Theme.of(context).colorScheme.primary,
-                                color: Colors.black87.withOpacity(0.6),
-                              ),
-                            ),
-                            filled: true,
-                            fillColor: Theme.of(
-                              context,
-                            ).colorScheme.surface.withOpacity(0.55),
-                          ),
-                        ),
-                      ),
-                      Consumer<FeedServices>(
-                        builder: (context, value, child) {
-                          return AuthButton(
-                            isLoading: inputControllers.loading,
-                            onPressed: () {
-                              if (inputControllers.formKey.currentState!
-                                  .validate()) {
-                                value.uploadDataToDatabase(
-                                  inputControllers.descriptionController,
-                                  context,
-                                );
+                        Form(
+                          key: inputControllers.formKey,
+                          child: TextFormField(
+                            style: TextStyle(color: Colors.white),
+                            maxLines: 5,
+                            validator: (value) {
+                              if (value == null) {
+                                return "Please Enter a Description";
                               } else {
-                                return;
+                                return null;
                               }
                             },
-                            text: 'Post',
-                          );
-                        },
-                      ),
-                    ],
+                            controller: inputControllers.descriptionController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                borderSide: BorderSide(
+                                  color: Colors.black87.withOpacity(0.6),
+                                ),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                borderRadius: BorderRadius.circular(18),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(18),
+                                borderSide: BorderSide(
+                                  color: Colors.black87.withOpacity(0.6),
+                                ),
+                              ),
+                              filled: true,
+                              fillColor: Theme.of(
+                                context,
+                              ).colorScheme.surface.withOpacity(0.55),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Consumer<FeedServices>(
+                          builder: (context, value, child) {
+                            return AuthButton(
+                              isLoading: inputControllers.loading,
+                              onPressed: () {
+                                if (inputControllers.formKey.currentState!
+                                    .validate()) {
+                                  value.uploadDataToDatabase(
+                                    inputControllers.descriptionController,
+                                    context,
+                                  );
+                                } else {
+                                  return;
+                                }
+                              },
+                              text: 'Post',
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

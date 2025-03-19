@@ -10,9 +10,12 @@ class PostCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 2.0),
       child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Theme.of(context).colorScheme.surface.withOpacity(0.8),
+        ),
         height: 400,
         width: double.infinity,
-        color: Theme.of(context).colorScheme.surface.withOpacity(0.9),
       ),
     );
   }
