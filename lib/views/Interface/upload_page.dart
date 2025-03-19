@@ -35,9 +35,11 @@ class _UploadPageState extends State<UploadPage> {
             padding: EdgeInsets.symmetric(
               horizontal: MediaQuery.sizeOf(context).width * 0.025,
             ),
+
             child: Column(
               spacing: 8,
               children: [
+                const SizedBox(height: 20),
                 Expanded(
                   flex: 1,
                   child: Consumer<FeedServices>(
@@ -46,11 +48,12 @@ class _UploadPageState extends State<UploadPage> {
                         onTap: () => value.pickImageFromGallery(),
                         child: Container(
                           decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
                             color: Theme.of(
                               context,
                             ).colorScheme.surface.withOpacity(0.65),
                             border: Border.all(
-                              color: Theme.of(context).colorScheme.primary,
+                              color: Colors.black87.withOpacity(0.6),
                             ),
                           ),
                           width: double.infinity,
@@ -105,19 +108,22 @@ class _UploadPageState extends State<UploadPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
+                                // color: Theme.of(context).colorScheme.primary,
+                                color: Colors.black87.withOpacity(0.6),
                               ),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
+                                // color: Theme.of(context).colorScheme.primary,
+                                color: Colors.black87.withOpacity(0.6),
                               ),
                               borderRadius: BorderRadius.circular(18),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(18),
                               borderSide: BorderSide(
-                                color: Theme.of(context).colorScheme.primary,
+                                // color: Theme.of(context).colorScheme.primary,
+                                color: Colors.black87.withOpacity(0.6),
                               ),
                             ),
                             filled: true,
