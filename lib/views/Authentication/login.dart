@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/Authentication/signup.dart';
-import 'package:social_swap/views/Interface/interface.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
 
@@ -30,16 +29,35 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      await _authController
-          .signInWithEmailPassword(
-            _inputControllers.emailController.text,
-            _inputControllers.passwordController.text,
-          )
-          .then((_) {
-            Navigator.of(
-              context,
-            ).pushReplacement(_elegantRoute(InterfacePage()));
+      setState(() {
+        _inputControllers.loading = true;
+      });
+
+      try {
+        final success = await _authController.signInWithEmailPassword(
+          _inputControllers.emailController.text,
+          _inputControllers.passwordController.text,
+          context,
+        );
+
+        if (!success && mounted) {
+          setState(() {
+            _inputControllers.loading = false;
           });
+        }
+      } catch (e) {
+        if (mounted) {
+          setState(() {
+            _inputControllers.loading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text("An unexpected error occurred. Please try again."),
+              backgroundColor: Colors.red,
+            ),
+          );
+        }
+      }
     }
   }
 
@@ -51,14 +69,6 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background Image
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/background.jpeg',
-              fit: BoxFit.cover,
-            ),
-          ),
-
           // Dark Overlay for better contrast
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.5)),
@@ -114,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                                 SizedBox(height: height * 0.01),
                                 Text(
-                                  "Welcome back You've been missed",
+                                  "Welcome back! You've been missed",
                                   style: TextStyle(
                                     color: Colors.white.withOpacity(0.9),
                                     fontSize: height * 0.018,
@@ -170,6 +180,7 @@ class _LoginPageState extends State<LoginPage> {
                                 AuthButton(
                                   onPressed: _handleLogin,
                                   text: "Log In",
+                                  isLoading: _inputControllers.loading,
                                 ),
                                 SizedBox(height: height * 0.02),
                                 Row(
@@ -177,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Do not have an account',
+                                      'Don\'t have an account?',
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     TextButton(
@@ -186,7 +197,15 @@ class _LoginPageState extends State<LoginPage> {
                                           context,
                                         ).push(_elegantRoute(SignUpPage()));
                                       },
-                                      child: Text('Sign Up'),
+                                      child: Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

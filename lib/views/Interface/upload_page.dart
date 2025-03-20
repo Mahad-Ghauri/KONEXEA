@@ -22,12 +22,12 @@ class _UploadPageState extends State<UploadPage> {
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/background.jpeg',
-              fit: BoxFit.cover,
-            ),
-          ),
+          // Positioned.fill(
+          //   child: Image.asset(
+          //     'assets/images/background.jpeg',
+          //     fit: BoxFit.cover,
+          //   ),
+          // ),
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.5)),
           ),

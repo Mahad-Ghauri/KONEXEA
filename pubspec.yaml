@@ -24,6 +24,7 @@ dependencies:
   iconsax: ^0.0.8
   lottie: ^3.3.1
   curved_navigation_bar: ^1.0.6
+  font_awesome_flutter: ^10.8.0
 
 dev_dependencies:
   flutter_test:

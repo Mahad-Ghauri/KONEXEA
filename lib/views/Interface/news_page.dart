@@ -45,12 +45,12 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned.fill(
-          child: Image.asset(
-            'assets/images/background.jpeg', // Update this path accordingly
-            fit: BoxFit.cover,
-          ),
-        ),
+        // Positioned.fill(
+        //   child: Image.asset(
+        //     'assets/images/background.jpeg', // Update this path accordingly
+        //     fit: BoxFit.cover,
+        //   ),
+        // ),
         Positioned.fill(child: Container(color: Colors.black.withOpacity(0.5))),
         Scaffold(
           backgroundColor: Colors.transparent,
