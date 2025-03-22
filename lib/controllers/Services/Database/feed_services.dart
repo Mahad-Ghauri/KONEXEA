@@ -17,12 +17,46 @@ class FeedServices extends ChangeNotifier {
   //  variables
   File? _image;
   final picker = ImagePicker();
+  List<Map<String, dynamic>> _posts = [];
 
   //  getters
   FirebaseFirestore get fireStore => _fireStore;
   SupabaseClient get supabase => _supabase;
   File? get image => _image;
   bool loading = false;
+  List<Map<String, dynamic>> get posts => _posts;
+
+  //  Method to fetch posts from firestore
+  Future<void> fetchPosts() async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      final QuerySnapshot querySnapshot =
+          await _fireStore
+              .collection("Feed")
+              .orderBy('timeStamp', descending: true)
+              .get();
+
+      _posts =
+          querySnapshot.docs.map((doc) {
+            final data = doc.data() as Map<String, dynamic>;
+            return {
+              'postId': doc.id,
+              'image': data['image'] ?? '',
+              'description': data['description'] ?? '',
+              'timeStamp': (data['timeStamp'] as Timestamp).toDate(),
+            };
+          }).toList();
+
+      loading = false;
+      notifyListeners();
+    } catch (error) {
+      loading = false;
+      log(error.toString());
+      notifyListeners();
+    }
+  }
 
   //  Method to pick the image from the gallery
   Future<void> pickImageFromGallery() async {
