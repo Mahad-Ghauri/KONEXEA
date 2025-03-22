@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:social_swap/controllers/Services/API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -45,34 +46,34 @@ class _NewsPageState extends State<NewsPage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        // Positioned.fill(
-        //   child: Image.asset(
-        //     'assets/images/background.jpeg', // Update this path accordingly
-        //     fit: BoxFit.cover,
-        //   ),
-        // ),
-        Positioned.fill(child: Container(color: Colors.black.withOpacity(0.5))),
+        Positioned.fill(
+          child: Container(color: Theme.of(context).colorScheme.surface),
+        ),
         Scaffold(
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.black.withOpacity(0.7),
-            elevation: 0,
-            centerTitle: true,
-            title: Text(
-              'News',
-              style: GoogleFonts.urbanist(
-                color: Colors.white,
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
-            ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.more_vert, color: Colors.white),
-                onPressed: () {},
-              ),
-            ],
-          ),
+
+          // appBar: AppBar(
+
+          //   backgroundColor: Theme.of(
+          //     context,
+          //   ).colorScheme.surface.withOpacity(0.7),
+          //   elevation: 0,
+          //   centerTitle: true,
+          //   title: Text(
+          //     'News',
+          //     style: GoogleFonts.urbanist(
+          //       color: Colors.white,
+          //       fontWeight: FontWeight.w600,
+          //       fontSize: 20,
+          //     ),
+          //   ),
+          //   actions: [
+          //     IconButton(
+          //       icon: const Icon(Icons.more_vert, color: Colors.white),
+          //       onPressed: () {},
+          //     ),
+          //   ],
+          // ),
           body: Column(
             children: [
               Padding(
@@ -87,7 +88,7 @@ class _NewsPageState extends State<NewsPage> {
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
-                    fillColor: Colors.grey[200]?.withOpacity(0.8),
+                    fillColor: Theme.of(context).colorScheme.tertiary,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
@@ -233,7 +234,7 @@ class _NewsPageState extends State<NewsPage> {
                 width: 80,
                 height: 80,
                 color: Colors.grey[300],
-                child: const Icon(Icons.image, color: Colors.grey),
+                child: const Icon(Iconsax.gallery, color: Colors.grey),
               );
             },
           ),

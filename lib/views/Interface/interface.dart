@@ -67,7 +67,148 @@ class _InterfacePageState extends State<InterfacePage> {
                 ),
               ),
             ),
-            Spacer(),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Iconsax.home,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+              ),
+              title: Text(
+                'Home',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                  fontSize: height * 0.02,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+              ),
+              onTap: () {
+                setState(() => _page = 0);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Iconsax.add_circle,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+              ),
+              title: Text(
+                'Upload',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                  fontSize: height * 0.02,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+              ),
+              onTap: () {
+                setState(() => _page = 1);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Icons.public,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+              ),
+              title: Text(
+                'News',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                  fontSize: height * 0.02,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+              ),
+              onTap: () {
+                setState(() => _page = 2);
+                Navigator.pop(context);
+              },
+            ),
+            Spacer(flex: 20),
+            Divider(color: Theme.of(context).colorScheme.tertiary),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Iconsax.setting_2,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+              ),
+              title: Text(
+                'Settings',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                  fontSize: height * 0.02,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to settings page
+              },
+            ),
+            ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
+              leading: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Icon(
+                  Iconsax.info_circle,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 20,
+                ),
+              ),
+              title: Text(
+                'About',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.tertiary,
+                  fontSize: height * 0.02,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: GoogleFonts.montserrat().fontFamily,
+                ),
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                // TODO: Navigate to about page
+              },
+            ),
             Divider(color: Theme.of(context).colorScheme.tertiary),
             Positioned(
               bottom: 0,
