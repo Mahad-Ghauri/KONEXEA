@@ -245,6 +245,8 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: _handleLogin,
                                     text: "Log In",
                                     textStyle: TextStyle(
+                                      fontFamily:
+                                          GoogleFonts.italiana().fontFamily,
                                       color:
                                           Theme.of(
                                             context,

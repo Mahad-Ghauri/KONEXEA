@@ -273,6 +273,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                     onPressed: _handleSignUp,
                                     text: "Sign Up",
                                     textStyle: TextStyle(
+                                      fontFamily:
+                                          GoogleFonts.italiana().fontFamily,
                                       color:
                                           Theme.of(
                                             context,
