@@ -13,9 +13,11 @@ class MyFormField extends StatefulWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final ValueChanged<String>? onChanged;
+  final TextStyle? hintStyle;
 
   const MyFormField({
     super.key,
+    this.hintStyle,
     this.hintText,
     this.labelText,
     this.prefixIcon,
@@ -108,9 +110,9 @@ class _MyFormFieldState extends State<MyFormField>
                 color: _isFocused ? Colors.red : Colors.white70,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
               ),
-              hintStyle: TextStyle(
-                color: _isFocused ? Colors.black : Colors.white,
-              ),
+              hintStyle:
+                  widget.hintStyle ??
+                  TextStyle(color: _isFocused ? Colors.black : Colors.white),
               labelText: widget.labelText,
               labelStyle: TextStyle(
                 color:

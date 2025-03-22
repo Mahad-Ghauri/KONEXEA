@@ -10,12 +10,14 @@ class AuthButton extends StatefulWidget {
   final bool isLoading;
   final Color? customColor;
   final double? width;
+  final TextStyle? textStyle;
 
   const AuthButton({
     super.key,
     required this.onPressed,
     required this.text,
     this.icon,
+    this.textStyle,
     this.isLoading = false,
     this.customColor,
     this.width,
@@ -137,12 +139,14 @@ class _AuthButtonState extends State<AuthButton>
                                 ],
                                 Text(
                                   widget.text,
-                                  style: GoogleFonts.montaga(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w600,
-                                    color: textColor,
-                                    letterSpacing: 0.5,
-                                  ),
+                                  style:
+                                      widget.textStyle ??
+                                      GoogleFonts.montaga(
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.w600,
+                                        color: textColor,
+                                        letterSpacing: 0.5,
+                                      ),
                                 ),
                               ],
                             ),

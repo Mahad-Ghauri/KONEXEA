@@ -59,12 +59,6 @@ class _SignUpPageState extends State<SignUpPage> {
     return Scaffold(
       body: Stack(
         children: [
-          // Positioned.fill(
-          //   child: Image.asset(
-          //     'assets/images/background.jpeg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.5)),
           ),
@@ -80,154 +74,232 @@ class _SignUpPageState extends State<SignUpPage> {
                         horizontal: width * 0.05,
                         vertical: height * 0.02,
                       ),
-                      child: Card(
-                        elevation: 10,
-                        shape: RoundedRectangleBorder(
+
+                      child: Container(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(25),
-                        ),
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.surface.withOpacity(0.6),
-                        child: Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: width * 0.05,
-                              vertical: height * 0.05,
+                          boxShadow: [
+                            // Primary glow under the card
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.6),
+                              blurRadius: 15,
+                              spreadRadius: 0,
+                              offset: const Offset(0, 10), // Bottom glow
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Sign Up",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height * 0.045,
-                                    letterSpacing: 2,
-                                    fontFamily:
-                                        GoogleFonts.italiana().fontFamily,
-                                    shadows: [
-                                      Shadow(
-                                        color: Colors.black26,
-                                        offset: const Offset(2, 2),
-                                        blurRadius: 4,
-                                      ),
-                                    ],
+                            // Top glow effect
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.5),
+                              blurRadius: 18,
+                              spreadRadius: 5,
+                              offset: const Offset(
+                                0,
+                                -5,
+                              ), // Top glow (negative Y offset)
+                            ),
+                            // Side glow for more even distribution
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.3),
+                              blurRadius: 10,
+                              spreadRadius: 0,
+                              offset: const Offset(0, 0), // Center glow
+                            ),
+                            // Subtle diagonal accent
+                            BoxShadow(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.primary.withOpacity(0.3),
+                              blurRadius: 10,
+                              spreadRadius: 0,
+                              offset: const Offset(0, 0), // Diagonal accent
+                            ),
+                          ],
+                        ),
+                        child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                          color: Theme.of(context).colorScheme.surface,
+                          child: Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: width * 0.05,
+                                vertical: height * 0.05,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Sign Up",
+                                    style: TextStyle(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: height * 0.045,
+                                      letterSpacing: 2,
+                                      fontFamily:
+                                          GoogleFonts.italiana().fontFamily,
+                                      shadows: [
+                                        Shadow(
+                                          color: Colors.black26,
+                                          offset: const Offset(2, 2),
+                                          blurRadius: 4,
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: height * 0.01),
-                                Text(
-                                  "Welcome to Social Swap",
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.9),
-                                    fontSize: height * 0.018,
-                                    fontFamily:
-                                        GoogleFonts.urbanist().fontFamily,
-                                    letterSpacing: 0.5,
+                                  SizedBox(height: height * 0.01),
+                                  Text(
+                                    "Welcome to Social Swap",
+                                    style: TextStyle(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.tertiary.withOpacity(0.9),
+                                      fontSize: height * 0.018,
+                                      fontFamily:
+                                          GoogleFonts.urbanist().fontFamily,
+                                      letterSpacing: 0.5,
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: height * 0.035),
-                                Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      MyFormField(
-                                        hintText: "Enter your name",
-                                        prefixIcon: Icons.person,
-                                        controller:
-                                            _inputControllers.nameController,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter your name';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(height: height * 0.02),
-                                      MyFormField(
-                                        hintText: "Email",
-                                        prefixIcon: Icons.alternate_email,
-                                        controller:
-                                            _inputControllers.emailController,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter your email';
-                                          }
-                                          if (!value.contains('@')) {
-                                            return 'Please enter a valid email';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(height: height * 0.02),
-                                      MyFormField(
-                                        hintText: "Password",
-                                        prefixIcon: Icons.lock,
-                                        controller:
-                                            _inputControllers
-                                                .passwordController,
-                                        obscureText: true,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter your password';
-                                          }
-                                          if (value.length < 6) {
-                                            return 'Password must be at least 6 characters';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(height: height * 0.02),
-                                      MyFormField(
-                                        hintText: "Confirm Password",
-                                        prefixIcon: Icons.lock,
-                                        controller:
-                                            _inputControllers
-                                                .confirmPasswordController,
-                                        obscureText: true,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please confirm your password';
-                                          }
-                                          if (value !=
+                                  SizedBox(height: height * 0.035),
+                                  Form(
+                                    key: _formKey,
+                                    child: Column(
+                                      children: [
+                                        MyFormField(
+                                          hintText: "Enter your name",
+                                          prefixIcon: Icons.person,
+                                          controller:
+                                              _inputControllers.nameController,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter your name';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(height: height * 0.02),
+                                        MyFormField(
+                                          hintText: "Email",
+                                          hintStyle: TextStyle(
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
+                                          ),
+                                          prefixIcon: Icons.alternate_email,
+                                          controller:
+                                              _inputControllers.emailController,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter your email';
+                                            }
+                                            if (!value.contains('@')) {
+                                              return 'Please enter a valid email';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(height: height * 0.02),
+                                        MyFormField(
+                                          hintText: "Password",
+                                          hintStyle: TextStyle(
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
+                                          ),
+                                          prefixIcon: Icons.lock,
+                                          controller:
                                               _inputControllers
-                                                  .passwordController
-                                                  .text) {
-                                            return 'Passwords do not match';
-                                          }
-                                          return null;
+                                                  .passwordController,
+                                          obscureText: true,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please enter your password';
+                                            }
+                                            if (value.length < 6) {
+                                              return 'Password must be at least 6 characters';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                        SizedBox(height: height * 0.02),
+                                        MyFormField(
+                                          hintText: "Confirm Password",
+                                          hintStyle: TextStyle(
+                                            color:
+                                                Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
+                                          ),
+                                          prefixIcon: Icons.lock,
+                                          controller:
+                                              _inputControllers
+                                                  .confirmPasswordController,
+                                          obscureText: true,
+                                          validator: (value) {
+                                            if (value == null ||
+                                                value.isEmpty) {
+                                              return 'Please confirm your password';
+                                            }
+                                            if (value !=
+                                                _inputControllers
+                                                    .passwordController
+                                                    .text) {
+                                              return 'Passwords do not match';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: height * 0.035),
+                                  AuthButton(
+                                    onPressed: _handleSignUp,
+                                    text: "Sign Up",
+                                    textStyle: TextStyle(
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                    ),
+                                  ),
+                                  SizedBox(height: height * 0.02),
+                                  Row(
+                                    spacing: 4.0,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        'Already have not account?',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(
+                                            context,
+                                          ).push(_elegantRoute(LoginPage()));
                                         },
+                                        child: Text('Login'),
                                       ),
                                     ],
                                   ),
-                                ),
-                                SizedBox(height: height * 0.035),
-                                AuthButton(
-                                  onPressed: _handleSignUp,
-                                  text: "Sign Up",
-                                ),
-                                SizedBox(height: height * 0.02),
-                                Row(
-                                  spacing: 4.0,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Already have not account?',
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.of(
-                                          context,
-                                        ).push(_elegantRoute(LoginPage()));
-                                      },
-                                      child: Text('Login'),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
