@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
@@ -22,12 +23,6 @@ class _UploadPageState extends State<UploadPage> {
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
-          // Positioned.fill(
-          //   child: Image.asset(
-          //     'assets/images/background.jpeg',
-          //     fit: BoxFit.cover,
-          //   ),
-          // ),
           Positioned.fill(
             child: Container(color: Colors.black.withOpacity(0.5)),
           ),
@@ -66,7 +61,7 @@ class _UploadPageState extends State<UploadPage> {
                                         fit: BoxFit.cover,
                                       )
                                       : Icon(
-                                        Icons.image,
+                                        Iconsax.gallery,
                                         color:
                                             Theme.of(
                                               context,
