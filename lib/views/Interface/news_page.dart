@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
+
 import 'package:social_swap/controllers/Services/API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_swap/views/components/news_card.dart';
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});
@@ -180,76 +181,11 @@ class _NewsPageState extends State<NewsPage> {
   }
 
   Widget _buildFeaturedNewsCard(dynamic article) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Image.network(
-            article.image,
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: 200,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                height: 200,
-                color: Colors.grey[800],
-                child: const Center(
-                  child: Icon(Icons.image, color: Colors.white),
-                ),
-              );
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              article.title,
-              style: GoogleFonts.urbanist(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+    return buildFeaturedNewsCard(article);
   }
 
   Widget _buildStandardNewsCard(dynamic article) {
-    return Card(
-      margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: ListTile(
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Image.network(
-            article.image,
-            fit: BoxFit.cover,
-            width: 80,
-            height: 80,
-            errorBuilder: (context, error, stackTrace) {
-              return Container(
-                width: 80,
-                height: 80,
-                color: Colors.grey[300],
-                child: const Icon(Iconsax.gallery, color: Colors.grey),
-              );
-            },
-          ),
-        ),
-        title: Text(
-          article.title,
-          style: GoogleFonts.urbanist(
-            fontWeight: FontWeight.w600,
-            fontSize: 15,
-          ),
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-        ),
-      ),
-    );
+    return buildStandardNewsCard(article);
   }
 
   void _performSearch() {
