@@ -1,6 +1,7 @@
 # Social Swap
 
 A modern social media application built with Flutter, featuring AI-powered interactions and seamless user experience.
+![Social Swap](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-icon/App%20Icon.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaWNvbi9BcHAgSWNvbi5qcGVnIiwiaWF0IjoxNzQyNzQxNTU0LCJleHAiOjE3NTEwNzQxNTU0fQ.yVPnwkj5nbnWspxG8adR28DKdDg4yw4CMyadFou6kvQ)
 
 ## 🌟 Features
 
@@ -13,19 +14,46 @@ A modern social media application built with Flutter, featuring AI-powered inter
 
 ## 📱 Application Preview
 
+### Login Interface
+![Login Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%201.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAxLmpwZWciLCJpYXQiOjE3NDI3NDE2MjcsImV4cCI6MTc1MTA3NDE2Mjd9.awQCGuGGLjXsvNTadsfNkJHUoBRaHKADlicwkolnHuk)
+- Modern login UI with unique color combinations
+- Loading indicators and animations
+- User-friendly input field
+- Secure Authentication
+
+### Sign Up Interface
+![Sign Up Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%202.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAyLmpwZWciLCJpYXQiOjE3NDI3NDE3NTcsImV4cCI6MTc1MTA3NDE3NTd9.YRtZCn7mbaWy2eG2uNU4uqHqr3WlLY5Hy66334goCFM)
+- Modern signup UI with unique color combinations
+- Loading indicators and animations
+- User-friendly input field
+- Secure Authentication
+
+### Feed Interface
+![Feed Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%203.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAzLmpwZWciLCJpYXQiOjE3NDI3NDE3OTcsImV4cCI6MTc1MTA3NDE3OTd9.YfuHM9IsVE7GopNWs1h31a8dgSf7beEHxsGIODqN4aE)
+- Clean post layout
+- Interactive elements
+- Smooth scrolling
+- Dynamic content loading
+
 ### Chat Interface
-![Chat Interface](assets/preview/chat_preview.png)
+![Upload post Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%206.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA2LmpwZWciLCJpYXQiOjE3NDI3NDE4NzcsImV4cCI6MTc1MTA3NDE4Nzd9.lYfPv9bZl1y2JadfKvHRqDfIsgZaqsoBcQ9pFR4Kj4w)
+- Minimal Upload Post UI 
+- Real-time Response
+- Loading indicators and animations
+- User-friendly input field
+
+### Chat Bot Interface
+![Chat Bot Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%205.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA1LmpwZWciLCJpYXQiOjE3NDI3NDE5MzIsImV4cCI6MTc1MTA3NDE5MzJ9.OlRJ4pgvQHBvUTBcLPmp9jpfK8u-r7rHAhGUxNNA2KQ)
 - Modern chat UI with message bubbles
 - Real-time AI responses
 - Loading indicators and animations
 - User-friendly input field
 
-### Feed Interface
-![Feed Interface](assets/preview/feed_preview.png)
-- Clean post layout
-- Interactive elements
-- Smooth scrolling
-- Dynamic content loading
+### News Page Interface
+![News Page Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%207.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA3LmpwZWciLCJpYXQiOjE3NDI3NDE5NjEsImV4cCI6MTc1MTA3NDE5NjF9.mFi5g-zfUXYz_UTv3zpcjvmHN_3n6xAsblJatKkrP84)
+- Minimal User Interface
+- Real-time Responses
+- Loading indicators and animations
 
 ## 🛠️ Tech Stack
 
