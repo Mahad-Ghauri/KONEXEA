@@ -42,6 +42,8 @@ class _UploadPageState extends State<UploadPage>
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       body: Stack(
@@ -64,13 +66,10 @@ class _UploadPageState extends State<UploadPage>
           // Content
           SafeArea(
             child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: MediaQuery.sizeOf(context).width * 0.025,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.025),
               child: Column(
                 children: [
-                  const SizedBox(height: 20),
-
+                  SizedBox(height: height * 0.02),
                   Expanded(
                     flex: 1,
                     child: FadeTransition(
@@ -94,21 +93,6 @@ class _UploadPageState extends State<UploadPage>
                                   begin: Alignment.topLeft,
                                   end: Alignment.bottomRight,
                                 ),
-                                border: Border.all(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primary.withOpacity(0.3),
-                                  width: 2,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary.withOpacity(0.2),
-                                    blurRadius: 10,
-                                    spreadRadius: 2,
-                                  ),
-                                ],
                               ),
                               width: double.infinity,
                               child: ClipRRect(
@@ -196,26 +180,12 @@ class _UploadPageState extends State<UploadPage>
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(18),
-                                    borderSide: BorderSide(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary.withOpacity(0.3),
-                                    ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
                                     borderRadius: BorderRadius.circular(18),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(18),
-                                    borderSide: BorderSide(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.primary.withOpacity(0.3),
-                                    ),
                                   ),
                                   filled: true,
                                   fillColor: Theme.of(

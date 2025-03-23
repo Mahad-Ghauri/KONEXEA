@@ -273,16 +273,6 @@ class _FeedPageState extends State<FeedPage>
                     padding: const EdgeInsets.all(16),
                     child: Row(
                       children: [
-                        // CircleAvatar(
-                        //   radius: 20,
-                        //   backgroundColor: Theme.of(
-                        //     context,
-                        //   ).colorScheme.primary.withOpacity(0.1),
-                        //   child: Icon(
-                        //     Icons.person,
-                        //     color: Theme.of(context).colorScheme.primary,
-                        //   ),
-                        // ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(
