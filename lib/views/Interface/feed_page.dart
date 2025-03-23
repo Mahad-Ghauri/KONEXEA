@@ -72,17 +72,7 @@ class _FeedPageState extends State<FeedPage>
           SafeArea(
             child: Column(
               children: [
-                // Custom Stories bar
-                buildStoriesSection(context),
-
-                // Divider
-                Divider(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.tertiary.withOpacity(0.1),
-                  thickness: 1,
-                ),
-
+             
                 // Main feed content
                 Expanded(
                   child: Consumer<FeedServices>(
@@ -129,130 +119,6 @@ class _FeedPageState extends State<FeedPage>
       ),
     );
   }
-
-  Widget buildStoriesSection(BuildContext context) {
-    return Container(
-      height: 100,
-      margin: const EdgeInsets.only(top: 8),
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        children: [
-          // Add story button
-          Column(
-            children: [
-              Container(
-                width: 70,
-                height: 70,
-                margin: const EdgeInsets.symmetric(horizontal: 8),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.primary,
-                      Theme.of(context).colorScheme.tertiary,
-                    ],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(
-                  child: Container(
-                    width: 66,
-                    height: 66,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surface,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      Iconsax.add,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                'Add Story',
-                style: GoogleFonts.urbanist(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-
-          // Example stories (you can populate these from actual user data)
-          ...List.generate(
-            8,
-            (index) => buildStoryItem(
-              context,
-              'User ${index + 1}',
-              'https://source.unsplash.com/random/200x200?sig=$index',
-              index % 3 == 0, // Some viewed, some not
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildStoryItem(
-    BuildContext context,
-    String username,
-    String imageUrl,
-    bool viewed,
-  ) {
-    return Column(
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          margin: const EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors:
-                  viewed
-                      ? [Colors.grey, Colors.grey.shade400]
-                      : [
-                        Theme.of(context).colorScheme.primary,
-                        Theme.of(context).colorScheme.tertiary,
-                        Colors.purple,
-                        Colors.orange,
-                      ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Container(
-              width: 66,
-              height: 66,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          username.length > 8 ? '${username.substring(0, 8)}...' : username,
-          style: GoogleFonts.urbanist(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-            color: viewed ? Colors.grey : null,
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget buildLoadingShimmer(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
