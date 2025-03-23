@@ -6,6 +6,7 @@ import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:social_swap/views/Interface/chatbot_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
 
@@ -86,6 +87,25 @@ class _FeedPageState extends State<FeedPage>
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+      floatingActionButton: Column(
+        spacing: 10,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            child: Icon(Icons.chat_outlined, color: Colors.black),
+            onPressed: () {
+              //  Navigate to Chatbot
+              Navigator.of(context).push(_elegantRoute(ChatbotPage()));
+            },
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.hub, color: Colors.black),
+            onPressed: () {
+              //  Navigate to Product Hub
+            },
           ),
         ],
       ),
@@ -423,5 +443,22 @@ class _FeedPageState extends State<FeedPage>
     } else {
       return '${timestamp.day}/${timestamp.month}/${timestamp.year}';
     }
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+    );
   }
 }

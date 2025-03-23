@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'dart:developer';
 import 'package:social_swap/consts.dart';
 import 'package:social_swap/controllers/Services/API/api_services.dart';
+import 'package:social_swap/controllers/Services/Chatbot/chatbot_services.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:social_swap/firebase_options.dart';
 import 'package:social_swap/utils/theme.dart';
@@ -25,6 +26,9 @@ Future<void> main() async {
                   providers: [
                     ChangeNotifierProvider(create: (context) => ApiServices()),
                     ChangeNotifierProvider(create: (context) => FeedServices()),
+                    ChangeNotifierProvider(
+                      create: (context) => ChatbotController(),
+                    ),
                   ],
                   child: const MainApp(),
                 ),
