@@ -279,14 +279,12 @@ class _FeedPageState extends State<FeedPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
-                                // mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Icon(
                                     Icons.mail,
                                     color:
                                         Theme.of(context).colorScheme.tertiary,
                                   ),
-
                                   const SizedBox(width: 12),
                                   Text(
                                     userEmail,
@@ -338,7 +336,7 @@ class _FeedPageState extends State<FeedPage>
                         post['image']!,
                         fit: BoxFit.cover,
                         width: double.infinity,
-                        height: 300,
+                        height: 400,
                       ),
                     ),
 
