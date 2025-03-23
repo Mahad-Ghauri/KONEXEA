@@ -1,10 +1,12 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
-import 'package:social_swap/views/components/post_card.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
 
 class FeedPage extends StatefulWidget {
@@ -18,7 +20,7 @@ class _FeedPageState extends State<FeedPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   final ScrollController _scrollController = ScrollController();
-  bool _showScrollToTop = false;
+  final Map<String, bool> _expandedPosts = {};
 
   @override
   void initState() {
@@ -32,13 +34,6 @@ class _FeedPageState extends State<FeedPage>
     // Fetch posts when the page loads
     Future.microtask(() {
       Provider.of<FeedServices>(context, listen: false).fetchPosts();
-    });
-
-    // Scroll controller listener for "scroll to top" button
-    _scrollController.addListener(() {
-      setState(() {
-        _showScrollToTop = _scrollController.offset > 500;
-      });
     });
   }
 
@@ -54,15 +49,16 @@ class _FeedPageState extends State<FeedPage>
     return Scaffold(
       body: Stack(
         children: [
-          // Background gradient
+          // Enhanced background gradient
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
                 colors: [
                   Theme.of(context).colorScheme.surface,
                   Theme.of(context).colorScheme.surface.withOpacity(0.95),
+                  Theme.of(context).colorScheme.surface.withOpacity(0.9),
                 ],
               ),
             ),
@@ -72,7 +68,6 @@ class _FeedPageState extends State<FeedPage>
           SafeArea(
             child: Column(
               children: [
-             
                 // Main feed content
                 Expanded(
                   child: Consumer<FeedServices>(
@@ -92,33 +87,11 @@ class _FeedPageState extends State<FeedPage>
               ],
             ),
           ),
-
-          // Floating scroll to top button
-          if (_showScrollToTop)
-            Positioned(
-              right: 16,
-              bottom: 80,
-              child: AnimatedOpacity(
-                opacity: _showScrollToTop ? 1.0 : 0.0,
-                duration: const Duration(milliseconds: 300),
-                child: FloatingActionButton.small(
-                  onPressed: () {
-                    _scrollController.animateTo(
-                      0,
-                      duration: const Duration(milliseconds: 500),
-                      curve: Curves.easeOutQuint,
-                    );
-                  },
-                  backgroundColor: Theme.of(context).colorScheme.primary,
-                  elevation: 4,
-                  child: const Icon(Icons.arrow_upward, color: Colors.white),
-                ),
-              ),
-            ),
         ],
       ),
     );
   }
+
   Widget buildLoadingShimmer(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
@@ -269,78 +242,198 @@ class _FeedPageState extends State<FeedPage>
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: ListView.builder(
         controller: _scrollController,
-        padding: const EdgeInsets.only(top: 8, bottom: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         itemCount: feedService.posts.length,
         itemBuilder: (context, index) {
           final post = feedService.posts[index];
+          final postId = post['postId'] ?? '';
+          final isExpanded = _expandedPosts[postId] ?? false;
+          final userEmail =
+              Supabase.instance.client.auth.currentUser?.email ?? 'Anonymous';
 
-          // Add a divider or section header for days
-          Widget divider = const SizedBox.shrink();
-          if (index > 0) {
-            final DateTime currentPostDate =
-                post['timeStamp'] ?? DateTime.now();
-            final DateTime previousPostDate =
-                feedService.posts[index - 1]['timeStamp'] ?? DateTime.now();
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surface,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Post header
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        // CircleAvatar(
+                        //   radius: 20,
+                        //   backgroundColor: Theme.of(
+                        //     context,
+                        //   ).colorScheme.primary.withOpacity(0.1),
+                        //   child: Icon(
+                        //     Icons.person,
+                        //     color: Theme.of(context).colorScheme.primary,
+                        //   ),
+                        // ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                // mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Icon(
+                                    Icons.mail,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                  ),
 
-            if (currentPostDate.day != previousPostDate.day) {
-              divider = Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 12,
-                  horizontal: 16,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(child: Divider()),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Text(
-                        _formatDateHeader(currentPostDate),
-                        style: GoogleFonts.urbanist(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.tertiary.withOpacity(0.6),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    userEmail,
+                                    style: GoogleFonts.urbanist(
+                                      fontWeight: FontWeight.w600,
+                                      color:
+                                          Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
+                                    ),
+                                  ),
+                                  SizedBox(width: 9),
+                                  Column(
+                                    children: [
+                                      Icon(
+                                        Iconsax.tick_circle,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Text(
+                                _formatTimestamp(
+                                  post['timeStamp'] ?? DateTime.now(),
+                                ),
+                                style: GoogleFonts.urbanist(
+                                  fontSize: 12,
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+
+                  // Post image
+                  if (post['image'] != null)
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        bottom: Radius.circular(20),
+                      ),
+                      child: Image.network(
+                        post['image']!,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: 300,
                       ),
                     ),
-                    Expanded(child: Divider()),
-                  ],
-                ),
-              );
-            }
-          }
 
-          return Column(
-            children: [
-              divider,
-              PostCard(
-                imageUrl: post['image'] ?? '',
-                description: post['description'] ?? '',
-                timestamp: post['timeStamp'] ?? DateTime.now(),
-                postId: post['postId'] ?? '',
+                  // Post description
+                  Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          post['description'] ?? '',
+                          maxLines: isExpanded ? null : 3,
+                          overflow: isExpanded ? null : TextOverflow.ellipsis,
+                          style: GoogleFonts.urbanist(
+                            color: Theme.of(context).colorScheme.tertiary,
+                            height: 1.5,
+                          ),
+                        ),
+                        if ((post['description'] ?? '').length > 150)
+                          TextButton(
+                            onPressed: () {
+                              setState(() {
+                                _expandedPosts[postId] = !isExpanded;
+                              });
+                            },
+                            child: Text(
+                              isExpanded ? 'Show less' : 'Read more',
+                              style: GoogleFonts.urbanist(
+                                color: Theme.of(context).colorScheme.primary,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+
+                  // Post actions
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(
+                  //     horizontal: 16,
+                  //     vertical: 8,
+                  //   ),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //     children: [
+                  //       _buildActionButton(
+                  //         icon: Iconsax.heart,
+                  //         label: 'Like',
+                  //         onPressed: () {},
+                  //       ),
+                  //       _buildActionButton(
+                  //         icon: Iconsax.message,
+                  //         label: 'Comment',
+                  //         onPressed: () {},
+                  //       ),
+                  //       _buildActionButton(
+                  //         icon: Iconsax.share,
+                  //         label: 'Share',
+                  //         onPressed: () {},
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                ],
               ),
-            ],
+            ),
           );
         },
       ),
     );
   }
 
-  String _formatDateHeader(DateTime date) {
+  String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
+    final difference = now.difference(timestamp);
 
-    if (date.year == now.year &&
-        date.month == now.month &&
-        date.day == now.day) {
-      return "Today";
-    } else if (date.year == yesterday.year &&
-        date.month == yesterday.month &&
-        date.day == yesterday.day) {
-      return "Yesterday";
+    if (difference.inMinutes < 1) {
+      return 'Just now';
+    } else if (difference.inHours < 1) {
+      return '${difference.inMinutes}m ago';
+    } else if (difference.inHours < 24) {
+      return '${difference.inHours}h ago';
     } else {
-      return "${date.day}/${date.month}/${date.year}";
+      return '${timestamp.day}/${timestamp.month}/${timestamp.year}';
     }
   }
 }
