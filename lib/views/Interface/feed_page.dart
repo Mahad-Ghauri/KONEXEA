@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -95,14 +95,14 @@ class _FeedPageState extends State<FeedPage>
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            child: Icon(Icons.chat_outlined, color: Colors.black),
+            child: const Icon(Icons.chat_outlined, color: Colors.black),
             onPressed: () {
               //  Navigate to Chatbot
-              Navigator.of(context).push(_elegantRoute(ChatbotPage()));
+              Navigator.of(context).push(_elegantRoute(const ChatbotPage()));
             },
           ),
           FloatingActionButton(
-            child: Icon(Icons.hub, color: Colors.black),
+            child: const Icon(Icons.hub, color: Colors.black),
             onPressed: () {
               //  Navigate to Product Hub
             },
@@ -207,7 +207,7 @@ class _FeedPageState extends State<FeedPage>
                     ),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Iconsax.gallery_add,
                     size: 64,
                     color: Colors.white,
@@ -316,7 +316,7 @@ class _FeedPageState extends State<FeedPage>
                                           ).colorScheme.tertiary,
                                     ),
                                   ),
-                                  SizedBox(width: 9),
+                                  const SizedBox(width: 9),
                                   Column(
                                     children: [
                                       Icon(

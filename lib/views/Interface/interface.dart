@@ -151,7 +151,7 @@ class _InterfacePageState extends State<InterfacePage> {
                 Navigator.pop(context);
               },
             ),
-            Spacer(flex: 20),
+            const Spacer(flex: 20),
             Divider(color: Theme.of(context).colorScheme.tertiary),
             ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
@@ -304,7 +304,7 @@ class _InterfacePageState extends State<InterfacePage> {
                         await _authController.signOutCurrentSession();
                     if (success && mounted) {
                       Navigator.of(context).pushAndRemoveUntil(
-                        _elegantRoute(LoginPage()),
+                        _elegantRoute(const LoginPage()),
                         (route) => false,
                       );
                     } else if (mounted) {
@@ -349,7 +349,6 @@ class _InterfacePageState extends State<InterfacePage> {
               FontAwesomeIcons.infinity,
               color: Theme.of(context).colorScheme.primary,
             ),
-
             Text(
               'Social Swap',
               style: TextStyle(
@@ -369,8 +368,8 @@ class _InterfacePageState extends State<InterfacePage> {
         // animationCurve: Curves.easeInCirc,
         buttonBackgroundColor: Theme.of(context).colorScheme.surface,
         color: Theme.of(context).colorScheme.surface,
-        animationDuration: Duration(milliseconds: 400),
-        items: [
+        animationDuration: const Duration(milliseconds: 400),
+        items: const [
           Icon(Iconsax.home, color: Colors.white),
           Icon(Iconsax.add_circle, color: Colors.white),
           Icon(Icons.public, color: Colors.white),

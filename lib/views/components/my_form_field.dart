@@ -156,7 +156,7 @@ class _MyFormFieldState extends State<MyFormField>
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide(color: Colors.white70, width: 1.5),
+                borderSide: const BorderSide(color: Colors.white70, width: 1.5),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),

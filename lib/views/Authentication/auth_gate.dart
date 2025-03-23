@@ -13,7 +13,7 @@ class AuthGate extends StatelessWidget {
       stream: AuthenticationController().supabase.auth.onAuthStateChange,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
         if (snapshot.hasError) {
           return Scaffold(body: Center(child: Text(snapshot.error.toString())));
@@ -21,9 +21,9 @@ class AuthGate extends StatelessWidget {
         final session = snapshot.hasData ? snapshot.data!.session : null;
 
         if (session != null) {
-          return InterfacePage();
+          return const InterfacePage();
         } else {
-          return LoginPage();
+          return const LoginPage();
         }
       },
     );

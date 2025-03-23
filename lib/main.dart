@@ -55,7 +55,7 @@ class MainApp extends StatelessWidget {
       title: 'Social Swap',
       theme: lightMode,
 
-      home: AuthGate(),
+      home: const AuthGate(),
     );
   }
 }

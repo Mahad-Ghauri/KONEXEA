@@ -85,6 +85,7 @@ class ProfilePage extends StatelessWidget {
                     await AuthenticationController().signOutCurrentSession();
                     if (context.mounted) {
                       Navigator.of(context).pushAndRemoveUntil(
+                        // ignore: prefer_const_constructors
                         _elegantRoute(LoginPage()),
                         (route) => false,
                       );

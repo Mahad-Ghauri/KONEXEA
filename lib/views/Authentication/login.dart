@@ -158,10 +158,10 @@ class _LoginPageState extends State<LoginPage> {
                                           letterSpacing: 2,
                                           fontFamily:
                                               GoogleFonts.italiana().fontFamily,
-                                          shadows: [
+                                          shadows: const [
                                             Shadow(
                                               color: Colors.black26,
-                                              offset: const Offset(2, 2),
+                                              offset: Offset(2, 2),
                                               blurRadius: 4,
                                             ),
                                           ],
@@ -273,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).push(
-                                                _elegantRoute(SignUpPage()),
+                                                _elegantRoute(const SignUpPage()),
                                               );
                                             },
                                             child: Text(

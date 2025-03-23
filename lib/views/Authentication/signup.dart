@@ -47,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
           .then((_) {
             Navigator.of(
               context,
-            ).pushReplacement(_elegantRoute(InterfacePage()));
+            ).pushReplacement(_elegantRoute(const InterfacePage()));
           });
     }
   }
@@ -84,7 +84,7 @@ class _SignUpPageState extends State<SignUpPage> {
                               children: [
                                 Icon(
                                   FontAwesomeIcons.infinity,
-                                  size: height * 0.09,
+                                  size: height * 0.07,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                                 Text(
@@ -125,7 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(
                                     horizontal: width * 0.05,
-                                    vertical: height * 0.05,
+                                    vertical: height * 0.02,
                                   ),
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -143,10 +143,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                           letterSpacing: 2,
                                           fontFamily:
                                               GoogleFonts.italiana().fontFamily,
-                                          shadows: [
+                                          shadows: const [
                                             Shadow(
                                               color: Colors.black26,
-                                              offset: const Offset(2, 2),
+                                              offset: Offset(2, 2),
                                               blurRadius: 4,
                                             ),
                                           ],
@@ -288,7 +288,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          Text(
+                                          const Text(
                                             'Already have not account?',
                                             style: TextStyle(
                                               color: Colors.white,
@@ -297,10 +297,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).push(
-                                                _elegantRoute(LoginPage()),
+                                                _elegantRoute(const LoginPage()),
                                               );
                                             },
-                                            child: Text('Login'),
+                                            child: const Text('Login'),
                                           ),
                                         ],
                                       ),

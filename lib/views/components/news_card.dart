@@ -46,7 +46,7 @@ Widget buildFeaturedNewsCard(dynamic article) {
               right: 0,
               child: Container(
                 padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(color: Colors.transparent),
+                decoration: const BoxDecoration(color: Colors.transparent),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
