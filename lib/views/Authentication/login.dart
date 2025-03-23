@@ -1,13 +1,14 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/Authentication/signup.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:social_swap/views/components/my_form_field.dart';
-import 'package:social_swap/views/components/logo.dart';
+// import 'package:social_swap/views/components/logo.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'LoginPage';
@@ -91,9 +92,30 @@ class _LoginPageState extends State<LoginPage> {
 
                       child: Column(
                         children: [
-                          // const Logo(),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 30),
+                            child: Column(
+                              children: [
+                                Icon(
+                                  FontAwesomeIcons.infinity,
+                                  size: height * 0.09,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                // const SizedBox(height: 5),
+                                Text(
+                                  '  Social Swap',
+                                  style: GoogleFonts.italiana(
+                                    fontSize: 32,
+                                    fontWeight: FontWeight.w700,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                           Container(
-                            // Apply 3D effect with shadow underneath the card
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
                               boxShadow: [
@@ -101,19 +123,10 @@ class _LoginPageState extends State<LoginPage> {
                                 BoxShadow(
                                   color: Theme.of(
                                     context,
-                                  ).colorScheme.primary.withOpacity(0.3),
+                                  ).colorScheme.primary.withOpacity(0.6),
                                   blurRadius: 8,
                                   spreadRadius: 0,
-                                  offset: const Offset(0, 4),
-                                ),
-                                // Line effect
-                                BoxShadow(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primary.withOpacity(0.5),
-                                  blurRadius: 0,
-                                  spreadRadius: 0,
-                                  offset: const Offset(0, 2),
+                                  offset: const Offset(0, 0),
                                 ),
                               ],
                             ),
@@ -232,11 +245,13 @@ class _LoginPageState extends State<LoginPage> {
                                         text: "Log In",
                                         textStyle: TextStyle(
                                           fontFamily:
-                                              GoogleFonts.italiana().fontFamily,
+                                              GoogleFonts.outfit().fontFamily,
                                           color:
                                               Theme.of(
                                                 context,
-                                              ).colorScheme.tertiary,
+                                              ).colorScheme.surface,
+                                          fontSize: 19,
+                                          fontWeight: FontWeight.bold,
                                         ),
                                         isLoading: _inputControllers.loading,
                                       ),
