@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
             _inputControllers.loading = false;
           });
         }
-      } catch (e) {
+      } catch (error) {
         if (mounted) {
           setState(() {
             _inputControllers.loading = false;
@@ -89,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
                         horizontal: width * 0.05,
                         vertical: height * 0.02,
                       ),
-
                       child: Column(
                         children: [
                           Padding(
@@ -130,7 +129,6 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ],
                             ),
-
                             child: Card(
                               elevation: 10,
                               shape: RoundedRectangleBorder(
@@ -149,10 +147,9 @@ class _LoginPageState extends State<LoginPage> {
                                       Text(
                                         "Log In",
                                         style: TextStyle(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.tertiary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
                                           fontWeight: FontWeight.bold,
                                           fontSize: height * 0.045,
                                           letterSpacing: 2,
@@ -189,15 +186,13 @@ class _LoginPageState extends State<LoginPage> {
                                             MyFormField(
                                               hintText: "Email",
                                               hintStyle: TextStyle(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.tertiary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
                                               ),
                                               prefixIcon: Icons.alternate_email,
-                                              controller:
-                                                  _inputControllers
-                                                      .emailController,
+                                              controller: _inputControllers
+                                                  .emailController,
                                               keyboardType:
                                                   TextInputType.emailAddress,
                                               validator: (value) {
@@ -215,15 +210,13 @@ class _LoginPageState extends State<LoginPage> {
                                             MyFormField(
                                               hintText: "Password",
                                               hintStyle: TextStyle(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.tertiary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
                                               ),
                                               prefixIcon: Icons.lock,
-                                              controller:
-                                                  _inputControllers
-                                                      .passwordController,
+                                              controller: _inputControllers
+                                                  .passwordController,
                                               obscureText: true,
                                               validator: (value) {
                                                 if (value == null ||
@@ -246,10 +239,9 @@ class _LoginPageState extends State<LoginPage> {
                                         textStyle: TextStyle(
                                           fontFamily:
                                               GoogleFonts.outfit().fontFamily,
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.surface,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surface,
                                           fontSize: 19,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -264,25 +256,24 @@ class _LoginPageState extends State<LoginPage> {
                                           Text(
                                             'Don\'t have an account?',
                                             style: TextStyle(
-                                              color:
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.tertiary,
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.tertiary,
                                             ),
                                           ),
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).push(
-                                                _elegantRoute(const SignUpPage()),
+                                                _elegantRoute(
+                                                    const SignUpPage()),
                                               );
                                             },
                                             child: Text(
                                               'Sign Up',
                                               style: TextStyle(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.primary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
                                               ),
                                             ),
                                           ),

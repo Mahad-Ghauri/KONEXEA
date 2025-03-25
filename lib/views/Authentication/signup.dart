@@ -40,15 +40,19 @@ class _SignUpPageState extends State<SignUpPage> {
       }
       await _authController
           .signUpWithEmailPassword(
-            _inputControllers.emailController.text,
-            _inputControllers.passwordController.text,
-            context,
-          )
+        _inputControllers.emailController.text,
+        _inputControllers.passwordController.text,
+        context,
+      )
           .then((_) {
-            Navigator.of(
-              context,
-            ).pushReplacement(_elegantRoute(const InterfacePage()));
-          });
+        // ScaffoldMessenger.of(
+        //   context,
+        // ).showSnackBar(
+        //     const SnackBar(content: Text('Please Verify your Email')));
+        Navigator.of(
+          context,
+        ).pushReplacement(_elegantRoute(const LoginPage()));
+      });
     }
   }
 
@@ -75,7 +79,6 @@ class _SignUpPageState extends State<SignUpPage> {
                         horizontal: width * 0.05,
                         vertical: height * 0.02,
                       ),
-
                       child: Column(
                         children: [
                           Padding(
@@ -134,10 +137,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                       Text(
                                         "Sign Up",
                                         style: TextStyle(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.tertiary,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.tertiary,
                                           fontWeight: FontWeight.bold,
                                           fontSize: height * 0.045,
                                           letterSpacing: 2,
@@ -174,9 +176,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                             MyFormField(
                                               hintText: "Enter your name",
                                               prefixIcon: Icons.person,
-                                              controller:
-                                                  _inputControllers
-                                                      .nameController,
+                                              controller: _inputControllers
+                                                  .nameController,
                                               validator: (value) {
                                                 if (value == null ||
                                                     value.isEmpty) {
@@ -189,15 +190,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                             MyFormField(
                                               hintText: "Email",
                                               hintStyle: TextStyle(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.tertiary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
                                               ),
                                               prefixIcon: Icons.alternate_email,
-                                              controller:
-                                                  _inputControllers
-                                                      .emailController,
+                                              controller: _inputControllers
+                                                  .emailController,
                                               keyboardType:
                                                   TextInputType.emailAddress,
                                               validator: (value) {
@@ -215,15 +214,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                             MyFormField(
                                               hintText: "Password",
                                               hintStyle: TextStyle(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.tertiary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
                                               ),
                                               prefixIcon: Icons.lock,
-                                              controller:
-                                                  _inputControllers
-                                                      .passwordController,
+                                              controller: _inputControllers
+                                                  .passwordController,
                                               obscureText: true,
                                               validator: (value) {
                                                 if (value == null ||
@@ -240,15 +237,13 @@ class _SignUpPageState extends State<SignUpPage> {
                                             MyFormField(
                                               hintText: "Confirm Password",
                                               hintStyle: TextStyle(
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.tertiary,
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.tertiary,
                                               ),
                                               prefixIcon: Icons.lock,
-                                              controller:
-                                                  _inputControllers
-                                                      .confirmPasswordController,
+                                              controller: _inputControllers
+                                                  .confirmPasswordController,
                                               obscureText: true,
                                               validator: (value) {
                                                 if (value == null ||
@@ -274,10 +269,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                         textStyle: TextStyle(
                                           fontFamily:
                                               GoogleFonts.outfit().fontFamily,
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.surface,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.surface,
                                           fontSize: 19,
                                           fontWeight: FontWeight.bold,
                                         ),
@@ -297,7 +291,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                           TextButton(
                                             onPressed: () {
                                               Navigator.of(context).push(
-                                                _elegantRoute(const LoginPage()),
+                                                _elegantRoute(
+                                                    const LoginPage()),
                                               );
                                             },
                                             child: const Text('Login'),
