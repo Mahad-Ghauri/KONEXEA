@@ -394,33 +394,7 @@ class _FeedPageState extends State<FeedPage>
                     ),
                   ),
 
-                  // Post actions
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(
-                  //     horizontal: 16,
-                  //     vertical: 8,
-                  //   ),
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  //     children: [
-                  //       _buildActionButton(
-                  //         icon: Iconsax.heart,
-                  //         label: 'Like',
-                  //         onPressed: () {},
-                  //       ),
-                  //       _buildActionButton(
-                  //         icon: Iconsax.message,
-                  //         label: 'Comment',
-                  //         onPressed: () {},
-                  //       ),
-                  //       _buildActionButton(
-                  //         icon: Iconsax.share,
-                  //         label: 'Share',
-                  //         onPressed: () {},
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+             
                 ],
               ),
             ),
