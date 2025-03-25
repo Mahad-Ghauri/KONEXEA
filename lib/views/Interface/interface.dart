@@ -152,35 +152,36 @@ class _InterfacePageState extends State<InterfacePage> {
               },
             ),
             const Spacer(flex: 20),
+            
             Divider(color: Theme.of(context).colorScheme.tertiary),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Iconsax.setting_2,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              title: Text(
-                'Settings',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
-                  fontSize: height * 0.02,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                // TODO: Navigate to settings page
-              },
-            ),
+            // ListTile(
+            //   contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
+            //   leading: Container(
+            //     padding: const EdgeInsets.all(8),
+            //     decoration: BoxDecoration(
+            //       color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //     child: Icon(
+            //       Iconsax.setting_2,
+            //       color: Theme.of(context).colorScheme.primary,
+            //       size: 20,
+            //     ),
+            //   ),
+            //   title: Text(
+            //     'Settings',
+            //     style: TextStyle(
+            //       color: Theme.of(context).colorScheme.tertiary,
+            //       fontSize: height * 0.02,
+            //       fontWeight: FontWeight.bold,
+            //       fontFamily: GoogleFonts.montserrat().fontFamily,
+            //     ),
+            //   ),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     // TODO: Navigate to settings page
+            //   },
+            // ),
             ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
               leading: Container(
