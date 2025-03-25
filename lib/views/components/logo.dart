@@ -10,6 +10,7 @@ class Logo extends StatelessWidget {
       width: 100,
       height: 100,
       fit: BoxFit.contain,
+      color: Theme.of(context).colorScheme.primary,
     );
   }
 }
