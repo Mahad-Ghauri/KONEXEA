@@ -10,6 +10,7 @@ import 'package:social_swap/views/Authentication/login.dart';
 import 'package:social_swap/views/Interface/feed_page.dart';
 import 'package:social_swap/views/Interface/news_page.dart';
 import 'package:social_swap/views/Interface/upload_page.dart';
+import 'package:social_swap/views/Interface/about_page.dart';
 
 class InterfacePage extends StatefulWidget {
   static const String id = 'InterfacePage';
@@ -152,7 +153,7 @@ class _InterfacePageState extends State<InterfacePage> {
               },
             ),
             const Spacer(flex: 20),
-            
+
             Divider(color: Theme.of(context).colorScheme.tertiary),
             // ListTile(
             //   contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
@@ -207,7 +208,10 @@ class _InterfacePageState extends State<InterfacePage> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                // TODO: Navigate to about page
+                Navigator.push(
+                  context,
+                  _elegantRoute(const AboutPage()),
+                );
               },
             ),
             Divider(color: Theme.of(context).colorScheme.tertiary),

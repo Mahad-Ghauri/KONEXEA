@@ -20,33 +20,33 @@ class AboutPage extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
         ),
         iconTheme: IconThemeData(
-          color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         title: Row(
           children: [
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                color: Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.info_outline_rounded,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).colorScheme.tertiary,
               ),
             ),
             const SizedBox(width: 10),
             Text(
               "About Us",
               style: TextStyle(
-                fontFamily: GoogleFonts.outfit().fontFamily,
-                color: Theme.of(context).colorScheme.secondary,
+                fontFamily: GoogleFonts.urbanist().fontFamily,
+                color: Theme.of(context).colorScheme.tertiary,
                 fontWeight: FontWeight.bold,
                 letterSpacing: .5,
               ),
@@ -95,10 +95,10 @@ class AboutPage extends StatelessWidget {
                     Text(
                       "Social Swap",
                       style: TextStyle(
-                        fontFamily: GoogleFonts.outfit().fontFamily,
+                        fontFamily: GoogleFonts.lobsterTwo().fontFamily,
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     Text(
@@ -107,7 +107,7 @@ class AboutPage extends StatelessWidget {
                         fontSize: 16,
                         color: Theme.of(context)
                             .colorScheme
-                            .secondary
+                            .tertiary
                             .withOpacity(0.7),
                         fontFamily: GoogleFonts.outfit().fontFamily,
                       ),
@@ -115,17 +115,17 @@ class AboutPage extends StatelessWidget {
                     const SizedBox(height: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
+                        horizontal: 16,
+                        vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).colorScheme.secondary,
-                        borderRadius: BorderRadius.circular(20),
+                        color: Theme.of(context).colorScheme.tertiary,
+                        borderRadius: BorderRadius.circular(24),
                       ),
                       child: const Text(
                         "v1.0.0",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFF1E3E62),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -389,10 +389,8 @@ class AboutPage extends StatelessWidget {
                   "© 2024 Social Swap. All rights reserved.",
                   style: TextStyle(
                     fontSize: 12,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.7),
+                    color:
+                        Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
                     fontFamily: GoogleFonts.outfit().fontFamily,
                   ),
                 ),
@@ -405,10 +403,8 @@ class AboutPage extends StatelessWidget {
                   "Made with ❤️ by Mahad Ghauri",
                   style: TextStyle(
                     fontSize: 12,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.7),
+                    color:
+                        Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
                     fontFamily: GoogleFonts.outfit().fontFamily,
                   ),
                 ),
@@ -440,9 +436,10 @@ class AboutPage extends StatelessWidget {
   Widget _buildCard(BuildContext context, {required Widget child}) {
     return Container(
       width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 8.0),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiary,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
@@ -463,20 +460,20 @@ class AboutPage extends StatelessWidget {
     required BuildContext context,
   }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(16),
             ),
             child: Icon(icon,
-                color: Theme.of(context).colorScheme.primary, size: 20),
+                color: Theme.of(context).colorScheme.primary, size: 22),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -512,17 +509,18 @@ class AboutPage extends StatelessWidget {
     required BuildContext context,
   }) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiary,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
         border: Border.all(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.2)),
+            color: Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
       ),
       child: Column(
         children: [
-          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 28),
-          const SizedBox(height: 8),
+          Icon(icon, color: Theme.of(context).colorScheme.primary, size: 32),
+          const SizedBox(height: 12),
           Text(
             title,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
@@ -541,37 +539,47 @@ class AboutPage extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
         child: Row(
           children: [
-            Icon(icon, color: Theme.of(context).colorScheme.primary),
-            const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                      fontSize: 14,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .secondary
-                          .withOpacity(0.7)),
-                ),
-                Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Icon(icon,
+                  color: Theme.of(context).colorScheme.primary, size: 22),
             ),
-            const Spacer(),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .tertiary
+                            .withOpacity(0.7)),
+                  ),
+                  Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.secondary.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.tertiary.withOpacity(0.4),
               size: 16,
             ),
           ],
