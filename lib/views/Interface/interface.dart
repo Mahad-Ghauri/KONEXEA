@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Authentication/login.dart';
+import 'package:social_swap/views/Interface/drawer_page.dart';
 import 'package:social_swap/views/Interface/feed_page.dart';
 import 'package:social_swap/views/Interface/news_page.dart';
 import 'package:social_swap/views/Interface/upload_page.dart';
@@ -22,8 +23,7 @@ class InterfacePage extends StatefulWidget {
 
 class _InterfacePageState extends State<InterfacePage> {
   bool _isLoading = false;
-
-  int _page = 0;
+  int _selectedIndex = 0;
 
   final List<Widget> _screens = [
     const FeedPage(),
@@ -38,311 +38,20 @@ class _InterfacePageState extends State<InterfacePage> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      drawer: Drawer(
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: DrawerHeader(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
-                child: Column(
-                  children: [
-                    Icon(
-                      FontAwesomeIcons.infinity,
-                      blendMode: BlendMode.dstOut,
-                      color: Theme.of(context).colorScheme.tertiary,
-                      size: height * 0.06,
-                    ),
-                    Text(
-                      'Social Swap',
-                      style: TextStyle(
-                        fontSize: height * 0.024,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: GoogleFonts.lobsterTwo().fontFamily,
-                        color: Theme.of(context).colorScheme.surface,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Iconsax.home,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              title: Text(
-                'Home',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
-                  fontSize: height * 0.02,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                ),
-              ),
-              onTap: () {
-                setState(() => _page = 0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Iconsax.add_circle,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              title: Text(
-                'Upload',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
-                  fontSize: height * 0.02,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                ),
-              ),
-              onTap: () {
-                setState(() => _page = 1);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Icons.public,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              title: Text(
-                'News',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
-                  fontSize: height * 0.02,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                ),
-              ),
-              onTap: () {
-                setState(() => _page = 2);
-                Navigator.pop(context);
-              },
-            ),
-            const Spacer(flex: 20),
-
-            Divider(color: Theme.of(context).colorScheme.tertiary),
-            // ListTile(
-            //   contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-            //   leading: Container(
-            //     padding: const EdgeInsets.all(8),
-            //     decoration: BoxDecoration(
-            //       color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-            //       borderRadius: BorderRadius.circular(12),
-            //     ),
-            //     child: Icon(
-            //       Iconsax.setting_2,
-            //       color: Theme.of(context).colorScheme.primary,
-            //       size: 20,
-            //     ),
-            //   ),
-            //   title: Text(
-            //     'Settings',
-            //     style: TextStyle(
-            //       color: Theme.of(context).colorScheme.tertiary,
-            //       fontSize: height * 0.02,
-            //       fontWeight: FontWeight.bold,
-            //       fontFamily: GoogleFonts.montserrat().fontFamily,
-            //     ),
-            //   ),
-            //   onTap: () {
-            //     Navigator.pop(context);
-            //     // TODO: Navigate to settings page
-            //   },
-            // ),
-            ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-              leading: Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Icon(
-                  Iconsax.info_circle,
-                  color: Theme.of(context).colorScheme.primary,
-                  size: 20,
-                ),
-              ),
-              title: Text(
-                'About',
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.tertiary,
-                  fontSize: height * 0.02,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.montserrat().fontFamily,
-                ),
-              ),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  _elegantRoute(const AboutPage()),
-                );
-              },
-            ),
-            Divider(color: Theme.of(context).colorScheme.tertiary),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              top: 0,
-              child: ListTile(
-                contentPadding: EdgeInsets.symmetric(horizontal: height * 0.02),
-                subtitle: Text(
-                  "See You Again Soon!",
-                  style: TextStyle(
-                    color: Colors.grey.shade600,
-                    fontFamily: GoogleFonts.urbanist().fontFamily,
-                  ),
-                ),
-                leading: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Icon(
-                    Iconsax.logout,
-                    color: Theme.of(context).colorScheme.primary,
-                    size: 20,
-                  ),
-                ),
-                title: Text(
-                  'Log Out',
-                  style: TextStyle(
-                    color: Theme.of(context).colorScheme.tertiary,
-                    fontSize: height * 0.02,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: GoogleFonts.montserrat().fontFamily,
-                  ),
-                ),
-                onTap: () async {
-                  Navigator.pop(context); // Close drawer first
-
-                  final bool? confirm = await showDialog<bool>(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        title: Text(
-                          'Sign Out',
-                          style: GoogleFonts.urbanist(
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                        ),
-                        content: Text(
-                          'Are you sure you want to sign out?',
-                          style: GoogleFonts.urbanist(color: Colors.grey[700]),
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(false),
-                            child: Text(
-                              'Cancel',
-                              style: GoogleFonts.urbanist(
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.of(context).pop(true),
-                            child: Text(
-                              'Sign Out',
-                              style: GoogleFonts.urbanist(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-
-                  if (confirm != true) return;
-
-                  setState(() {
-                    _isLoading = true;
-                  });
-
-                  try {
-                    final success =
-                        await _authController.signOutCurrentSession();
-                    if (success && mounted) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        _elegantRoute(const LoginPage()),
-                        (route) => false,
-                      );
-                    } else if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Failed to sign out. Please try again.',
-                          ),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  } catch (e) {
-                    if (mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('An error occurred while signing out.'),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                    }
-                  } finally {
-                    if (mounted) {
-                      setState(() {
-                        _isLoading = false;
-                      });
-                    }
-                  }
-                },
-              ),
-            ),
-          ],
-        ),
+      drawer: DrawerPage(
+        onPageSelected: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        currentPage: _selectedIndex,
+        authController: _authController,
+        isLoading: _isLoading,
+        setLoading: (value) {
+          setState(() {
+            _isLoading = value;
+          });
+        },
       ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
@@ -367,10 +76,9 @@ class _InterfacePageState extends State<InterfacePage> {
           ],
         ),
       ),
-      body: _screens[_page],
+      body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.primary,
-        // animationCurve: Curves.easeInCirc,
         buttonBackgroundColor: Theme.of(context).colorScheme.surface,
         color: Theme.of(context).colorScheme.surface,
         animationDuration: const Duration(milliseconds: 400),
@@ -379,18 +87,19 @@ class _InterfacePageState extends State<InterfacePage> {
           Icon(Iconsax.add_circle, color: Colors.white),
           Icon(Icons.public, color: Colors.white),
         ],
-        index: _page,
+        index: _selectedIndex,
         onTap: (index) {
           setState(() {
-            _page = index;
+            _selectedIndex = index;
           });
         },
       ),
     );
   }
 
-  PageRouteBuilder _elegantRoute(Widget page) {
+  PageRouteBuilder _elegantRoute(Widget page, String tag) {
     return PageRouteBuilder(
+      settings: RouteSettings(name: tag),
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
