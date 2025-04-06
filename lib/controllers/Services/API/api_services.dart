@@ -41,8 +41,8 @@ class ApiServices extends ChangeNotifier {
       );
       final translatedText = await translator.translateText(text);
       return translatedText;
-    } catch (e) {
-      log("Translation error: ${e.toString()}");
+    } catch (error) {
+      log("Translation error: ${error.toString()}");
       return text; // Return original text if translation fails
     }
   }
@@ -66,8 +66,8 @@ class ApiServices extends ChangeNotifier {
         publishedAt: article.publishedAt,
         content: translatedContent,
       );
-    } catch (e) {
-      log("Article translation error: ${e.toString()}");
+    } catch (error) {
+      log("Article translation error: ${error.toString()}");
       return article; // Return original article if translation fails
     }
   }
@@ -223,8 +223,8 @@ class ApiServices extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
       return [];
-    } on TimeoutException catch (e) {
-      log("Request timed out: ${e.toString()}");
+    } on TimeoutException catch (error) {
+      log("Request timed out: ${error.toString()}");
       errorMessage = "Request timed out. Try again later";
       isLoading = false;
       notifyListeners();

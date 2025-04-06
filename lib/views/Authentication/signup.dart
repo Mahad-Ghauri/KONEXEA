@@ -283,7 +283,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                             MainAxisAlignment.center,
                                         children: [
                                           const Text(
-                                            'Already have not account?',
+                                            'Already have an account?',
                                             style: TextStyle(
                                               color: Colors.white,
                                             ),
