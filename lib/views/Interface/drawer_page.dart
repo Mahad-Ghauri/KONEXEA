@@ -230,7 +230,8 @@ class DrawerPage extends StatelessWidget {
                     ),
                     content: Text(
                       'Are you sure you want to sign out?',
-                      style: GoogleFonts.urbanist(color: Colors.grey[700]),
+                      style: GoogleFonts.urbanist(
+                          color: Theme.of(context).colorScheme.tertiary),
                     ),
                     actions: [
                       TextButton(
@@ -238,7 +239,7 @@ class DrawerPage extends StatelessWidget {
                         child: Text(
                           'Cancel',
                           style: GoogleFonts.urbanist(
-                            color: Colors.grey[600],
+                            color: Theme.of(context).colorScheme.tertiary,
                           ),
                         ),
                       ),
