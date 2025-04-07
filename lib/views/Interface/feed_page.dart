@@ -104,7 +104,26 @@ class _FeedPageState extends State<FeedPage>
             },
           ),
           FloatingActionButton(
-            child: const Icon(Icons.hub, color: Colors.black),
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            elevation: 0,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.yellow.shade800,
+                  width: 2,
+                ),
+              ),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(3.0),
+                  child: Icon(
+                    Icons.shopping_bag_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
             onPressed: () {
               Navigator.of(context).push(_elegantRoute(const PHubInterface()));
             },

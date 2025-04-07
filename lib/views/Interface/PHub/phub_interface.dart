@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:social_swap/controllers/Services/P-Hub%20Interface/interface_services.dart';
@@ -38,19 +37,33 @@ class _PHubInterfaceState extends State<PHubInterface>
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Row(
-          spacing: 15,
           children: [
-            Icon(
-              FontAwesomeIcons.infinity,
-              color: Theme.of(context).colorScheme.primary,
+            Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.yellow.shade800,
+                  width: 2,
+                ),
+              ),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(3.0),
+                  child: Icon(
+                    Icons.shopping_bag_rounded,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
+            const SizedBox(width: 15), // Instead of spacing in Row
             Text(
-              'Products Hub',
+              'Products Hub By ShopEase',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.primary,
                 fontFamily: GoogleFonts.lobsterTwo().fontFamily,
                 letterSpacing: 1.5,
-                fontSize: 24,
+                fontSize: 19,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -98,12 +111,12 @@ class _PHubInterfaceState extends State<PHubInterface>
               },
             ),
             Text(
-              "Featured Categories",
+              "Featured Categories - ShopEase",
               style: TextStyle(
                 color: Theme.of(context).colorScheme.tertiary,
                 fontFamily: GoogleFonts.outfit().fontFamily,
                 fontWeight: FontWeight.bold,
-                fontSize: MediaQuery.sizeOf(context).height * 0.024,
+                fontSize: MediaQuery.sizeOf(context).height * 0.022,
               ),
             ),
             Consumer<InterfaceServices>(
@@ -119,7 +132,7 @@ class _PHubInterfaceState extends State<PHubInterface>
                       backgroundImage:
                           interfaceProvider.categoriesImages[index],
                       title: interfaceProvider.categoriesNames[index],
-                      onTap: () ,
+                      onTap: () {},
                     );
                   },
                 ),
