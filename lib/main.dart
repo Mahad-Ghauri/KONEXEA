@@ -6,6 +6,7 @@ import 'package:social_swap/consts.dart';
 import 'package:social_swap/controllers/Services/API/api_services.dart';
 import 'package:social_swap/controllers/Services/Chatbot/chatbot_services.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
+import 'package:social_swap/controllers/Services/P-Hub%20Interface/interface_services.dart';
 import 'package:social_swap/firebase_options.dart';
 import 'package:social_swap/utils/theme.dart';
 import 'package:social_swap/views/Authentication/auth_gate.dart';
@@ -16,33 +17,33 @@ Future<void> main() async {
   //  initialize firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
-        log("Firebase Initialization Completed");
-        Supabase.initialize(url: url, anonKey: anonKey)
-            .then((value) {
-              log("Supabase Initialized");
+    log("Firebase Initialization Completed");
+    Supabase.initialize(url: url, anonKey: anonKey).then((value) {
+      log("Supabase Initialized");
 
-              runApp(
-                MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(create: (context) => ApiServices()),
-                    ChangeNotifierProvider(create: (context) => FeedServices()),
-                    ChangeNotifierProvider(
-                      create: (context) => ChatbotController(),
-                    ),
-                  ],
-                  child: const MainApp(),
-                ),
-              );
-            })
-            .onError((error, stackTrace) {
-              log(error.toString());
-              log(stackTrace.toString());
-            });
-      })
-      .onError((error, stackTrace) {
-        log(error.toString());
-        log(stackTrace.toString());
-      });
+      runApp(
+        MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => ApiServices()),
+            ChangeNotifierProvider(create: (context) => FeedServices()),
+            ChangeNotifierProvider(
+              create: (context) => ChatbotController(),
+            ),
+            ChangeNotifierProvider(
+              create: (context) => InterfaceServices(),
+            ),
+          ],
+          child: const MainApp(),
+        ),
+      );
+    }).onError((error, stackTrace) {
+      log(error.toString());
+      log(stackTrace.toString());
+    });
+  }).onError((error, stackTrace) {
+    log(error.toString());
+    log(stackTrace.toString());
+  });
 }
 
 class MainApp extends StatelessWidget {
@@ -54,7 +55,6 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Social Swap',
       theme: lightMode,
-
       home: const AuthGate(),
     );
   }

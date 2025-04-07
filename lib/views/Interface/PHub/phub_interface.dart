@@ -1,6 +1,10 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:social_swap/controllers/Services/P-Hub%20Interface/interface_services.dart';
+import 'package:social_swap/views/components/categories_components.dart';
 // import 'package:iconsax/iconsax.dart';
 
 class PHubInterface extends StatefulWidget {
@@ -60,14 +64,67 @@ class _PHubInterfaceState extends State<PHubInterface>
           crossAxisAlignment: CrossAxisAlignment.start,
           spacing: 15,
           children: [
+            Consumer<InterfaceServices>(
+              builder: (context, interfaceProvider, child) {
+                return CarouselSlider(
+                  items: interfaceProvider.carouselItems
+                      .map(
+                        (items) => Container(
+                          margin: const EdgeInsets.all(5.0),
+                          child: ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5.0)),
+                            child: Image.asset(
+                              items,
+                              fit: BoxFit.cover,
+                              width: 1000.0,
+                            ),
+                          ),
+                        ),
+                      )
+                      .toList(),
+                  options: CarouselOptions(
+                    height: 180.0,
+                    enlargeCenterPage: true,
+                    autoPlay: true,
+                    aspectRatio: 16 / 9,
+                    autoPlayCurve: Curves.fastOutSlowIn,
+                    enableInfiniteScroll: true,
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
+                    viewportFraction: 0.9,
+                  ),
+                );
+              },
+            ),
             Text(
-              "Explore the latest products and trends",
+              "Featured Categories",
               style: TextStyle(
-                color: Colors.white,
-                fontFamily: GoogleFonts.poppins().fontFamily,
-                fontSize: MediaQuery.sizeOf(context).height * 0.034,
+                color: Theme.of(context).colorScheme.tertiary,
+                fontFamily: GoogleFonts.outfit().fontFamily,
+                fontWeight: FontWeight.bold,
+                fontSize: MediaQuery.sizeOf(context).height * 0.024,
               ),
             ),
+            Consumer<InterfaceServices>(
+                builder: (context, interfaceProvider, child) {
+              return Expanded(
+                child: GridView.builder(
+                  itemCount: interfaceProvider.categoriesNames.length,
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    return LargeCategoryTile(
+                      backgroundImage:
+                          interfaceProvider.categoriesImages[index],
+                      title: interfaceProvider.categoriesNames[index],
+                      onTap: () ,
+                    );
+                  },
+                ),
+              );
+            })
           ],
         ),
       ),
