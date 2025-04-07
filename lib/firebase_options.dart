@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -50,19 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDMdxbBtdnlc_Y6Qr-jp3qZ3p_sFl_RCFk',
-    appId: '1:721686320349:android:dc56a611fa0ea1de0d7734',
-    messagingSenderId: '721686320349',
-    projectId: 'social-swap-de87d',
-    storageBucket: 'social-swap-de87d.firebasestorage.app',
+    apiKey: 'AIzaSyBC09k0xabUc8WnADfIghnFwnEb1tUReHw',
+    appId: '1:374369228221:android:73bcf85742300807a6eed4',
+    messagingSenderId: '374369228221',
+    projectId: 'shop-ease-bc288',
+    storageBucket: 'shop-ease-bc288.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAJL_MZZQQLM_siHgnTtPxdRiekQkYuNfI',
-    appId: '1:721686320349:ios:b4c6dece1f53646b0d7734',
-    messagingSenderId: '721686320349',
-    projectId: 'social-swap-de87d',
-    storageBucket: 'social-swap-de87d.firebasestorage.app',
+    apiKey: 'AIzaSyDO_YR85r1C47isvPi3933Ih-bllEQtZCE',
+    appId: '1:374369228221:ios:784b72c246cabedca6eed4',
+    messagingSenderId: '374369228221',
+    projectId: 'shop-ease-bc288',
+    storageBucket: 'shop-ease-bc288.firebasestorage.app',
     iosBundleId: 'com.example.socialSwap',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyACvmOprFO6fPynRmQXLjI8vxECrNOj4go',
+    appId: '1:374369228221:web:572864c77c047516a6eed4',
+    messagingSenderId: '374369228221',
+    projectId: 'shop-ease-bc288',
+    authDomain: 'shop-ease-bc288.firebaseapp.com',
+    storageBucket: 'shop-ease-bc288.firebasestorage.app',
+    measurementId: 'G-PK044BZLC4',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDO_YR85r1C47isvPi3933Ih-bllEQtZCE',
+    appId: '1:374369228221:ios:784b72c246cabedca6eed4',
+    messagingSenderId: '374369228221',
+    projectId: 'shop-ease-bc288',
+    storageBucket: 'shop-ease-bc288.firebasestorage.app',
+    iosBundleId: 'com.example.socialSwap',
+  );
+
 }

@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:social_swap/views/components/about_components.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:social_swap/views/Interface/components/about_components.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});

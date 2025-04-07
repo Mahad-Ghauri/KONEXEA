@@ -1,13 +1,70 @@
 {
   "project_info": {
-    "project_number": "721686320349",
-    "project_id": "social-swap-de87d",
-    "storage_bucket": "social-swap-de87d.firebasestorage.app"
+    "project_number": "374369228221",
+    "project_id": "shop-ease-bc288",
+    "storage_bucket": "shop-ease-bc288.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:721686320349:android:dc56a611fa0ea1de0d7734",
+        "mobilesdk_app_id": "1:374369228221:android:f9d74d252fe4ac24a6eed4",
+        "android_client_info": {
+          "package_name": "com.example.admin_shop_ease"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC09k0xabUc8WnADfIghnFwnEb1tUReHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374369228221:android:396bd70ed70a16a3a6eed4",
+        "android_client_info": {
+          "package_name": "com.example.auth_screens"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC09k0xabUc8WnADfIghnFwnEb1tUReHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374369228221:android:349a97666ea6d863a6eed4",
+        "android_client_info": {
+          "package_name": "com.example.seller_center"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC09k0xabUc8WnADfIghnFwnEb1tUReHw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374369228221:android:73bcf85742300807a6eed4",
         "android_client_info": {
           "package_name": "com.example.social_swap"
         }
@@ -15,7 +72,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDMdxbBtdnlc_Y6Qr-jp3qZ3p_sFl_RCFk"
+          "current_key": "AIzaSyBC09k0xabUc8WnADfIghnFwnEb1tUReHw"
         }
       ],
       "services": {
