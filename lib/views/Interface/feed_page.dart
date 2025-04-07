@@ -6,6 +6,7 @@ import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:social_swap/views/Interface/PHub/phub_interface.dart';
 import 'package:social_swap/views/Interface/chatbot_page.dart';
 import 'package:social_swap/views/Interface/upload_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -105,7 +106,7 @@ class _FeedPageState extends State<FeedPage>
           FloatingActionButton(
             child: const Icon(Icons.hub, color: Colors.black),
             onPressed: () {
-              //  Navigate to Product Hub
+              Navigator.of(context).push(_elegantRoute(const PHubInterface()));
             },
           ),
         ],
