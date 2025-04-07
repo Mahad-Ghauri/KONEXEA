@@ -254,24 +254,24 @@ class _FeedPageState extends State<FeedPage>
             ),
           ),
           const SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(_elegantRoute(const UploadPage()));
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-            ),
-            icon: const Icon(Iconsax.add_circle),
-            label: Text(
-              'Create Post',
-              style: GoogleFonts.urbanist(fontWeight: FontWeight.w600),
-            ),
-          ),
+          // ElevatedButton.icon(
+          //   onPressed: () {
+          //     Navigator.of(context).push(_elegantRoute(const UploadPage()));
+          //   },
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: Theme.of(context).colorScheme.primary,
+          //     foregroundColor: Colors.white,
+          //     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(30),
+          //     ),
+          //   ),
+          //   icon: const Icon(Iconsax.add_circle),
+          //   label: Text(
+          //     'Create Post',
+          //     style: GoogleFonts.urbanist(fontWeight: FontWeight.w600),
+          //   ),
+          // ),
         ],
       ),
     );
