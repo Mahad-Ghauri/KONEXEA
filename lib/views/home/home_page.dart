@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Social Swap'), centerTitle: true),
-      body: const Center(
+      body: Center(
         child: Text(
           'Welcome to Social Swap!',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold , fontFamily: GoogleFonts.outfit().fontFamily),
