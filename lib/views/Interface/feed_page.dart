@@ -8,7 +8,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:social_swap/views/Interface/PHub/phub_interface.dart';
 import 'package:social_swap/views/Interface/chatbot_page.dart';
-import 'package:social_swap/views/Interface/upload_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
 
