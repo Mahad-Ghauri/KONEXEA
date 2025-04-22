@@ -45,7 +45,7 @@ class AboutPage extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
-                  Icons.info_outline_rounded,
+                  Icons.info,
                   color: Theme.of(context).colorScheme.tertiary,
                 ),
               ),
@@ -127,13 +127,16 @@ class AboutPage extends StatelessWidget {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).colorScheme.tertiary,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .tertiary
+                              .withOpacity(0.2),
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: const Text(
                           "v1.0.0",
                           style: TextStyle(
-                            color: Color(0xFF1E3E62),
+                            color: Color(0xFFFFFDD0),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -156,7 +159,7 @@ class AboutPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 16,
                         height: 1.5,
-                        color: Theme.of(context).colorScheme.secondary,
+                        color: Theme.of(context).colorScheme.tertiary,
                         fontFamily: GoogleFonts.outfit().fontFamily,
                       ),
                     ),
@@ -313,12 +316,12 @@ class AboutPage extends StatelessWidget {
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                        Theme.of(context).colorScheme.surface,
                                   ),
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 16),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -352,6 +355,8 @@ class AboutPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: 15),
+                // Developer 2
                 AboutComponents.buildCard(
                   context,
                   child: Padding(
@@ -377,7 +382,7 @@ class AboutPage extends StatelessWidget {
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color:
-                                        Theme.of(context).colorScheme.primary,
+                                        Theme.of(context).colorScheme.surface,
                                   ),
                                 ),
                               ),

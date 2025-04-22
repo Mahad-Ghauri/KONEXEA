@@ -8,7 +8,7 @@ ThemeData lightMode = ThemeData(
   colorScheme: const ColorScheme.light(
     surface: Color(0xFFFFFDD0),
     primary: Color(0xFF228B22),
-    // secondary: Color(0xFF1E3E62),
+    secondary: Color(0xFF556B2F),
     tertiary: Color(0xFF1C1C1C),
   ),
 );
