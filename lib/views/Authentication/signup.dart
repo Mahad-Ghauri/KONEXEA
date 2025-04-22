@@ -65,7 +65,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: Stack(
         children: [
           Positioned.fill(
-            child: Container(color: Colors.black.withOpacity(0.5)),
+            child: Container(color: Colors.black.withOpacity(0.35)),
           ),
           SingleChildScrollView(
             child: SizedBox(
@@ -81,43 +81,43 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.infinity,
-                                  size: height * 0.07,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                Text(
-                                  '  Social Swap',
-                                  style: GoogleFonts.italiana(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                    letterSpacing: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(bottom: 30),
+                          //   child: Column(
+                          //     children: [
+                          //       Icon(
+                          //         FontAwesomeIcons.infinity,
+                          //         size: height * 0.07,
+                          //         color: Theme.of(context).colorScheme.primary,
+                          //       ),
+                          //       Text(
+                          //         '  Social Swap',
+                          //         style: GoogleFonts.italiana(
+                          //           fontSize: 32,
+                          //           fontWeight: FontWeight.w700,
+                          //           color:
+                          //               Theme.of(context).colorScheme.tertiary,
+                          //           letterSpacing: 1.5,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                           Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                // Simple underglow effect
-                                BoxShadow(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.primary.withOpacity(0.6),
-                                  blurRadius: 8,
-                                  spreadRadius: 0,
-                                  offset: const Offset(0, 0),
-                                ),
-                              ],
-                            ),
+                            // decoration: BoxDecoration(
+                            //   borderRadius: BorderRadius.circular(25),
+                            //   boxShadow: [
+                            //     // Simple underglow effect
+                            //     BoxShadow(
+                            //       color: Theme.of(
+                            //         context,
+                            //       ).colorScheme.primary.withOpacity(0.6),
+                            //       blurRadius: 8,
+                            //       spreadRadius: 0,
+                            //       offset: const Offset(0, 0),
+                            //     ),
+                            //   ],
+                            // ),
                             child: Card(
                               elevation: 10,
                               shape: RoundedRectangleBorder(
@@ -282,10 +282,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
                                         children: [
-                                          const Text(
+                                          Text(
                                             'Already have an account?',
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .tertiary,
                                             ),
                                           ),
                                           TextButton(

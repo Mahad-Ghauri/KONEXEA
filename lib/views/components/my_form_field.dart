@@ -79,16 +79,15 @@ class _MyFormFieldState extends State<MyFormField>
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            boxShadow:
-                _isFocused
-                    ? [
-                      BoxShadow(
-                        color: colorScheme.primary.withOpacity(0.3),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
-                      ),
-                    ]
-                    : null,
+            boxShadow: _isFocused
+                ? [
+                    BoxShadow(
+                      color: colorScheme.primary.withOpacity(0.3),
+                      blurRadius: 8,
+                      offset: const Offset(0, 4),
+                    ),
+                  ]
+                : null,
           ),
           child: TextFormField(
             controller: widget.controller,
@@ -111,38 +110,37 @@ class _MyFormFieldState extends State<MyFormField>
                 fontFamily: GoogleFonts.urbanist().fontFamily,
               ),
               hintStyle:
-                  widget.hintStyle ??
-                  TextStyle(color: _isFocused ? Colors.black : Colors.white),
+                  widget.hintStyle ?? const TextStyle(color: Colors.black),
               labelText: widget.labelText,
               labelStyle: TextStyle(
-                color:
-                    _isFocused
-                        ? colorScheme.primary
-                        : colorScheme.onSurface.withOpacity(0.6),
+                color: _isFocused
+                    ? colorScheme.primary
+                    : colorScheme.onSurface.withOpacity(0.6),
                 fontWeight: _isFocused ? FontWeight.bold : FontWeight.normal,
               ),
-              prefixIcon:
-                  widget.prefixIcon != null
-                      ? Icon(
-                        widget.prefixIcon,
-                        color: _isFocused ? colorScheme.primary : Colors.white,
-                      )
-                      : null,
-              suffixIcon:
-                  widget.obscureText
-                      ? IconButton(
-                        icon: Icon(
-                          _isObscured ? Icons.visibility_off : Icons.visibility,
-                          color: colorScheme.primary.withOpacity(0.7),
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isObscured = !_isObscured;
-                          });
-                        },
-                      )
-                      : null,
-
+              prefixIcon: widget.prefixIcon != null
+                  ? Icon(
+                      widget.prefixIcon,
+                      color: _isFocused
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.tertiary,
+                    )
+                  : null,
+              suffixIcon: widget.obscureText
+                  ? IconButton(
+                      icon: Icon(
+                        _isObscured ? Icons.visibility_off : Icons.visibility,
+                        color: _isFocused
+                            ? colorScheme.primary.withOpacity(0.7)
+                            : colorScheme.tertiary.withOpacity(0.6),
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isObscured = !_isObscured;
+                        });
+                      },
+                    )
+                  : null,
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(
@@ -163,10 +161,9 @@ class _MyFormFieldState extends State<MyFormField>
                 borderSide: BorderSide(color: colorScheme.error, width: 2),
               ),
               filled: true,
-              fillColor:
-                  _isFocused
-                      ? colorScheme.surface
-                      : colorScheme.surfaceVariant.withOpacity(0.3),
+              fillColor: _isFocused
+                  ? colorScheme.surface
+                  : colorScheme.surfaceVariant.withOpacity(0.3),
             ),
           ),
         ),

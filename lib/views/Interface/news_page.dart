@@ -52,29 +52,6 @@ class _NewsPageState extends State<NewsPage> {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
-
-          // appBar: AppBar(
-
-          //   backgroundColor: Theme.of(
-          //     context,
-          //   ).colorScheme.surface.withOpacity(0.7),
-          //   elevation: 0,
-          //   centerTitle: true,
-          //   title: Text(
-          //     'News',
-          //     style: GoogleFonts.urbanist(
-          //       color: Colors.white,
-          //       fontWeight: FontWeight.w600,
-          //       fontSize: 20,
-          //     ),
-          //   ),
-          //   actions: [
-          //     IconButton(
-          //       icon: const Icon(Icons.more_vert, color: Colors.white),
-          //       onPressed: () {},
-          //     ),
-          //   ],
-          // ),
           body: Column(
             children: [
               Padding(
@@ -89,7 +66,7 @@ class _NewsPageState extends State<NewsPage> {
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
-                    fillColor: Theme.of(context).colorScheme.tertiary,
+                    fillColor: Theme.of(context).colorScheme.primary,
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
@@ -190,10 +167,9 @@ class _NewsPageState extends State<NewsPage> {
 
   void _performSearch() {
     setState(() {
-      _searchQuery =
-          _searchController.text.trim().isEmpty
-              ? "tesla"
-              : _searchController.text.trim();
+      _searchQuery = _searchController.text.trim().isEmpty
+          ? "tesla"
+          : _searchController.text.trim();
     });
     _fetchNewsWithCurrentFilters();
   }

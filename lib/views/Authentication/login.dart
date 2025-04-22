@@ -73,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           // Dark Overlay for better contrast
           Positioned.fill(
-            child: Container(color: Colors.black.withOpacity(0.5)),
+            child: Container(color: Colors.black.withOpacity(0.35)),
           ),
 
           // Login Card
@@ -91,44 +91,46 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 30),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  FontAwesomeIcons.infinity,
-                                  size: height * 0.09,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                                // const SizedBox(height: 5),
-                                Text(
-                                  '  Social Swap',
-                                  style: GoogleFonts.italiana(
-                                    fontSize: 32,
-                                    fontWeight: FontWeight.w700,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                    letterSpacing: 1.5,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(25),
-                                boxShadow: [
-                                  // Simple underglow effect
-                                  BoxShadow(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary.withOpacity(0.6),
-                                    blurRadius: 8,
-                                    spreadRadius: 0,
-                                    offset: const Offset(0, 0),
-                                  ),
-                                ],
-                              ),
+                          //--------------Logo--------------//
+                          // Padding(
+                          //   padding: const EdgeInsets.only(bottom: 30),
+                          //   child: Column(
+                          //     children: [
+                          //       Icon(
+                          //         FontAwesomeIcons.infinity,
+                          //         size: height * 0.09,
+                          //         color: Theme.of(context).colorScheme.primary,
+                          //       ),
+                          //       // const SizedBox(height: 5),
+                          //       Text(
+                          //         '  Social Swap',
+                          //         style: GoogleFonts.italiana(
+                          //           fontSize: 32,
+                          //           fontWeight: FontWeight.w700,
+                          //           color:
+                          //               Theme.of(context).colorScheme.tertiary,
+                          //           letterSpacing: 1.5,
+                          //         ),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          Container(
+                            //-------------Underglow Card--------------//
+                            // decoration: BoxDecoration(
+                            //   borderRadius: BorderRadius.circular(25),
+                            //   boxShadow: [
+                            //     // Simple underglow effect
+                            //     BoxShadow(
+                            //       color: Theme.of(
+                            //         context,
+                            //       ).colorScheme.primary.withOpacity(0.6),
+                            //       blurRadius: 8,
+                            //       spreadRadius: 0,
+                            //       offset: const Offset(0, 0),
+                            //     ),
+                            //   ],
+                            // ),
                             child: Card(
                               elevation: 10,
                               shape: RoundedRectangleBorder(
