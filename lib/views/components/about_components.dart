@@ -23,11 +23,11 @@ class AboutComponents {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 2.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.3),
+        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.1),
             blurRadius: 10,
             spreadRadius: 0,
             offset: const Offset(0, 2),
@@ -75,10 +75,7 @@ class AboutComponents {
                   description,
                   style: TextStyle(
                       fontSize: 14,
-                      color: Theme.of(context)
-                          .colorScheme
-                          .surface
-                          .withOpacity(0.7)),
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
               ],
             ),
@@ -163,7 +160,7 @@ class AboutComponents {
             ),
             Icon(
               Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.tertiary.withOpacity(0.4),
+              color: Theme.of(context).colorScheme.secondary,
               size: 16,
             ),
           ],
