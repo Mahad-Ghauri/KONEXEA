@@ -19,26 +19,28 @@ Widget buildFeaturedNewsCard(dynamic article) {
           children: [
             AspectRatio(
               aspectRatio: 16 / 9,
-              child:
-                  article.image.isNotEmpty
-                      ? Image.network(
-                        article.image,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Colors.blue[50],
-                            child: const Center(
-                              child: Icon(Icons.image, color: Colors.blue),
-                            ),
-                          );
-                        },
-                      )
-                      : Container(
-                        color: Colors.blue[50],
-                        child: const Center(
-                          child: Icon(Icons.image, color: Colors.blue),
-                        ),
+              child: article.image.isNotEmpty
+                  ? Image.network(
+                      article.image,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .tertiary
+                              .withOpacity(0.2),
+                          child: const Center(
+                            child: Icon(Icons.image, color: Color(0xFF1C1C1C)),
+                          ),
+                        );
+                      },
+                    )
+                  : Container(
+                      color: Colors.blue[50],
+                      child: const Center(
+                        child: Icon(Icons.image, color: Colors.blue),
                       ),
+                    ),
             ),
             Positioned(
               bottom: 0,
@@ -104,7 +106,7 @@ Widget buildFeaturedNewsCard(dynamic article) {
   );
 }
 
-Widget buildStandardNewsCard(dynamic article) {
+Widget buildStandardNewsCard(BuildContext context, dynamic article) {
   return Card(
     margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
     elevation: 2,
@@ -132,32 +134,37 @@ Widget buildStandardNewsCard(dynamic article) {
               child: SizedBox(
                 width: 100,
                 height: 100,
-                child:
-                    article.image.isNotEmpty
-                        ? Image.network(
-                          article.image,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) {
-                            return Container(
-                              color: const Color(0xFFD6EFFF),
-                              child: const Center(
-                                child: Icon(
-                                  Iconsax.gallery,
-                                  color: Color(0xFF1E3E62),
-                                ),
+                child: article.image.isNotEmpty
+                    ? Image.network(
+                        article.image,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) {
+                          return Container(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .tertiary
+                                .withOpacity(0.2),
+                            child: const Center(
+                              child: Icon(
+                                Iconsax.gallery,
+                                color: Color(0xFF1E3E62),
                               ),
-                            );
-                          },
-                        )
-                        : Container(
-                          color: const Color(0xFF1E3E62),
-                          child: const Center(
-                            child: Icon(
-                              Iconsax.gallery,
-                              color: Color(0xFF1E3E62),
                             ),
+                          );
+                        },
+                      )
+                    : Container(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .tertiary
+                            .withOpacity(0.2),
+                        child: const Center(
+                          child: Icon(
+                            Iconsax.gallery,
+                            color: Color(0xFF1E3E62),
                           ),
                         ),
+                      ),
               ),
             ),
             const SizedBox(width: 12),
@@ -171,7 +178,7 @@ Widget buildStandardNewsCard(dynamic article) {
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
                       height: 1.4,
-                      color: const Color(0xFFD6EFFF),
+                      color: const Color(0xFF1C1C1C),
                       letterSpacing: 0.1,
                     ),
                     maxLines: 2,
@@ -187,13 +194,13 @@ Widget buildStandardNewsCard(dynamic article) {
                           vertical: 4,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFD6EFFF).withOpacity(0.2),
+                          color: const Color(0xFF1C1C1C).withOpacity(0.2),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
                           article.source.name,
                           style: GoogleFonts.urbanist(
-                            color: const Color(0xFFD6EFFF),
+                            color: const Color(0xFF1C1C1C),
                             fontWeight: FontWeight.w600,
                             fontSize: 12,
                           ),
@@ -202,7 +209,7 @@ Widget buildStandardNewsCard(dynamic article) {
                       Text(
                         formatDate(article.publishDate),
                         style: GoogleFonts.urbanist(
-                          color: const Color(0xFFD6EFFF).withOpacity(0.7),
+                          color: const Color(0xFF1C1C1C).withOpacity(0.7),
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                         ),

@@ -66,7 +66,8 @@ class _NewsPageState extends State<NewsPage> {
                       borderSide: BorderSide.none,
                     ),
                     filled: true,
-                    fillColor: Theme.of(context).colorScheme.primary,
+                    fillColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
@@ -143,7 +144,7 @@ class _NewsPageState extends State<NewsPage> {
                           final article = articles[index];
                           return index == 0
                               ? _buildFeaturedNewsCard(article)
-                              : _buildStandardNewsCard(article);
+                              : _buildStandardNewsCard(article, context);
                         },
                       ),
                     );
@@ -161,8 +162,8 @@ class _NewsPageState extends State<NewsPage> {
     return buildFeaturedNewsCard(article);
   }
 
-  Widget _buildStandardNewsCard(dynamic article) {
-    return buildStandardNewsCard(article);
+  Widget _buildStandardNewsCard(dynamic article, BuildContext context) {
+    return buildStandardNewsCard(context, article);
   }
 
   void _performSearch() {
