@@ -96,7 +96,7 @@ class _MyFormFieldState extends State<MyFormField>
             keyboardType: widget.keyboardType,
             validator: widget.validator,
             onChanged: widget.onChanged,
-            style: const TextStyle(fontSize: 16, color: Colors.white),
+            style: const TextStyle(fontSize: 16, color: Colors.black),
             cursorWidth: 2,
             cursorRadius: const Radius.circular(4),
             decoration: InputDecoration(

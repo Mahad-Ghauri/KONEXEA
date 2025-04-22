@@ -49,19 +49,19 @@ class _UploadPageState extends State<UploadPage>
       body: Stack(
         children: [
           // Enhanced background gradient
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  Colors.black.withOpacity(0.7),
-                  Colors.black.withOpacity(0.5),
-                  Colors.black.withOpacity(0.3),
-                ],
-              ),
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     gradient: LinearGradient(
+          //       begin: Alignment.topLeft,
+          //       end: Alignment.bottomRight,
+          //       colors: [
+          //         Colors.black.withOpacity(0.2),
+          //         Colors.black.withOpacity(0.2),
+          //         Colors.black.withOpacity(0.2),
+          //       ],
+          //     ),
+          //   ),
+          // ),
 
           // Content
           SafeArea(
@@ -81,6 +81,16 @@ class _UploadPageState extends State<UploadPage>
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .tertiary
+                                        .withOpacity(0.3),
+                                    blurRadius: 10,
+                                    // offset: const Offset(0, 4),
+                                  ),
+                                ],
                                 gradient: LinearGradient(
                                   colors: [
                                     Theme.of(
@@ -98,38 +108,35 @@ class _UploadPageState extends State<UploadPage>
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Center(
-                                  child:
-                                      value.image != null
-                                          ? Image.file(
-                                            value.image!,
-                                            fit: BoxFit.cover,
-                                          )
-                                          : Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Iconsax.gallery,
-                                                size: 48,
-                                                color:
-                                                    Theme.of(
-                                                      context,
-                                                    ).colorScheme.primary,
+                                  child: value.image != null
+                                      ? Image.file(
+                                          value.image!,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Iconsax.gallery,
+                                              size: 48,
+                                              color: Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                            ),
+                                            const SizedBox(height: 12),
+                                            Text(
+                                              'Tap to add image',
+                                              style: GoogleFonts.urbanist(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w500,
                                               ),
-                                              const SizedBox(height: 12),
-                                              Text(
-                                                'Tap to add image',
-                                                style: GoogleFonts.urbanist(
-                                                  color:
-                                                      Theme.of(
-                                                        context,
-                                                      ).colorScheme.primary,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
+                                        ),
                                 ),
                               ),
                             ),
@@ -155,7 +162,9 @@ class _UploadPageState extends State<UploadPage>
                                 child: Text(
                                   'Tell us what\'s on your mind?',
                                   style: GoogleFonts.urbanist(
-                                    color: Colors.white,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.tertiary,
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -166,7 +175,8 @@ class _UploadPageState extends State<UploadPage>
                               key: inputControllers.formKey,
                               child: TextFormField(
                                 style: GoogleFonts.urbanist(
-                                  color: Colors.white,
+                                  color: Theme.of(context).colorScheme.tertiary,
+                                  fontSize: width * 0.035,
                                 ),
                                 maxLines: 5,
                                 validator: (value) {
@@ -193,7 +203,9 @@ class _UploadPageState extends State<UploadPage>
                                   ).colorScheme.surface.withOpacity(0.3),
                                   hintText: 'Share your thoughts...',
                                   hintStyle: GoogleFonts.urbanist(
-                                    color: Colors.white.withOpacity(0.5),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.tertiary.withOpacity(0.5),
                                   ),
                                 ),
                               ),
@@ -212,7 +224,12 @@ class _UploadPageState extends State<UploadPage>
                                       );
                                     }
                                   },
-                                  text: 'Post',
+                                  text: 'Post'
+                                      ' ${inputControllers.loading ? '' : 'Now'}',
+                                  textStyle: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .surface),
                                 );
                               },
                             ),

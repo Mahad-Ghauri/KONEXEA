@@ -23,7 +23,7 @@ class PostCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       elevation: 2,
-      shadowColor: Colors.black.withOpacity(0.1),
+      // shadowColor: Colors.black.withOpacity(0.1),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,26 +32,25 @@ class PostCard extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
             child: AspectRatio(
               aspectRatio: 16 / 9,
-              child:
-                  imageUrl.isNotEmpty
-                      ? Image.network(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Container(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            child: const Center(
-                              child: Icon(Icons.image, color: Colors.white),
-                            ),
-                          );
-                        },
-                      )
-                      : Container(
-                        color: Theme.of(context).colorScheme.tertiary,
-                        child: const Center(
-                          child: Icon(Icons.image, color: Colors.white),
-                        ),
+              child: imageUrl.isNotEmpty
+                  ? Image.network(
+                      imageUrl,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          child: const Center(
+                            child: Icon(Icons.image, color: Colors.white),
+                          ),
+                        );
+                      },
+                    )
+                  : Container(
+                      color: Theme.of(context).colorScheme.tertiary,
+                      child: const Center(
+                        child: Icon(Icons.image, color: Colors.white),
                       ),
+                    ),
             ),
           ),
           Padding(
