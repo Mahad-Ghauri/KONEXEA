@@ -23,11 +23,11 @@ class AboutComponents {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 2.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiary,
+        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.3),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+            color: Theme.of(context).colorScheme.surface.withOpacity(0.2),
             blurRadius: 10,
             spreadRadius: 0,
             offset: const Offset(0, 2),
@@ -77,7 +77,7 @@ class AboutComponents {
                       fontSize: 14,
                       color: Theme.of(context)
                           .colorScheme
-                          .secondary
+                          .surface
                           .withOpacity(0.7)),
                 ),
               ],
@@ -97,10 +97,10 @@ class AboutComponents {
       padding: const EdgeInsets.all(16),
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiary,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-            color: Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
+        // border: Border.all(
+        //     color: Theme.of(context).colorScheme.secondary.withOpacity(0.3)),
       ),
       child: Column(
         children: [
