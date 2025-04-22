@@ -6,9 +6,9 @@ ThemeData lightMode = ThemeData(
   useMaterial3: true,
   fontFamily: GoogleFonts.outfit().fontFamily, // urbanist
   colorScheme: const ColorScheme.light(
-    surface: Color(0xFF1C1C1C),
-    primary: Color(0xFF00FF00),
+    surface: Color(0xFFFFFDD0),
+    primary: Color(0xFF228B22),
     secondary: Color(0xFF1E3E62),
-    tertiary: Color(0xFFD6EFFF),
+    tertiary: Color(0xFF1C1C1C),
   ),
 );

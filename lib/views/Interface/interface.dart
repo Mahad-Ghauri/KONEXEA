@@ -80,10 +80,11 @@ class _InterfacePageState extends State<InterfacePage> {
         buttonBackgroundColor: Theme.of(context).colorScheme.surface,
         color: Theme.of(context).colorScheme.surface,
         animationDuration: const Duration(milliseconds: 400),
-        items: const [
-          Icon(Iconsax.home, color: Colors.white),
-          Icon(Iconsax.add_circle, color: Colors.white),
-          Icon(Icons.public, color: Colors.white),
+        items: [
+          Icon(Iconsax.home, color: Theme.of(context).colorScheme.primary),
+          Icon(Iconsax.add_circle,
+              color: Theme.of(context).colorScheme.primary),
+          Icon(Icons.public, color: Theme.of(context).colorScheme.primary),
         ],
         index: _selectedIndex,
         onTap: (index) {
