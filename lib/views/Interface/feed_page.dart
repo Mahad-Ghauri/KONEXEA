@@ -98,20 +98,21 @@ class _FeedPageState extends State<FeedPage>
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            child: const Icon(Icons.chat_outlined, color: Colors.black),
+            child: const Icon(Icons.chat_outlined, color: Color(0xFFFFFDD0)),
             onPressed: () {
               //  Navigate to Chatbot
               Navigator.of(context).push(_elegantRoute(const ChatbotPage()));
             },
           ),
           FloatingActionButton(
-            backgroundColor: Theme.of(context).colorScheme.surface,
+            backgroundColor: Theme.of(context).colorScheme.primary,
             elevation: 0,
             child: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
+                // borderRadius: BorderRadius.circular(30),
                 border: Border.all(
-                  color: Colors.yellow.shade800,
+                  color: Color(0xFF228B22),
                   width: 2,
                 ),
               ),
@@ -120,7 +121,7 @@ class _FeedPageState extends State<FeedPage>
                   padding: EdgeInsets.all(3.0),
                   child: Icon(
                     Icons.shopping_bag_rounded,
-                    color: Colors.white,
+                    color: Color(0xFFFFFDD0),
                   ),
                 ),
               ),

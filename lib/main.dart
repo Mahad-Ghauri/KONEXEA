@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'dart:developer';
 import 'package:social_swap/consts.dart';
 import 'package:social_swap/controllers/Services/API/api_services.dart';
+// import 'package:social_swap/controllers/Services/Chat/chat_services.dart';
 import 'package:social_swap/controllers/Services/Chatbot/chatbot_services.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:social_swap/controllers/Services/P-Hub%20Interface/interface_services.dart';
@@ -26,6 +27,7 @@ Future<void> main() async {
           providers: [
             ChangeNotifierProvider(create: (context) => ApiServices()),
             ChangeNotifierProvider(create: (context) => FeedServices()),
+            // ChangeNotifierProvider(create: (context) => ChatServices()),
             ChangeNotifierProvider(
               create: (context) => ChatbotController(),
             ),
