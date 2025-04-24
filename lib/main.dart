@@ -23,6 +23,7 @@ Future<void> main() async {
       log("Supabase Initialized");
 
       runApp(
+        // Providers
         MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => ApiServices()),
