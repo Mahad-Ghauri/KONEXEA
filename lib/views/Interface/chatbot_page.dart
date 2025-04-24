@@ -140,10 +140,9 @@ class _ChatbotPageState extends State<ChatbotPage> {
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: Row(
-                              mainAxisAlignment:
-                                  isUser
-                                      ? MainAxisAlignment.end
-                                      : MainAxisAlignment.start,
+                              mainAxisAlignment: isUser
+                                  ? MainAxisAlignment.end
+                                  : MainAxisAlignment.start,
                               children: [
                                 if (!isUser) ...[
                                   CircleAvatar(
@@ -167,14 +166,20 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                       vertical: 12,
                                     ),
                                     decoration: BoxDecoration(
-                                      color:
-                                          isUser
-                                              ? Theme.of(
-                                                context,
-                                              ).colorScheme.tertiary
-                                              : Theme.of(
-                                                context,
-                                              ).colorScheme.secondary,
+                                      // The color of the container of the user text
+                                      color: isUser
+                                          ? Theme.of(
+                                              context,
+                                            )
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.7)
+                                          : Theme.of(
+                                              context,
+                                            )
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.7),
                                       borderRadius: BorderRadius.circular(20),
                                       boxShadow: [
                                         BoxShadow(
@@ -185,22 +190,22 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                       ],
                                     ),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          isUser
-                                              ? CrossAxisAlignment.end
-                                              : CrossAxisAlignment.start,
+                                      crossAxisAlignment: isUser
+                                          ? CrossAxisAlignment.end
+                                          : CrossAxisAlignment.start,
                                       children: [
+                                        //Color of the text of the user and chatbot in the basis of the condition
                                         Text(
                                           message['text'] ?? '',
                                           style: GoogleFonts.urbanist(
                                             fontWeight: FontWeight.bold,
-
-                                            color:
-                                                isUser
-                                                    ? Colors.black
-                                                    : Theme.of(
-                                                      context,
-                                                    ).colorScheme.tertiary,
+                                            color: isUser
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .surface
+                                                : Theme.of(
+                                                    context,
+                                                  ).colorScheme.surface,
                                           ),
                                         ),
                                         if (isLastMessage && chatbot.isLoading)
@@ -214,20 +219,21 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                                 SizedBox(
                                                   width: 16,
                                                   height: 16,
-                                                  child: CircularProgressIndicator(
+                                                  child:
+                                                      CircularProgressIndicator(
                                                     strokeWidth: 2,
                                                     valueColor:
                                                         AlwaysStoppedAnimation<
-                                                          Color
-                                                        >(
-                                                          isUser
-                                                              ? Colors.white
-                                                              : Theme.of(
-                                                                    context,
-                                                                  )
-                                                                  .colorScheme
-                                                                  .primary,
-                                                        ),
+                                                            Color>(
+                                                      isUser
+                                                          ? Colors.white
+                                                          : Theme.of(
+                                                              context,
+                                                            )
+                                                              .colorScheme
+                                                              .primary
+                                                              .withOpacity(0.5),
+                                                    ),
                                                   ),
                                                 ),
                                                 const SizedBox(width: 8),
@@ -235,15 +241,16 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                                   'Thinking...',
                                                   style: GoogleFonts.urbanist(
                                                     fontSize: 12,
-                                                    color:
-                                                        isUser
-                                                            ? Colors.white70
-                                                            : Theme.of(context)
-                                                                .colorScheme
-                                                                .tertiary
-                                                                .withOpacity(
-                                                                  0.7,
-                                                                ),
+                                                    color: isUser
+                                                        ? Theme.of(context)
+                                                            .colorScheme
+                                                            .tertiary
+                                                        : Theme.of(context)
+                                                            .colorScheme
+                                                            .tertiary
+                                                            .withOpacity(
+                                                              0.7,
+                                                            ),
                                                   ),
                                                 ),
                                               ],
@@ -259,7 +266,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                     radius: 16,
                                     backgroundColor: Theme.of(
                                       context,
-                                    ).colorScheme.primary.withOpacity(0.1),
+                                    ).colorScheme.primary.withOpacity(0.5),
                                     child: Icon(
                                       Iconsax.profile_circle,
                                       size: 16,
@@ -324,27 +331,26 @@ class _ChatbotPageState extends State<ChatbotPage> {
                       Consumer<ChatbotController>(
                         builder: (context, chatbot, _) {
                           return FloatingActionButton(
-                            onPressed:
-                                chatbot.isLoading
-                                    ? null
-                                    : () {
-                                      if (_messageController.text
-                                          .trim()
-                                          .isNotEmpty) {
-                                        chatbot.fetchResponse(
-                                          _messageController.text.trim(),
-                                        );
-                                        _messageController.clear();
-                                        _scrollToBottom();
-                                      }
-                                    },
+                            onPressed: chatbot.isLoading
+                                ? null
+                                : () {
+                                    if (_messageController.text
+                                        .trim()
+                                        .isNotEmpty) {
+                                      chatbot.fetchResponse(
+                                        _messageController.text.trim(),
+                                      );
+                                      _messageController.clear();
+                                      _scrollToBottom();
+                                    }
+                                  },
                             backgroundColor:
                                 Theme.of(context).colorScheme.primary,
                             child: Icon(
                               chatbot.isLoading
                                   ? Iconsax.timer
                                   : Iconsax.send_1,
-                              color: Colors.black,
+                              color: Theme.of(context).colorScheme.surface,
                             ),
                           );
                         },
