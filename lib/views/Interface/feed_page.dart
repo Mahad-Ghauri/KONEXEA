@@ -6,12 +6,12 @@ import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:social_swap/views/Interface/Chat/chat_page.dart';
+// import 'package:social_swap/views/Interface/Chat/chat_page.dart';
 import 'package:social_swap/views/Interface/PHub/phub_interface.dart';
 import 'package:social_swap/views/Interface/chatbot_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -51,55 +51,6 @@ class _FeedPageState extends State<FeedPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        elevation: 0,
-        title: Row(
-          children: [
-            Icon(
-              FontAwesomeIcons.infinity,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              'Social Swap',
-              style: GoogleFonts.urbanist(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 2,
-                ),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Iconsax.message_2,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ChatPage(),
-                ),
-              );
-            },
-          ),
-          const SizedBox(width: 16),
-        ],
-      ),
       body: Stack(
         children: [
           // Enhanced background gradient

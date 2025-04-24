@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:social_swap/views/Interface/Chat/chat_page.dart';
 import 'package:social_swap/views/Interface/drawer_page.dart';
 import 'package:social_swap/views/Interface/feed_page.dart';
 import 'package:social_swap/views/Interface/news_page.dart';
@@ -55,12 +56,12 @@ class _InterfacePageState extends State<InterfacePage> {
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
         backgroundColor: Theme.of(context).colorScheme.surface,
         title: Row(
-          spacing: 15,
           children: [
             Icon(
               FontAwesomeIcons.infinity,
               color: Theme.of(context).colorScheme.primary,
             ),
+            const SizedBox(width: 15),
             Text(
               'Social Swap',
               style: TextStyle(
@@ -73,6 +74,34 @@ class _InterfacePageState extends State<InterfacePage> {
             ),
           ],
         ),
+        actions: [
+          IconButton(
+            icon: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                  width: 2,
+                ),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Iconsax.message_2,
+                  color: Color(0xFF228B22),
+                ),
+              ),
+            ),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const ChatPage(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 16),
+        ],
       ),
       body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
