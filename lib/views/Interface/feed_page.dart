@@ -98,7 +98,8 @@ class _FeedPageState extends State<FeedPage>
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton(
-            child: const Icon(Icons.chat_outlined, color: Color(0xFFFFFDD0)),
+            child:
+                const Icon(Icons.smart_toy_outlined, color: Color(0xFFFFFDD0)),
             onPressed: () {
               //  Navigate to Chatbot
               Navigator.of(context).push(_elegantRoute(const ChatbotPage()));

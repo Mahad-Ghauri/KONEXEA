@@ -93,7 +93,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                           context,
                         ).colorScheme.primary.withOpacity(0.1),
                         child: Icon(
-                          Iconsax.message_2,
+                          Icons.smart_toy_outlined,
                           color: Theme.of(context).colorScheme.primary,
                         ),
                       ),
@@ -112,14 +112,14 @@ class _ChatbotPageState extends State<ChatbotPage> {
                           Text(
                             'Keep up with the trends',
                             style: GoogleFonts.urbanist(
-                              fontSize: 12,
+                              fontSize: 14,
                               color: Theme.of(
                                 context,
-                              ).colorScheme.tertiary.withOpacity(0.6),
+                              ).colorScheme.tertiary.withOpacity(0.2),
                             ),
                           ),
                         ],
-                      ),
+                      ),  
                     ],
                   ),
                 ),

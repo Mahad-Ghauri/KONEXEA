@@ -1,11 +1,13 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, depend_on_referenced_packages, use_build_context_synchronously, unnecessary_to_list_in_spreads
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_swap/Views/Interface/Chat%20Bot/chatbot_page.dart';
 import 'package:social_swap/Views/components/support_option_card.dart';
-import 'package:social_swap/Views/components/tutorial_card.dart';
+// import 'package:social_swap/Views/components/tutorial_card.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:math' as math;
+import 'package:social_swap/views/Interface/profile/security_center_page.dart';
+import 'package:social_swap/views/Interface/profile/edit_profile_page.dart';
 
 class HelpCenterPage extends StatefulWidget {
   const HelpCenterPage({super.key});
@@ -14,15 +16,24 @@ class HelpCenterPage extends StatefulWidget {
   State<HelpCenterPage> createState() => _HelpCenterPageState();
 }
 
-class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProviderStateMixin {
+class _HelpCenterPageState extends State<HelpCenterPage>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
+  int _selectedTabIndex = 0;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        setState(() {
+          _selectedTabIndex = _tabController.index;
+        });
+      }
+    });
   }
 
   @override
@@ -35,23 +46,28 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
   final List<Map<String, String>> faqs = const [
     {
       'question': 'How do I reset my password?',
-      'answer': 'Go to the Security Center and use the change password option. You will receive a verification code via email to confirm your identity before setting a new password.'
+      'answer':
+          'Go to the Security Center and use the change password option. You will receive a verification code via email to confirm your identity before setting a new password.'
     },
     {
       'question': 'How do I contact support?',
-      'answer': 'Use the Contact Us section below or email us at support@socialswap.com. Our support team is available 24/7 and typically responds within 2 business hours.'
+      'answer':
+          'Use the Contact Us section below or email us at support@socialswap.com. Our support team is available 24/7 and typically responds within 2 business hours.'
     },
     {
       'question': 'How do I edit my profile?',
-      'answer': 'Go to Edit Profile from your profile page to update your information. You can change your profile picture, bio, username, and visibility settings.'
+      'answer':
+          'Go to Edit Profile from your profile page to update your information. You can change your profile picture, bio, username, and visibility settings.'
     },
     {
       'question': 'How do I delete my account?',
-      'answer': 'Navigate to Settings > Account > Delete Account. Please note that this action is irreversible and all your data will be permanently deleted after 30 days.'
+      'answer':
+          'Navigate to Settings > Account > Delete Account. Please note that this action is irreversible and all your data will be permanently deleted after 30 days.'
     },
     {
       'question': 'How do I report inappropriate content?',
-      'answer': 'Tap the three dots on any post and select "Report". Fill in the required information to help our moderation team review the content quickly.'
+      'answer':
+          'Tap the three dots on any post and select "Report". Fill in the required information to help our moderation team review the content quickly.'
     },
   ];
 
@@ -60,16 +76,27 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
       'title': 'Getting Started',
       'description': 'Learn the basics of using the app',
       'icon': Icons.play_circle_outline,
+      'onTap': null,
     },
     {
       'title': 'Account Security',
       'description': 'Set up 2FA and protect your account',
       'icon': Icons.security,
+      'onTap': (BuildContext context) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const SecurityCenterPage()),
+        );
+      },
     },
     {
       'title': 'Profile Customization',
       'description': 'Make your profile stand out',
       'icon': Icons.person_outline,
+      'onTap': (BuildContext context) {
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (_) => const EditProfilePage()),
+        );
+      },
     },
   ];
 
@@ -115,7 +142,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Could not launch email client', style: GoogleFonts.urbanist()),
+            content: Text('Could not launch email client',
+                style: GoogleFonts.urbanist()),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -177,10 +205,13 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
               ElevatedButton(
                 onPressed: () => Navigator.pop(context),
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16)),
                 ),
-                child: Text('Close', style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
+                child: Text('Close',
+                    style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
               ),
             ],
           ),
@@ -193,7 +224,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
     // This would navigate to a forum page in a real app
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Community forum would open here', style: GoogleFonts.urbanist()),
+        content: Text('Community forum would open here',
+            style: GoogleFonts.urbanist()),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -202,8 +234,12 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
   List<Map<String, String>> _getFilteredFaqs() {
     if (_searchController.text.isEmpty) return faqs;
     return faqs.where((faq) {
-      return faq['question']!.toLowerCase().contains(_searchController.text.toLowerCase()) ||
-          faq['answer']!.toLowerCase().contains(_searchController.text.toLowerCase());
+      return faq['question']!
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase()) ||
+          faq['answer']!
+              .toLowerCase()
+              .contains(_searchController.text.toLowerCase());
     }).toList();
   }
 
@@ -211,7 +247,7 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final filteredFaqs = _getFilteredFaqs();
-    
+
     return Scaffold(
       appBar: AppBar(
         title: _isSearching
@@ -228,7 +264,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                   setState(() {});
                 },
               )
-            : Text('Help Center', style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
+            : Text('Help Center',
+                style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -244,11 +281,37 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
           indicatorColor: colorScheme.primary,
           labelStyle: GoogleFonts.urbanist(fontWeight: FontWeight.bold),
           unselectedLabelStyle: GoogleFonts.urbanist(),
-          tabs: const [
-            Tab(text: 'FAQs'),
-            Tab(text: 'Tutorials'),
-            Tab(text: 'Contact'),
+          labelColor: colorScheme.primary,
+          unselectedLabelColor: colorScheme.tertiary,
+          tabs: [
+            Tab(
+              icon: Icon(Icons.question_answer,
+                  color: _selectedTabIndex == 0
+                      ? colorScheme.primary
+                      : colorScheme.tertiary),
+              text: 'FAQs',
+            ),
+            Tab(
+              icon: Icon(Icons.school_outlined,
+                  color: _selectedTabIndex == 1
+                      ? colorScheme.primary
+                      : colorScheme.tertiary),
+              text: 'Tutorials',
+            ),
+            Tab(
+              icon: Icon(Icons.contact_support,
+                  color: _selectedTabIndex == 2
+                      ? colorScheme.primary
+                      : colorScheme.tertiary),
+              text: 'Contact',
+            ),
           ],
+          onTap: (index) {
+            setState(() {
+              _selectedTabIndex = index;
+              _tabController.index = index;
+            });
+          },
         ),
       ),
       body: TabBarView(
@@ -268,7 +331,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                       const SizedBox(height: 16),
                       Text(
                         'No results found',
-                        style: GoogleFonts.urbanist(fontSize: 18, color: Colors.grey[600]),
+                        style: GoogleFonts.urbanist(
+                            fontSize: 18, color: Colors.grey[600]),
                       ),
                       const SizedBox(height: 8),
                       Text(
@@ -331,10 +395,13 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: ExpansionTile(
-                            tilePadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                            childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                            tilePadding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 4),
+                            childrenPadding:
+                                const EdgeInsets.fromLTRB(16, 0, 16, 16),
                             leading: CircleAvatar(
-                              backgroundColor: colorScheme.primary.withOpacity(0.1),
+                              backgroundColor:
+                                  colorScheme.primary.withOpacity(0.1),
                               child: Text(
                                 '${index + 1}',
                                 style: GoogleFonts.urbanist(
@@ -363,12 +430,18 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   TextButton.icon(
-                                    icon: const Icon(Icons.thumb_up_outlined, size: 16),
-                                    label: Text('Helpful', style: GoogleFonts.urbanist(fontSize: 12)),
+                                    icon: const Icon(Icons.thumb_up_outlined,
+                                        size: 16),
+                                    label: Text('Helpful',
+                                        style:
+                                            GoogleFonts.urbanist(fontSize: 12)),
                                     onPressed: () {
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text('Thanks for your feedback!', style: GoogleFonts.urbanist()),
+                                          content: Text(
+                                              'Thanks for your feedback!',
+                                              style: GoogleFonts.urbanist()),
                                           behavior: SnackBarBehavior.floating,
                                           duration: const Duration(seconds: 1),
                                         ),
@@ -425,19 +498,44 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                 ),
               ),
               const SizedBox(height: 24),
-              ...tutorials.map((tutorial) => TutorialCard(
-                    title: tutorial['title'],
-                    description: tutorial['description'],
-                    icon: tutorial['icon'],
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Opening tutorial: ${tutorial['title']}', style: GoogleFonts.urbanist()),
-                          behavior: SnackBarBehavior.floating,
-                        ),
-                      );
-                    },
-                  )),
+              ...tutorials.asMap().entries.map((entry) {
+                final tutorial = entry.value;
+                // final idx = entry.key;
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 1,
+                  child: ListTile(
+                    leading: Icon(
+                      tutorial['icon'],
+                      color: colorScheme.primary,
+                    ),
+                    title: Text(
+                      tutorial['title'],
+                      style: GoogleFonts.urbanist(fontWeight: FontWeight.w600),
+                    ),
+                    subtitle: Text(
+                      tutorial['description'],
+                      style: GoogleFonts.urbanist(),
+                    ),
+                    onTap: tutorial['onTap'] != null
+                        ? () => tutorial['onTap'](context)
+                        : () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  'Opening tutorial: ${tutorial['title']}',
+                                  style: GoogleFonts.urbanist(),
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                              ),
+                            );
+                          },
+                  ),
+                );
+              }),
             ],
           ),
 
@@ -517,7 +615,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                     const SizedBox(height: 12),
                     Row(
                       children: [
-                        const Icon(Icons.schedule, size: 16, color: Colors.grey),
+                        const Icon(Icons.schedule,
+                            size: 16, color: Colors.grey),
                         const SizedBox(width: 8),
                         Text(
                           'Monday - Friday: 9AM - 6PM ET',
@@ -528,7 +627,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        const Icon(Icons.schedule, size: 16, color: Colors.grey),
+                        const Icon(Icons.schedule,
+                            size: 16, color: Colors.grey),
                         const SizedBox(width: 8),
                         Text(
                           'Weekend: 10AM - 4PM ET',
@@ -556,7 +656,8 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('Ask AI Assistant', style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
+              title: Text('Ask AI Assistant',
+                  style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
               content: Text(
                 'Our AI assistant can help with quick questions. Would you like to start a conversation?',
                 style: GoogleFonts.urbanist(),
@@ -568,27 +669,45 @@ class _HelpCenterPageState extends State<HelpCenterPage> with SingleTickerProvid
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('AI Assistant would launch here', style: GoogleFonts.urbanist()),
-                        behavior: SnackBarBehavior.floating,
+                    Navigator.of(context).push(
+                      _elegantRoute(
+                        const ChatbotPage(),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8)),
                   ),
-                  child: Text('Start', style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
+                  child: Text('Start',
+                      style: GoogleFonts.urbanist(fontWeight: FontWeight.bold)),
                 ),
               ],
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16)),
             ),
           );
         },
         backgroundColor: colorScheme.primary,
         child: const Icon(Icons.smart_toy_outlined, color: Colors.white),
       ),
+    );
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
     );
   }
 }
