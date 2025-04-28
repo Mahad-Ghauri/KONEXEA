@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:social_swap/Views/Interface/profile/profile_page.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Interface/chat_page.dart';
 import 'package:social_swap/views/Interface/drawer_page.dart';
@@ -28,6 +29,7 @@ class _InterfacePageState extends State<InterfacePage> {
     const FeedPage(),
     const UploadPage(),
     const NewsPage(),
+    const ProfileScreen(),
   ];
 
   final AuthenticationController _authController = AuthenticationController();
@@ -88,14 +90,14 @@ class _InterfacePageState extends State<InterfacePage> {
                 padding: EdgeInsets.all(8.0),
                 child: Icon(
                   Iconsax.message_2,
-                  color: Colors.white,
+                  color: Color(0xFF228B22),
                 ),
               ),
             ),
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                    builder: (context) =>  ChatPage(),
+                  builder: (context) => const ChatPage(),
                 ),
               );
             },
@@ -108,12 +110,13 @@ class _InterfacePageState extends State<InterfacePage> {
         backgroundColor: Theme.of(context).colorScheme.primary,
         buttonBackgroundColor: Theme.of(context).colorScheme.surface,
         color: Theme.of(context).colorScheme.surface,
-        animationDuration: const Duration(milliseconds: 400),
+        animationDuration: const Duration(milliseconds: 350),
         items: [
           Icon(Iconsax.home, color: Theme.of(context).colorScheme.primary),
           Icon(Iconsax.add_circle,
               color: Theme.of(context).colorScheme.primary),
           Icon(Icons.public, color: Theme.of(context).colorScheme.primary),
+          Icon(Iconsax.user, color: Theme.of(context).colorScheme.primary),
         ],
         index: _selectedIndex,
         onTap: (index) {

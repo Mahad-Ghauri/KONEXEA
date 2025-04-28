@@ -1,135 +1,206 @@
-// import 'package:flutter/material.dart';
-// import 'package:google_fonts/google_fonts.dart';
-// import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
-// import 'package:social_swap/views/Authentication/login.dart';
+// ignore_for_file: deprecated_member_use
 
-// class ProfilePage extends StatelessWidget {
-//   const ProfilePage({super.key});
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:social_swap/views/Interface/about_page.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         centerTitle: true,
-//         title: Text(
-//           'Profile',
-//           style: GoogleFonts.urbanist(
-//             color: Colors.black,
-//             fontWeight: FontWeight.w600,
-//             fontSize: 24,
-//           ),
-//         ),
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.settings_outlined, color: Colors.black),
-//             onPressed: () {},
-//           ),
-//         ],
-//       ),
-//       body: Column(
-//         children: [
-//           const Expanded(child: Center(child: Text('Profile Page Content'))),
-//           Container(
-//             padding: const EdgeInsets.all(16),
-//             child: ElevatedButton(
-//               onPressed: () => _showLogoutDialog(context),
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.red,
-//                 foregroundColor: Colors.white,
-//                 minimumSize: const Size(double.infinity, 50),
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(12),
-//                 ),
-//               ),
-//               child: Text(
-//                 'Logout',
-//                 style: GoogleFonts.urbanist(
-//                   fontSize: 16,
-//                   fontWeight: FontWeight.w600,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
+class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
 
-//   Future<void> _showLogoutDialog(BuildContext context) async {
-//     return showDialog(
-//       context: context,
-//       builder:
-//           (context) => AlertDialog(
-//             title: Text(
-//               'Logout',
-//               style: GoogleFonts.urbanist(
-//                 color: Colors.red,
-//                 fontWeight: FontWeight.w600,
-//               ),
-//             ),
-//             content: Text(
-//               'Are you sure you want to logout?',
-//               style: GoogleFonts.urbanist(),
-//             ),
-//             actions: [
-//               TextButton(
-//                 onPressed: () => Navigator.pop(context),
-//                 child: Text('Cancel', style: GoogleFonts.urbanist()),
-//               ),
-//               TextButton(
-//                 onPressed: () async {
-//                   try {
-//                     await AuthenticationController().signOutCurrentSession();
-//                     if (context.mounted) {
-//                       Navigator.of(context).pushAndRemoveUntil(
-//                         // ignore: prefer_const_constructors
-//                         _elegantRoute(LoginPage()),
-//                         (route) => false,
-//                       );
-//                     }
-//                   } catch (e) {
-//                     if (context.mounted) {
-//                       ScaffoldMessenger.of(context).showSnackBar(
-//                         SnackBar(
-//                           content: Text(
-//                             'Error logging out: ${e.toString()}',
-//                             style: GoogleFonts.urbanist(),
-//                           ),
-//                         ),
-//                       );
-//                     }
-//                   }
-//                 },
-//                 child: Text(
-//                   'Logout',
-//                   style: GoogleFonts.urbanist(
-//                     color: Colors.red,
-//                     fontWeight: FontWeight.w600,
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//     );
-//   }
+  @override
+  Widget build(BuildContext context) {
+    final user = Supabase.instance.client.auth.currentUser;
 
-//   PageRouteBuilder _elegantRoute(Widget page) {
-//     return PageRouteBuilder(
-//       pageBuilder: (context, animation, secondaryAnimation) => page,
-//       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//         var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-//         var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
-//           CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
-//         );
-//         return FadeTransition(
-//           opacity: fadeAnimation,
-//           child: ScaleTransition(scale: scaleAnimation, child: child),
-//         );
-//       },
-//       transitionDuration: const Duration(milliseconds: 500),
-//     );
-//   }
-// }
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 200,
+            pinned: true,
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      const Color(0xFFFFFDD0),
+                      const Color(0xFFFFFDD0).withOpacity(0.8)
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.primary,
+                            width: 2,
+                          ),
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(30.0),
+                          child: Icon(
+                            Iconsax.user,
+                            size: 40,
+                            color: Color(0xFF228B22),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        user?.email ?? 'Guest User',
+                        style: GoogleFonts.urbanist(
+                          color: Theme.of(context).colorScheme.tertiary,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionTitle('Account Settings'),
+                  const SizedBox(height: 16),
+                  _buildProfileTile(
+                    icon: Icons.person_outline,
+                    title: 'Edit Profile',
+                    onTap: () {
+                      // Can add change name , email, password, etc.
+                    },
+                  ),
+                  _buildProfileTile(
+                    icon: Icons.security_outlined,
+                    title: 'Security',
+                    onTap: () {
+                      // Can implement security settings
+                      // like password change, two-factor authentication, etc.
+                    },
+                  ),
+                  const SizedBox(height: 24),
+                  _buildSectionTitle('Support'),
+                  const SizedBox(height: 16),
+                  _buildProfileTile(
+                    icon: Icons.help_outline,
+                    title: 'Help Center',
+                    onTap: () {
+                      // idhr apnny emails dedo kai if u find
+                      // any bug or any issue regarding the app please contact
+                      //us at this email
+                    },
+                  ),
+                  _buildProfileTile(
+                      icon: Icons.info_outline,
+                      title: 'About',
+                      onTap: () {
+                        Navigator.of(context).push(
+                          _elegantRoute(const AboutPage()),
+                        );
+                      }),
+                  const SizedBox(height: 24),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await Supabase.instance.client.auth.signOut();
+                        if (context.mounted) {
+                          Navigator.of(context).pushReplacementNamed('/login');
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 32,
+                          vertical: 12,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: Text(
+                        'Sign Out',
+                        style: GoogleFonts.urbanist(
+                          color: Theme.of(context).colorScheme.surface,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: GoogleFonts.urbanist(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: const Color(0xFF1C1C1C),
+      ),
+    );
+  }
+
+  Widget _buildProfileTile({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+  }) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 8),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: const Color(0xFF556B2F).withOpacity(0.1)),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: const Color(0xFF228B22)),
+        title: Text(
+          title,
+          style: GoogleFonts.urbanist(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        trailing: const Icon(Icons.chevron_right, color: Color(0xFF228B22)),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+    );
+  }
+}
