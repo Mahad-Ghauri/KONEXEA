@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// import 'package:social_swap/Controllers/Services/Authentication/authentication_controller.dart';
+import 'package:social_swap/Controllers/input_controllers.dart';
+import 'package:social_swap/views/components/my_form_field.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -10,24 +13,20 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
+  // final AuthenticationController _authController = AuthenticationController();
+  final InputControllers _inputControllers = InputControllers();
 
   @override
   void dispose() {
-    _nameController.dispose();
-    _emailController.dispose();
-    _passwordController.dispose();
+    _inputControllers.dispose();
     super.dispose();
   }
 
   void _saveProfile() async {
     if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
+      setState(() => _inputControllers.loading = true);
       await Future.delayed(const Duration(seconds: 1)); // Simulate save
-      setState(() => _isLoading = false);
+      setState(() => _inputControllers.loading = false);
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Profile updated successfully!')),
@@ -38,9 +37,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Profile', style: GoogleFonts.urbanist()),
+        title: Text('Edit Profile',
+            style: TextStyle(
+                fontFamily: GoogleFonts.urbanist().fontFamily,
+                fontWeight: FontWeight.bold,
+                fontSize: 20)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -57,38 +62,81 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   style: GoogleFonts.urbanist(
                       fontSize: 22, fontWeight: FontWeight.bold)),
               const SizedBox(height: 24),
-              TextFormField(
-                controller: _nameController,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (value) =>
-                    value == null || value.isEmpty ? 'Enter your name' : null,
+              MyFormField(
+                hintText: "Enter your name",
+                prefixIcon: Icons.person,
+                controller: _inputControllers.nameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+              SizedBox(height: height * 0.02),
+              MyFormField(
+                hintText: "Email",
+                hintStyle: TextStyle(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary,
+                ),
+                prefixIcon: Icons.alternate_email,
+                controller: _inputControllers.emailController,
                 keyboardType: TextInputType.emailAddress,
-                validator: (value) => value == null || !value.contains('@')
-                    ? 'Enter a valid email'
-                    : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email';
+                  }
+                  if (!value.contains('@')) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+              SizedBox(height: height * 0.02),
+              MyFormField(
+                hintText: "Password",
+                hintStyle: TextStyle(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary,
+                ),
+                prefixIcon: Icons.lock,
+                controller: _inputControllers.passwordController,
                 obscureText: true,
-                validator: (value) => value != null && value.length < 6
-                    ? 'Password must be at least 6 characters'
-                    : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: double.infinity,
+              SizedBox(height: height * 0.02),
+              Center(
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _saveProfile,
-                  child: _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Save'),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 32,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  onPressed: _inputControllers.loading ? null : _saveProfile,
+                  child: _inputControllers.loading
+                      ? const CircularProgressIndicator(
+                          color: Color(0xFF228B22))
+                      : Text('Save',
+                          style: TextStyle(
+                              color: const Color(0xFFFFFDD0),
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w600)),
                 ),
               ),
             ],
