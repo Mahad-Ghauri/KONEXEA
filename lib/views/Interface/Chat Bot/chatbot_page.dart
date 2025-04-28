@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/controllers/Services/Chatbot/chatbot_services.dart';
+import 'package:social_swap/controllers/Services/API/Chatbot/chatbot_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 

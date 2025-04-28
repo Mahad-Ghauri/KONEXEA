@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:social_swap/controllers/Services/API/api_services.dart';
+import 'package:social_swap/controllers/Services/API/News API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';

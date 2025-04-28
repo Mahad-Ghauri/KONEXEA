@@ -3,14 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer';
 import 'package:social_swap/consts.dart';
-import 'package:social_swap/controllers/Services/API/api_services.dart';
-// import 'package:social_swap/controllers/Services/Chat/chat_services.dart';
-import 'package:social_swap/controllers/Services/Chatbot/chatbot_services.dart';
+import 'package:social_swap/controllers/Services/API/News API/api_services.dart';
+import 'package:social_swap/controllers/Services/API/Chatbot/chatbot_services.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:social_swap/controllers/Services/P-Hub%20Interface/interface_services.dart';
 import 'package:social_swap/firebase_options.dart';
 import 'package:social_swap/utils/theme.dart';
-import 'package:social_swap/views/Authentication/auth_gate.dart';
+import 'package:social_swap/views/Auth Gate/auth_gate.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -28,7 +27,6 @@ Future<void> main() async {
           providers: [
             ChangeNotifierProvider(create: (context) => ApiServices()),
             ChangeNotifierProvider(create: (context) => FeedServices()),
-            // ChangeNotifierProvider(create: (context) => ChatServices()),
             ChangeNotifierProvider(
               create: (context) => ChatbotController(),
             ),
