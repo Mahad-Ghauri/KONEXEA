@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:social_swap/controllers/Services/API/Chatbot/chatbot_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
 
 class ChatbotPage extends StatefulWidget {
   const ChatbotPage({super.key});
@@ -145,16 +146,17 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                   : MainAxisAlignment.start,
                               children: [
                                 if (!isUser) ...[
-                                  CircleAvatar(
-                                    radius: 16,
-                                    backgroundColor: Theme.of(
-                                      context,
-                                    ).colorScheme.primary.withOpacity(0.1),
-                                    child: Icon(
-                                      Iconsax.message_2,
-                                      size: 16,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
+                                  SizedBox(
+                                    width: 35,
+                                    height: 35,
+                                    child: Lottie.asset(
+                                      'assets/lottie/ai.json',
+                                      fit: BoxFit.contain,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.android,
+                                                  color: Colors.green,
+                                                  size: 35),
                                     ),
                                   ),
                                   const SizedBox(width: 8),
@@ -208,54 +210,6 @@ class _ChatbotPageState extends State<ChatbotPage> {
                                                   ).colorScheme.surface,
                                           ),
                                         ),
-                                        if (isLastMessage && chatbot.isLoading)
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              top: 8,
-                                            ),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                SizedBox(
-                                                  width: 16,
-                                                  height: 16,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    strokeWidth: 2,
-                                                    valueColor:
-                                                        AlwaysStoppedAnimation<
-                                                            Color>(
-                                                      isUser
-                                                          ? Colors.white
-                                                          : Theme.of(
-                                                              context,
-                                                            )
-                                                              .colorScheme
-                                                              .primary
-                                                              .withOpacity(0.5),
-                                                    ),
-                                                  ),
-                                                ),
-                                                const SizedBox(width: 8),
-                                                Text(
-                                                  'Thinking...',
-                                                  style: GoogleFonts.urbanist(
-                                                    fontSize: 12,
-                                                    color: isUser
-                                                        ? Theme.of(context)
-                                                            .colorScheme
-                                                            .tertiary
-                                                        : Theme.of(context)
-                                                            .colorScheme
-                                                            .tertiary
-                                                            .withOpacity(
-                                                              0.7,
-                                                            ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
                                       ],
                                     ),
                                   ),
@@ -288,7 +242,10 @@ class _ChatbotPageState extends State<ChatbotPage> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surface,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .secondary
+                        .withOpacity(0.8),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),
@@ -310,7 +267,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                             hintStyle: GoogleFonts.urbanist(
                               color: Theme.of(
                                 context,
-                              ).colorScheme.tertiary.withOpacity(0.5),
+                              ).colorScheme.tertiary,
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
@@ -319,7 +276,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                             filled: true,
                             fillColor: Theme.of(
                               context,
-                            ).colorScheme.surface.withOpacity(0.5),
+                            ).colorScheme.surface,
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 20,
                               vertical: 12,
