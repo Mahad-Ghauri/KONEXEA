@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:developer';
-import 'package:social_swap/consts.dart';
+import 'package:social_swap/Utils/consts.dart';
 import 'package:social_swap/controllers/Services/API/News API/api_services.dart';
 import 'package:social_swap/controllers/Services/API/Chatbot/chatbot_services.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
