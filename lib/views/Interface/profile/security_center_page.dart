@@ -1,5 +1,8 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_swap/Views/components/my_form_field.dart';
 
 class SecurityCenterPage extends StatefulWidget {
   const SecurityCenterPage({super.key});
@@ -40,9 +43,15 @@ class _SecurityCenterPageState extends State<SecurityCenterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Security Center', style: GoogleFonts.urbanist()),
+        title: Text('Security Center',
+            style: TextStyle(
+              fontFamily: GoogleFonts.urbanist().fontFamily,
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+            )),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
@@ -57,49 +66,145 @@ class _SecurityCenterPageState extends State<SecurityCenterPage> {
               Text('Change Password',
                   style: GoogleFonts.urbanist(
                       fontSize: 20, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 24),
-              TextFormField(
+              SizedBox(height: height * 0.02),
+              MyFormField(
+                hintText: "Old Password",
+                hintStyle: TextStyle(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary,
+                ),
+                prefixIcon: Icons.lock,
                 controller: _oldPasswordController,
-                decoration: const InputDecoration(labelText: 'Old Password'),
                 obscureText: true,
-                validator: (value) => value == null || value.isEmpty
-                    ? 'Enter your old password'
-                    : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 16),
-              TextFormField(
+              SizedBox(height: height * 0.02),
+              MyFormField(
+                hintText: "Enter new password",
+                hintStyle: TextStyle(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary,
+                ),
+                prefixIcon: Icons.lock,
                 controller: _newPasswordController,
-                decoration: const InputDecoration(labelText: 'New Password'),
                 obscureText: true,
-                validator: (value) => value != null && value.length < 6
-                    ? 'Password must be at least 6 characters'
-                    : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 16),
-              TextFormField(
+              SizedBox(height: height * 0.02),
+              MyFormField(
+                hintText: "Confirm new password",
+                hintStyle: TextStyle(
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.tertiary,
+                ),
+                prefixIcon: Icons.lock,
                 controller: _confirmPasswordController,
-                decoration:
-                    const InputDecoration(labelText: 'Confirm New Password'),
                 obscureText: true,
-                validator: (value) => value != _newPasswordController.text
-                    ? 'Passwords do not match'
-                    : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your password';
+                  }
+                  if (value.length < 6) {
+                    return 'Password must be at least 6 characters';
+                  }
+                  return null;
+                },
               ),
-              const SizedBox(height: 32),
+              SizedBox(height: height * 0.02),
               SwitchListTile(
-                title: Text('Enable Two-Factor Authentication',
-                    style: GoogleFonts.urbanist()),
+                title: Text(
+                  'Enable Two-Factor Authentication',
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+                subtitle: Text(
+                  'Protect your account with an extra layer of security',
+                  style: TextStyle(
+                    fontFamily: GoogleFonts.urbanist().fontFamily,
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                  ),
+                ),
+                secondary: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: _is2FAEnabled
+                        ? Colors.green.withOpacity(0.2)
+                        : Colors.grey.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    _is2FAEnabled ? Icons.security : Icons.security_outlined,
+                    color: _is2FAEnabled ? Colors.green : Colors.grey,
+                  ),
+                ),
                 value: _is2FAEnabled,
-                onChanged: (val) => setState(() => _is2FAEnabled = val),
+                onChanged: (value) {
+                  setState(() {
+                    _is2FAEnabled = value;
+                    if (value) {
+                      // Show setup dialog or navigate to 2FA setup page
+                      // showSetup2FADialog();
+                    }
+                  });
+                },
+                activeColor: Theme.of(context).primaryColor,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  // side: BorderSide(
+                  //   color: _is2FAEnabled
+                  //       ? Theme.of(context).primaryColor.withOpacity(0.3)
+                  //       : Colors.transparent,
+                  //   width: 1,
+                  // ),
+                ),
               ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: double.infinity,
+              SizedBox(height: height * 0.04),
+              Center(
                 child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 32,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
                   onPressed: _isLoading ? null : _saveSecurity,
                   child: _isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text('Save'),
+                      ? const CircularProgressIndicator(
+                          color: Color(0xFF228B22))
+                      : Text('Save',
+                          style: TextStyle(
+                              color: const Color(0xFFFFFDD0),
+                              fontFamily: GoogleFonts.urbanist().fontFamily,
+                              fontWeight: FontWeight.w600)),
                 ),
               ),
             ],
