@@ -5,6 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:social_swap/views/Interface/about_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:social_swap/views/Interface/profile/edit_profile_page.dart';
+import 'package:social_swap/views/Interface/profile/security_center_page.dart';
+import 'package:social_swap/views/Interface/profile/help_center_page.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -79,15 +82,18 @@ class ProfileScreen extends StatelessWidget {
                     icon: Icons.person_outline,
                     title: 'Edit Profile',
                     onTap: () {
-                      // Can add change name , email, password, etc.
+                      Navigator.of(context).push(
+                        _elegantRoute(const EditProfilePage()),
+                      );
                     },
                   ),
                   _buildProfileTile(
                     icon: Icons.security_outlined,
                     title: 'Security',
                     onTap: () {
-                      // Can implement security settings
-                      // like password change, two-factor authentication, etc.
+                      Navigator.of(context).push(
+                        _elegantRoute(const SecurityCenterPage()),
+                      );
                     },
                   ),
                   const SizedBox(height: 24),
@@ -97,9 +103,9 @@ class ProfileScreen extends StatelessWidget {
                     icon: Icons.help_outline,
                     title: 'Help Center',
                     onTap: () {
-                      // idhr apnny emails dedo kai if u find
-                      // any bug or any issue regarding the app please contact
-                      //us at this email
+                      Navigator.of(context).push(
+                        _elegantRoute(const HelpCenterPage()),
+                      );
                     },
                   ),
                   _buildProfileTile(
