@@ -8,7 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:social_swap/Views/Interface/profile/profile_page.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Interface/chat_page.dart';
-import 'package:social_swap/views/Interface/drawer_page.dart';
+// import 'package:social_swap/views/Interface/drawer_page.dart';
 import 'package:social_swap/views/Interface/feed_page.dart';
 import 'package:social_swap/views/Interface/news_page.dart';
 import 'package:social_swap/views/Interface/upload_page.dart';
@@ -39,21 +39,21 @@ class _InterfacePageState extends State<InterfacePage> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      drawer: DrawerPage(
-        onPageSelected: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        currentPage: _selectedIndex,
-        authController: _authController,
-        isLoading: _isLoading,
-        setLoading: (value) {
-          setState(() {
-            _isLoading = value;
-          });
-        },
-      ),
+      // drawer: DrawerPage(
+      //   onPageSelected: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //   },
+      //   currentPage: _selectedIndex,
+      //   authController: _authController,
+      //   isLoading: _isLoading,
+      //   setLoading: (value) {
+      //     setState(() {
+      //       _isLoading = value;
+      //     });
+      //   },
+      // ),
       appBar: AppBar(
         iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -77,32 +77,33 @@ class _InterfacePageState extends State<InterfacePage> {
           ],
         ),
         actions: [
-          IconButton(
-            icon: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 2,
+          if (_selectedIndex == 0)
+            IconButton(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Iconsax.message_2,
+                    color: Color(0xFF228B22),
+                  ),
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Iconsax.message_2,
-                  color: Color(0xFF228B22),
-                ),
-              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ChatPage(),
+                  ),
+                );
+              },
             ),
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const ChatPage(),
-                ),
-              );
-            },
-          ),
-          const SizedBox(width: 16),
+          if (_selectedIndex == 0) const SizedBox(width: 16),
         ],
       ),
       body: _screens[_selectedIndex],
