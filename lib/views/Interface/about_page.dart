@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:social_swap/views/components/about_components.dart';
+import 'package:social_swap/views/components/Profile/about_components.dart';
 // ignore: depend_on_referenced_packages
 import 'package:url_launcher/url_launcher.dart';
 
