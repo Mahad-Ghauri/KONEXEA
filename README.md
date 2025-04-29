@@ -22,7 +22,7 @@ A modern social media application built with Flutter, featuring AI-powered inter
 - Secure Authentication
 
 ### Sign Up Interface
-![Sign Up Interface]([https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%202.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAyLmpwZWciLCJpYXQiOjE3NDI3NDE3NTcsImV4cCI6MTc1MTA3NDE3NTd9.YRtZCn7mbaWy2eG2uNU4uqHqr3WlLY5Hy66334goCFM](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%201.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAxLnBuZyIsImlhdCI6MTc0NTg4ODIzNSwiZXhwIjoxNzUxMzg4ODIzNX0._wPNZzsg1KBBe-APrB5S6vctcF-qZYEmkelD2Ru-YvU))
+![Sign Up Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/APP%20SS%202%20.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FQUCBTUyAyIC5wbmciLCJpYXQiOjE3NDU4ODg4NzcsImV4cCI6MTc1MTM4ODg4Nzd9.yY_qQuONu0WnkgSC57_msCiBpxXOh1XkWViw7BHZYYs)
 - Modern signup UI with unique color combinations
 - Loading indicators and animations
 - User-friendly input field
