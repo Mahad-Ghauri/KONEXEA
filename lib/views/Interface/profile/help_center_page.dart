@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/Views/Interface/Chat%20Bot/chatbot_page.dart';
-import 'package:social_swap/Views/components/support_option_card.dart';
+import 'package:social_swap/Views/components/Profile/support_option_card.dart';
 // import 'package:social_swap/Views/components/tutorial_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:social_swap/views/Interface/profile/security_center_page.dart';

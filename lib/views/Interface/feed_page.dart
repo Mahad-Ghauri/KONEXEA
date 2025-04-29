@@ -1,17 +1,21 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
-// import 'package:social_swap/views/Interface/Chat/chat_page.dart';
 import 'package:social_swap/views/Interface/PHub/phub_interface.dart';
 import 'package:social_swap/views/Interface/Chat Bot/chatbot_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:async'; // For periodic animations
+import 'package:cached_network_image/cached_network_image.dart';
+// import 'package:photo_view/photo_view.dart'; // For image zoom
+import 'package:video_player/video_player.dart'; // For video playback
+// import 'package:visibility_detector/visibility_detector.dart'; // For autoplay
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});
@@ -20,11 +24,27 @@ class FeedPage extends StatefulWidget {
   State<FeedPage> createState() => _FeedPageState();
 }
 
-class _FeedPageState extends State<FeedPage>
-    with SingleTickerProviderStateMixin {
+class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
   late AnimationController _animationController;
   final ScrollController _scrollController = ScrollController();
   final Map<String, bool> _expandedPosts = {};
+  final Map<String, bool> _likedPosts = {};
+  final Map<String, int> _likeCount = {};
+  final Map<String, VideoPlayerController?> _videoControllers = {};
+  final Map<String, bool> _videoInitialized = {};
+  late AnimationController _fabAnimationController;
+  bool _showFabs = true;
+  Timer? _scrollEndTimer;
+
+  // Animation for refreshing
+  late final AnimationController _refreshAnimationController =
+      AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 300),
+  );
+  late final Animation<double> _refreshAnimation = Tween(begin: 0.0, end: 1.0)
+      .animate(CurvedAnimation(
+          parent: _refreshAnimationController, curve: Curves.easeOut));
 
   @override
   void initState() {
@@ -35,9 +55,87 @@ class _FeedPageState extends State<FeedPage>
       duration: const Duration(seconds: 2),
     )..repeat();
 
+    // Animation for FAB appearance/disappearance
+    _fabAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      value: 1.0, // Start visible
+    );
+
     // Fetch posts when the page loads
     Future.microtask(() {
-      Provider.of<FeedServices>(context, listen: false).fetchPosts();
+      Provider.of<FeedServices>(context, listen: false).fetchPosts().then((_) {
+        _initializeVideoControllers();
+      });
+    });
+
+    // Initialize like counts
+    _initializeLikeCounts();
+
+    // Add scroll listener for scroll animations
+    _scrollController.addListener(_scrollListener);
+  }
+
+  void _initializeVideoControllers() {
+    final feedService = Provider.of<FeedServices>(context, listen: false);
+    for (var post in feedService.posts) {
+      if (post['videoUrl'] != null) {
+        String postId = post['postId'] ?? '';
+        _videoControllers[postId] =
+            VideoPlayerController.network(post['videoUrl'])
+              ..initialize().then((_) {
+                if (mounted) {
+                  setState(() {
+                    _videoInitialized[postId] = true;
+                  });
+                }
+              });
+        _videoInitialized[postId] = false;
+      }
+    }
+  }
+
+  void _scrollListener() {
+    // Implement scroll animations or effects
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      // Load more posts when reaching the bottom
+      // _loadMorePosts();
+    }
+
+    // Hide/show FABs based on scroll direction
+    if (_scrollController.position.isScrollingNotifier.value) {
+      if (_showFabs) {
+        setState(() {
+          _showFabs = false;
+        });
+        _fabAnimationController.reverse();
+      }
+    } else {
+      if (!_showFabs) {
+        setState(() {
+          _showFabs = true;
+        });
+        _fabAnimationController.forward();
+      }
+    }
+  }
+
+  // void _loadMorePosts() {
+  //   // Add logic to load more posts
+  //   Provider.of<FeedServices>(context, listen: false).loadMorePosts();
+  // }
+
+  void _initializeLikeCounts() {
+    // Demo initialization - in real app, fetch from database
+    Future.delayed(Duration.zero, () {
+      final feedService = Provider.of<FeedServices>(context, listen: false);
+      if (feedService.posts.isNotEmpty) {
+        for (var post in feedService.posts) {
+          final postId = post['postId'] ?? '';
+          _likeCount[postId] = math.Random().nextInt(100);
+        }
+      }
     });
   }
 
@@ -45,7 +143,47 @@ class _FeedPageState extends State<FeedPage>
   void dispose() {
     _animationController.dispose();
     _scrollController.dispose();
+    _refreshAnimationController.dispose();
     super.dispose();
+  }
+
+  void _handleLikePost(String postId) {
+    // Haptic feedback for better interaction
+    HapticFeedback.mediumImpact();
+
+    setState(() {
+      _likedPosts[postId] = !(_likedPosts[postId] ?? false);
+
+      // Update like count
+      if (_likedPosts[postId] == true) {
+        _likeCount[postId] = (_likeCount[postId] ?? 0) + 1;
+      } else {
+        _likeCount[postId] = (_likeCount[postId] ?? 1) - 1;
+      }
+    });
+
+    // In a real app, update the like in database
+    // feedService.likePost(postId, _likedPosts[postId]);
+  }
+
+  void _handleDoubleTapLike(String postId) {
+    if (!(_likedPosts[postId] ?? false)) {
+      _handleLikePost(postId);
+
+      // Show heart animation for 1 second
+      setState(() {
+        _likedPosts[postId] = true;
+      });
+
+      // Reset the like state after 1 second
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) {
+          setState(() {
+            _likedPosts[postId] = false;
+          });
+        }
+      });
+    }
   }
 
   @override
@@ -53,7 +191,7 @@ class _FeedPageState extends State<FeedPage>
     return Scaffold(
       body: Stack(
         children: [
-          // Enhanced background gradient
+          // Enhanced background gradient with subtle pattern
           Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
@@ -66,25 +204,44 @@ class _FeedPageState extends State<FeedPage>
                 ],
               ),
             ),
+            child: ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.transparent,
+                    Theme.of(context).colorScheme.primary.withOpacity(0.03),
+                  ],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.overlay,
+              child: Container(
+                color: Colors.transparent,
+              ),
+            ),
           ),
 
           // Content
           SafeArea(
             child: Column(
               children: [
+                // Animated app bar
+                // _buildAnimatedAppBar(),
+
                 // Main feed content
                 Expanded(
                   child: Consumer<FeedServices>(
                     builder: (context, feedService, _) {
                       if (feedService.loading) {
-                        return buildLoadingShimmer(context);
+                        return buildEnhancedLoadingShimmer(context);
                       }
 
                       if (feedService.posts.isEmpty) {
-                        return buildEmptyState(context);
+                        return buildEnhancedEmptyState(context);
                       }
 
-                      return buildPostsList(context, feedService);
+                      return buildEnhancedPostsList(context, feedService);
                     },
                   ),
                 ),
@@ -94,39 +251,22 @@ class _FeedPageState extends State<FeedPage>
         ],
       ),
       floatingActionButton: Column(
-        spacing: 10,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          FloatingActionButton(
-            child:
-                const Icon(Icons.smart_toy_outlined, color: Color(0xFFFFFDD0)),
+          // Enhanced floating action buttons with animations
+          _buildFloatingActionButton(
+            icon: Icons.smart_toy_outlined,
+            color: const Color(0xFFFFFDD0),
             onPressed: () {
-              //  Navigate to Chatbot
               Navigator.of(context).push(_elegantRoute(const ChatbotPage()));
             },
           ),
-          FloatingActionButton(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            elevation: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                // borderRadius: BorderRadius.circular(30),
-                border: Border.all(
-                  color: Color(0xFF228B22),
-                  width: 2,
-                ),
-              ),
-              child: const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(3.0),
-                  child: Icon(
-                    Icons.shopping_bag_rounded,
-                    color: Color(0xFFFFFDD0),
-                  ),
-                ),
-              ),
-            ),
+          const SizedBox(height: 10),
+          _buildFloatingActionButton(
+            icon: Icons.shopping_bag_rounded,
+            color: const Color(0xFFFFFDD0),
+            hasBorder: true,
+            borderColor: const Color(0xFF228B22),
             onPressed: () {
               Navigator.of(context).push(_elegantRoute(const PHubInterface()));
             },
@@ -136,78 +276,375 @@ class _FeedPageState extends State<FeedPage>
     );
   }
 
-  Widget buildLoadingShimmer(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
-      child: ListView.builder(
-        padding: const EdgeInsets.all(16),
-        itemCount: 5,
-        itemBuilder: (_, __) => Padding(
-          padding: const EdgeInsets.only(bottom: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 140,
-                          height: 12,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(height: 4),
-                        Container(
-                          width: 80,
-                          height: 8,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+  void _showShareOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Share Post',
+              style: GoogleFonts.urbanist(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
               ),
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildShareOption(
+                  context,
+                  icon: Iconsax.message,
+                  label: 'Message',
+                  color: Colors.blue,
                 ),
+                _buildShareOption(
+                  context,
+                  icon: Iconsax.global,
+                  label: 'Browser',
+                  color: Colors.orange,
+                ),
+                _buildShareOption(
+                  context,
+                  icon: Iconsax.copy,
+                  label: 'Copy',
+                  color: Colors.purple,
+                ),
+                _buildShareOption(
+                  context,
+                  icon: Iconsax.more_square,
+                  label: 'More',
+                  color: Colors.grey,
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShareOption(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required Color color,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+        HapticFeedback.lightImpact();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Sharing via $label'),
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      },
+      child: Column(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              icon,
+              color: color,
+              size: 28,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: GoogleFonts.urbanist(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showReportDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Report Post',
+          style: GoogleFonts.urbanist(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Why are you reporting this post?',
+              style: GoogleFonts.urbanist(),
+            ),
+            const SizedBox(height: 20),
+            ...['Inappropriate content', 'Spam', 'Misinformation', 'Other']
+                .map(
+                  (reason) => ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(reason),
+                    onTap: () {
+                      Navigator.pop(context);
+                      HapticFeedback.lightImpact();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Thank you for your report'),
+                          behavior: SnackBarBehavior.floating,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                  ),
+                )
+                .toList(),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Cancel',
+              style: GoogleFonts.urbanist(
+                color: Theme.of(context).colorScheme.tertiary,
               ),
-              const SizedBox(height: 12),
-              Container(
-                width: double.infinity,
-                height: 10,
-                color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Widget _buildAnimatedAppBar() {
+  //   return AnimatedBuilder(
+  //     animation: _scrollController,
+  //     builder: (context, child) {
+  //       // Calculate opacity based on scroll position
+  //       double opacity = _scrollController.hasClients
+  //           ? (_scrollController.offset / 100).clamp(0.0, 1.0)
+  //           : 0.0;
+
+  //       return Container(
+  //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  //         decoration: BoxDecoration(
+  //           color: Theme.of(context).colorScheme.surface.withOpacity(opacity),
+  //           boxShadow: [
+  //             if (opacity > 0.5)
+  //               BoxShadow(
+  //                 color: Colors.black.withOpacity(0.1),
+  //                 blurRadius: 4,
+  //                 offset: const Offset(0, 2),
+  //               ),
+  //           ],
+  //         ),
+  //         height: 60,
+  //         child: Row(
+  //           children: [
+  //             Text(
+  //               "Social Swap",
+  //               style: GoogleFonts.urbanist(
+  //                 fontSize: 20,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Theme.of(context).colorScheme.primary,
+  //               ),
+  //             ),
+  //             const Spacer(),
+  //             IconButton(
+  //               icon: const Icon(Iconsax.search_normal),
+  //               onPressed: () {
+  //                 // Search functionality
+  //               },
+  //             ),
+  //             IconButton(
+  //               icon: const Icon(Iconsax.notification),
+  //               onPressed: () {
+  //                 // Notifications
+  //               },
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
+  Widget _buildFloatingActionButton({
+    required IconData icon,
+    required Color color,
+    required VoidCallback onPressed,
+    bool hasBorder = false,
+    Color borderColor = Colors.transparent,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeOut,
+      child: FloatingActionButton(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        elevation: 4,
+        onPressed: () {
+          HapticFeedback.lightImpact();
+          onPressed();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: hasBorder ? Border.all(color: borderColor, width: 2) : null,
+          ),
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Icon(
+                icon,
+                color: color,
               ),
-              const SizedBox(height: 8),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.7,
-                height: 10,
-                color: Colors.white,
-              ),
-            ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget buildEmptyState(BuildContext context) {
+  Widget buildEnhancedLoadingShimmer(BuildContext context) {
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: 5,
+      itemBuilder: (_, index) {
+        // Staggered animation delay based on index
+        return AnimatedOpacity(
+          duration: const Duration(milliseconds: 500),
+          opacity: 1.0,
+          curve: Curves.easeOut,
+          child: Shimmer.fromColors(
+            baseColor: Theme.of(context).colorScheme.surface.withOpacity(0.2),
+            highlightColor:
+                Theme.of(context).colorScheme.surface.withOpacity(0.1),
+            period: Duration(milliseconds: 1000 + (index * 100)),
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 140,
+                                  height: 12,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Container(
+                                  width: 80,
+                                  height: 8,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      height: 200 + (index * 20) % 100, // Varied heights
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(
+                          3,
+                          (lineIndex) => Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Container(
+                              width: double.infinity - (lineIndex * 20),
+                              height: 10,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    // Action buttons shimmer
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: List.generate(
+                          3,
+                          (i) => Container(
+                            width: 30,
+                            height: 30,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildEnhancedEmptyState(BuildContext context) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -215,25 +652,45 @@ class _FeedPageState extends State<FeedPage>
           AnimatedBuilder(
             animation: _animationController,
             builder: (_, child) {
-              return Transform.rotate(
-                angle: _animationController.value * 2 * math.pi,
-                child: Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Theme.of(context).colorScheme.primary,
-                        Theme.of(context).colorScheme.tertiary,
+              return AnimatedContainer(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeOutBack,
+                height: 150,
+                width: 150,
+                child: Transform.rotate(
+                  angle: _animationController.value * 2 * math.pi,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      gradient: SweepGradient(
+                        colors: [
+                          Theme.of(context).colorScheme.primary,
+                          Theme.of(context).colorScheme.tertiary,
+                          Theme.of(context).colorScheme.primary,
+                        ],
+                        stops: const [0.0, 0.5, 1.0],
+                        startAngle: 0,
+                        endAngle: math.pi * 2,
+                        transform: GradientRotation(
+                            _animationController.value * 2 * math.pi),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.2),
+                          blurRadius: 20,
+                          spreadRadius: 5,
+                        ),
                       ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+                      shape: BoxShape.circle,
                     ),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Iconsax.gallery_add,
-                    size: 64,
-                    color: Colors.white,
+                    child: const Icon(
+                      Iconsax.gallery_add,
+                      size: 64,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               );
@@ -243,50 +700,69 @@ class _FeedPageState extends State<FeedPage>
           Text(
             'No posts yet',
             style: GoogleFonts.urbanist(
-              fontSize: 24,
+              fontSize: 28,
               fontWeight: FontWeight.w700,
               color: Theme.of(context).colorScheme.tertiary,
             ),
           ),
           const SizedBox(height: 8),
-          Text(
-            'Be the first to share something amazing!',
-            style: GoogleFonts.urbanist(
-              fontSize: 16,
-              color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: Text(
+              'Be the first to share something amazing with your community!',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.urbanist(
+                fontSize: 16,
+                color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
+                height: 1.5,
+              ),
             ),
           ),
-          const SizedBox(height: 24),
-          // ElevatedButton.icon(
-          //   onPressed: () {
-          //     Navigator.of(context).push(_elegantRoute(const UploadPage()));
-          //   },
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: Theme.of(context).colorScheme.primary,
-          //     foregroundColor: Colors.white,
-          //     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(30),
-          //     ),
-          //   ),
-          //   icon: const Icon(Iconsax.add_circle),
-          //   label: Text(
-          //     'Create Post',
-          //     style: GoogleFonts.urbanist(fontWeight: FontWeight.w600),
-          //   ),
-          // ),
+          const SizedBox(height: 32),
+          ElevatedButton.icon(
+            onPressed: () {
+              // Add navigation to create post page
+              HapticFeedback.mediumImpact();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              foregroundColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              elevation: 8,
+              shadowColor:
+                  Theme.of(context).colorScheme.primary.withOpacity(0.5),
+            ),
+            icon: const Icon(Iconsax.add_circle),
+            label: Text(
+              'Create Post',
+              style: GoogleFonts.urbanist(
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
-  Widget buildPostsList(BuildContext context, FeedServices feedService) {
+  Widget buildEnhancedPostsList(
+      BuildContext context, FeedServices feedService) {
     return RefreshIndicator(
-      onRefresh: () => feedService.fetchPosts(),
+      onRefresh: () async {
+        _refreshAnimationController.forward(from: 0.0);
+        await feedService.fetchPosts();
+        _refreshAnimationController.reverse();
+      },
+      displacement: 20,
       color: Theme.of(context).colorScheme.primary,
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: ListView.builder(
         controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         itemCount: feedService.posts.length,
         itemBuilder: (context, index) {
@@ -295,128 +771,304 @@ class _FeedPageState extends State<FeedPage>
           final isExpanded = _expandedPosts[postId] ?? false;
           final userEmail =
               Supabase.instance.client.auth.currentUser?.email ?? 'Anonymous';
+          final isLiked = _likedPosts[postId] ?? false;
 
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+          // Create staggered animations based on index
+          return AnimatedOpacity(
+            duration: const Duration(milliseconds: 500),
+            opacity: 1.0,
+            curve: Curves.easeOut,
+            child: SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, 0.05),
+                end: Offset.zero,
+              ).animate(CurvedAnimation(
+                parent: ModalRoute.of(context)?.animation ??
+                    AnimationController(vsync: this, duration: Duration.zero),
+                curve: Interval(
+                  (index / 20).clamp(0.0, 0.9),
+                  ((index + 1) / 20).clamp(0.0, 1.0),
+                  curve: Curves.easeOutCubic,
+                ),
+              )),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surface,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Post header
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Enhanced post header
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            // Profile avatar with decoration
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Theme.of(context).colorScheme.primary,
+                                    Theme.of(context).colorScheme.tertiary,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: const Icon(
+                                  Icons.person_outlined,
+                                  color: Colors.white,
+                                  size: 24,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Icon(
-                                    Icons.mail,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                  ),
-                                  const SizedBox(width: 12),
-                                  Text(
-                                    userEmail,
-                                    style: GoogleFonts.urbanist(
-                                      fontWeight: FontWeight.w600,
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.tertiary,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 9),
-                                  Column(
+                                  Row(
                                     children: [
                                       Icon(
-                                        Iconsax.tick_circle,
-                                        color: Theme.of(
-                                          context,
-                                        ).colorScheme.primary,
+                                        Icons.mail,
+                                        size: 16,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        userEmail,
+                                        style: GoogleFonts.urbanist(
+                                          fontWeight: FontWeight.w600,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 6),
+                                      Container(
+                                        padding: const EdgeInsets.all(4),
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                              .withOpacity(0.1),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: Icon(
+                                          Iconsax.tick_circle,
+                                          size: 14,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                        ),
                                       ),
                                     ],
                                   ),
+                                  Text(
+                                    _formatTimestamp(
+                                      post['timeStamp'] ?? DateTime.now(),
+                                    ),
+                                    style: GoogleFonts.urbanist(
+                                      fontSize: 12,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary
+                                          .withOpacity(0.7),
+                                    ),
+                                  ),
                                 ],
                               ),
-                              Text(
-                                _formatTimestamp(
-                                  post['timeStamp'] ?? DateTime.now(),
+                            ),
+                            IconButton(
+                              icon: const Icon(Iconsax.more),
+                              onPressed: () {
+                                // Show post options
+                                _showPostOptions(context, post);
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // Enhanced post image with double-tap like
+                      if (post['image'] != null)
+                        GestureDetector(
+                          onDoubleTap: () => _handleDoubleTapLike(postId),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              // Hero image for transitions
+                              Hero(
+                                tag: 'post_image_$postId',
+                                child: CachedNetworkImage(
+                                  imageUrl: post['image']!,
+                                  fit: BoxFit.cover,
+                                  width: double.infinity,
+                                  height: 400,
+                                  placeholder: (context, url) => Container(
+                                    height: 400,
+                                    color: Colors.grey.withOpacity(0.1),
+                                    child: Center(
+                                      child: CircularProgressIndicator(
+                                        valueColor:
+                                            AlwaysStoppedAnimation<Color>(
+                                          Theme.of(context).colorScheme.primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Container(
+                                    height: 400,
+                                    color: Colors.grey.withOpacity(0.1),
+                                    child: const Center(
+                                      child:
+                                          Icon(Icons.error_outline, size: 50),
+                                    ),
+                                  ),
                                 ),
-                                style: GoogleFonts.urbanist(
-                                  fontSize: 12,
-                                  color: Theme.of(context).colorScheme.tertiary,
-                                ),
+                              ),
+
+                              // Like overlay animation (visible when double-tapped)
+                              StatefulBuilder(
+                                builder: (context, setInnerState) {
+                                  return AnimatedContainer(
+                                    duration: const Duration(milliseconds: 300),
+                                    curve: Curves.easeOutBack,
+                                    child: TweenAnimationBuilder<double>(
+                                      tween: Tween<double>(
+                                          begin: 0.0, end: isLiked ? 1.0 : 0.0),
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      builder: (context, value, child) {
+                                        return Opacity(
+                                          opacity: value * 0.9,
+                                          child: Icon(
+                                            Icons.favorite,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            size: 100 * value,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
 
-                  // Post image
-                  if (post['image'] != null)
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(20),
-                      ),
-                      child: Image.network(
-                        post['image']!,
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: 400,
-                      ),
-                    ),
-
-                  // Post description
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          post['description'] ?? '',
-                          maxLines: isExpanded ? null : 3,
-                          overflow: isExpanded ? null : TextOverflow.ellipsis,
-                          style: GoogleFonts.urbanist(
-                            color: Theme.of(context).colorScheme.tertiary,
-                            height: 1.5,
-                          ),
-                        ),
-                        if ((post['description'] ?? '').length > 150)
-                          TextButton(
-                            onPressed: () {
-                              setState(() {
-                                _expandedPosts[postId] = !isExpanded;
-                              });
-                            },
-                            child: Text(
-                              isExpanded ? 'Show less' : 'Read more',
+                      // Enhanced post description
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              post['description'] ?? '',
+                              maxLines: isExpanded ? null : 3,
+                              overflow:
+                                  isExpanded ? null : TextOverflow.ellipsis,
                               style: GoogleFonts.urbanist(
-                                color: Theme.of(context).colorScheme.primary,
-                                fontWeight: FontWeight.w600,
+                                color: Theme.of(context).colorScheme.tertiary,
+                                height: 1.5,
+                                fontSize: 15,
                               ),
                             ),
-                          ),
-                      ],
-                    ),
+                            if ((post['description'] ?? '').length > 150)
+                              TextButton(
+                                onPressed: () {
+                                  HapticFeedback.lightImpact();
+                                  setState(() {
+                                    _expandedPosts[postId] = !isExpanded;
+                                  });
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: EdgeInsets.zero,
+                                  alignment: Alignment.centerLeft,
+                                ),
+                                child: Text(
+                                  isExpanded ? 'Show less' : 'Read more',
+                                  style: GoogleFonts.urbanist(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+
+                      // Add interaction buttons (like, comment, share)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        child: Row(
+                          children: [
+                            // Like button
+                            _buildInteractionButton(
+                              icon: isLiked
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: isLiked
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
+                              label: _formatCount(_likeCount[postId] ?? 0),
+                              onPressed: () => _handleLikePost(postId),
+                            ),
+                            const SizedBox(width: 16),
+                            // Comment button
+                            _buildInteractionButton(
+                              icon: Iconsax.message,
+                              label: _formatCount(math.Random().nextInt(20)),
+                              onPressed: () {
+                                // Open comments
+                                HapticFeedback.lightImpact();
+                              },
+                            ),
+                            const SizedBox(width: 16),
+                            // Share button
+                            _buildInteractionButton(
+                              icon: Iconsax.send_1,
+                              onPressed: () {
+                                // Share post
+                                HapticFeedback.lightImpact();
+                              },
+                            ),
+                            const Spacer(),
+                            // Bookmark button
+                            IconButton(
+                              icon: const Icon(Iconsax.bookmark),
+                              onPressed: () {
+                                // Bookmark post
+                                HapticFeedback.lightImpact();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           );
@@ -425,32 +1077,220 @@ class _FeedPageState extends State<FeedPage>
     );
   }
 
+  Widget _buildInteractionButton({
+    required IconData icon,
+    String? label,
+    Color? color,
+    required VoidCallback onPressed,
+  }) {
+    return InkWell(
+      onTap: onPressed,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              size: 22,
+              color: color ?? Theme.of(context).colorScheme.tertiary,
+            ),
+            if (label != null) ...[
+              const SizedBox(width: 4),
+              Text(
+                label,
+                style: GoogleFonts.urbanist(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.tertiary,
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showPostOptions(BuildContext context, Map<String, dynamic> post) {
+    HapticFeedback.mediumImpact();
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 10,
+                offset: const Offset(0, -5),
+              ),
+            ],
+          ),
+          child: SafeArea(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  width: 40,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                ),
+                _buildOptionItem(
+                  icon: Iconsax.save_2,
+                  label: 'Save Post',
+                  onTap: () {
+                    Navigator.pop(context);
+                    HapticFeedback.lightImpact();
+                    // Logic to save post
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Post saved to collection'),
+                        behavior: SnackBarBehavior.floating,
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  },
+                ),
+                _buildOptionItem(
+                  icon: Iconsax.copy,
+                  label: 'Copy Link',
+                  onTap: () {
+                    Navigator.pop(context);
+                    HapticFeedback.lightImpact();
+                    // Logic to copy post link
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Link copied to clipboard!'),
+                        behavior: SnackBarBehavior.floating,
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  },
+                ),
+                _buildOptionItem(
+                  icon: Iconsax.share,
+                  label: 'Share Post',
+                  onTap: () {
+                    Navigator.pop(context);
+                    HapticFeedback.lightImpact();
+                    // Logic to share post
+                    _showShareOptions(context);
+                  },
+                ),
+                _buildOptionItem(
+                  icon: Iconsax.notification,
+                  label: 'Turn on Post Notifications',
+                  onTap: () {
+                    Navigator.pop(context);
+                    HapticFeedback.lightImpact();
+                    // Logic to turn on notifications
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Post notifications turned on'),
+                        behavior: SnackBarBehavior.floating,
+                        duration: const Duration(seconds: 2),
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                      ),
+                    );
+                  },
+                ),
+                _buildOptionItem(
+                  icon: Iconsax.flag,
+                  label: 'Report Post',
+                  isDestructive: true,
+                  onTap: () {
+                    Navigator.pop(context);
+                    HapticFeedback.lightImpact();
+                    // Logic to report post
+                    _showReportDialog(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildOptionItem({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    bool isDestructive = false,
+  }) {
+    return ListTile(
+      leading: Icon(
+        icon,
+        color: isDestructive
+            ? Theme.of(context).colorScheme.error
+            : Theme.of(context).colorScheme.tertiary,
+      ),
+      title: Text(
+        label,
+        style: GoogleFonts.urbanist(
+          color: isDestructive
+              ? Theme.of(context).colorScheme.error
+              : Theme.of(context).colorScheme.tertiary,
+        ),
+      ),
+      onTap: onTap,
+    );
+  }
+
   String _formatTimestamp(DateTime timestamp) {
     final now = DateTime.now();
     final difference = now.difference(timestamp);
 
-    if (difference.inMinutes < 1) {
-      return 'Just now';
-    } else if (difference.inHours < 1) {
-      return '${difference.inMinutes}m ago';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
+    if (difference.inDays > 365) {
+      return '${(difference.inDays / 365).floor()}y';
+    } else if (difference.inDays > 30) {
+      return '${(difference.inDays / 30).floor()}mo';
+    } else if (difference.inDays > 0) {
+      return '${difference.inDays}d';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m';
     } else {
-      return '${timestamp.day}/${timestamp.month}/${timestamp.year}';
+      return 'Just now';
     }
   }
 
-  PageRouteBuilder _elegantRoute(Widget page) {
+  String _formatCount(int count) {
+    if (count >= 1000000) {
+      return '${(count / 1000000).toStringAsFixed(1)}M';
+    } else if (count >= 1000) {
+      return '${(count / 1000).toStringAsFixed(1)}K';
+    }
+    return count.toString();
+  }
+
+  Route _elegantRoute(Widget page) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
-          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
-        );
-        return FadeTransition(
-          opacity: fadeAnimation,
-          child: ScaleTransition(scale: scaleAnimation, child: child),
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOutCubic;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
         );
       },
       transitionDuration: const Duration(milliseconds: 500),

@@ -197,7 +197,8 @@ class ProfileScreen extends StatelessWidget {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var fadeAnimation =
+            Tween<double>(begin: 0, end: 0.9).animate(animation);
         var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
           CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
         );

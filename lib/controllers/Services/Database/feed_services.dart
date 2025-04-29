@@ -32,22 +32,20 @@ class FeedServices extends ChangeNotifier {
       loading = true;
       notifyListeners();
 
-      final QuerySnapshot querySnapshot =
-          await _fireStore
-              .collection("Feed")
-              .orderBy('timeStamp', descending: true)
-              .get();
+      final QuerySnapshot querySnapshot = await _fireStore
+          .collection("Feed")
+          .orderBy('timeStamp', descending: true)
+          .get();
 
-      _posts =
-          querySnapshot.docs.map((doc) {
-            final data = doc.data() as Map<String, dynamic>;
-            return {
-              'postId': doc.id,
-              'image': data['image'] ?? '',
-              'description': data['description'] ?? '',
-              'timeStamp': (data['timeStamp'] as Timestamp).toDate(),
-            };
-          }).toList();
+      _posts = querySnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return {
+          'postId': doc.id,
+          'image': data['image'] ?? '',
+          'description': data['description'] ?? '',
+          'timeStamp': (data['timeStamp'] as Timestamp).toDate(),
+        };
+      }).toList();
 
       loading = false;
       notifyListeners();
@@ -103,30 +101,67 @@ class FeedServices extends ChangeNotifier {
       final imageUrl = supabase.storage.from("feed").getPublicUrl(fileName);
 
       //  Post the data to firestore database
-      await fireStore
-          .collection("Feed")
-          .doc(postId)
-          .set({
-            'image': imageUrl,
-            'description': descriptionController.text,
-            'postId': postId,
-            'timeStamp': DateTime.timestamp(),
-          })
-          .then((value) {
-            log("Post Uploaded");
-            descriptionController.clear();
-            _image == null;
-            loading = false;
-            notifyListeners();
-          })
-          .onError((error, stacktrace) {
-            loading = false;
-            FlutterToast().toastMessage(error.toString());
-            log(error.toString());
-            notifyListeners();
-          });
+      await fireStore.collection("Feed").doc(postId).set({
+        'image': imageUrl,
+        'description': descriptionController.text,
+        'postId': postId,
+        'timeStamp': DateTime.timestamp(),
+      }).then((value) {
+        log("Post Uploaded");
+        descriptionController.clear();
+        _image == null;
+        loading = false;
+        notifyListeners();
+      }).onError((error, stacktrace) {
+        loading = false;
+        FlutterToast().toastMessage(error.toString());
+        log(error.toString());
+        notifyListeners();
+      });
     } catch (error) {
       log(error.toString());
+    }
+  }
+
+  Future<void> loadMorePosts() async {
+    try {
+      loading = true;
+      notifyListeners();
+
+      // Get the last document from the current list
+      final lastPost = _posts.isNotEmpty ? _posts.last : null;
+
+      if (lastPost != null) {
+        final lastTimestamp = lastPost['timeStamp'] as DateTime;
+
+        // Query for more posts after the last timestamp
+        final QuerySnapshot querySnapshot = await _fireStore
+            .collection("Feed")
+            .orderBy('timeStamp', descending: true)
+            .startAfter([lastTimestamp])
+            .limit(10) // Load 10 more posts at a time
+            .get();
+
+        final newPosts = querySnapshot.docs.map((doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          return {
+            'postId': doc.id,
+            'image': data['image'] ?? '',
+            'description': data['description'] ?? '',
+            'timeStamp': (data['timeStamp'] as Timestamp).toDate(),
+          };
+        }).toList();
+
+        // Add new posts to the existing list
+        _posts.addAll(newPosts);
+      }
+
+      loading = false;
+      notifyListeners();
+    } catch (e) {
+      loading = false;
+      debugPrint('Error loading more posts: $e');
+      notifyListeners();
     }
   }
 }
