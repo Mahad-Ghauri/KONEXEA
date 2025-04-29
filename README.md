@@ -22,7 +22,7 @@ A modern social media application built with Flutter, featuring AI-powered inter
 - Secure Authentication
 
 ### Sign Up Interface
-![Sign Up Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/APP%20SS%202%20.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FQUCBTUyAyIC5wbmciLCJpYXQiOjE3NDU4ODg4NzcsImV4cCI6MTc1MTM4ODg4Nzd9.yY_qQuONu0WnkgSC57_msCiBpxXOh1XkWViw7BHZYYs)
+![Sign Up Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%201.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAxLnBuZyIsImlhdCI6MTc0NTg4ODkzNywiZXhwIjoxNzUxMzg4ODkzN30.c7OCyfHJkrNhxmBA5E8PhgsgDSuizvET3rfGZVUc9-4)
 - Modern signup UI with unique color combinations
 - Loading indicators and animations
 - User-friendly input field
@@ -35,21 +35,21 @@ A modern social media application built with Flutter, featuring AI-powered inter
 - Smooth scrolling
 - Dynamic content loading
 
-### Feed Interface
-![Upload post Interface]([https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%206.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA2LmpwZWciLCJpYXQiOjE3NDI3NDE4NzcsImV4cCI6MTc1MTA3NDE4Nzd9.lYfPv9bZl1y2JadfKvHRqDfIsgZaqsoBcQ9pFR4Kj4w](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/APP%20SS%203.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FQUCBTUyAzLnBuZyIsImlhdCI6MTc0NTg4ODQxOSwiZXhwIjoxNzUxMzg4ODQxOX0.hcuQ0Ji_rtYG3NDmwJkw5sEwwLkMC3rBI-oT79TiaJs))
+### Upload Page Interface
+![Upload post Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%204.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA0LnBuZyIsImlhdCI6MTc0NTg4OTAwNSwiZXhwIjoxNzUxMzg4OTAwNX0.8TImLFbs7efPKlxLIj8K5Qmx5ZhcKy8GL4iJDQqKA-Q)
 - Minimal Upload Post UI 
 - Real-time Response
 - Loading indicators and animations
 - User-friendly input field
 
 ### News Page Interface
-![News Page Interface]([https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%207.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA3LmpwZWciLCJpYXQiOjE3NDI3NDE5NjEsImV4cCI6MTc1MTA3NDE5NjF9.mFi5g-zfUXYz_UTv3zpcjvmHN_3n6xAsblJatKkrP84](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%205.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA1LnBuZyIsImlhdCI6MTc0NTg4ODU3NywiZXhwIjoxNzUxMzg4ODU3N30.RtwhdT-u3BKCaK_4Memw8oS4niR5KAawJbsgc1VAyeA))
+![News Page Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%207.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA3LnBuZyIsImlhdCI6MTc0NTg4OTE1NSwiZXhwIjoxNzUxMzg4OTE1NX0.5KZaf16jbUPsaHl6XQPo56oz8hnlPj_YrGn9Nqs0skM)
 - Minimal User Interface
 - Real-time Responses
 - Loading indicators and animations
 
 ### Chat Bot Interface
-![Chat Bot Interface]([https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%205.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA1LmpwZWciLCJpYXQiOjE3NDI3NDE5MzIsImV4cCI6MTc1MTA3NDE5MzJ9.OlRJ4pgvQHBvUTBcLPmp9jpfK8u-r7rHAhGUxNNA2KQ](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%208.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA4LnBuZyIsImlhdCI6MTc0NTg4ODM1NCwiZXhwIjoxNzUxMzg4ODM1NH0.us5sUtkJOgflCwqr48iGaTVTUVbY716trypbUec8gE0))
+![Chat Bot Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%208.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA4LnBuZyIsImlhdCI6MTc0NTg4OTA4MywiZXhwIjoxNzUxMzg4OTA4M30.PPhC97vDqDkdNaZBA1csJsYux4nqfyK4CFDwA3G7WDI)
 - Modern chat UI with message bubbles
 - Real-time AI responses
 - Loading indicators and animations
@@ -57,13 +57,13 @@ A modern social media application built with Flutter, featuring AI-powered inter
 
 
 ### Product Hub Interface
-![Product HUb Interface]([[https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%207.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA3LmpwZWciLCJpYXQiOjE3NDI3NDE5NjEsImV4cCI6MTc1MTA3NDE5NjF9.mFi5g-zfUXYz_UTv3zpcjvmHN_3n6xAsblJatKkrP84](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%205.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA1LnBuZyIsImlhdCI6MTc0NTg4ODU3NywiZXhwIjoxNzUxMzg4ODU3N30.RtwhdT-u3BKCaK_4Memw8oS4niR5KAawJbsgc1VAyeA)](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%209.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA5LnBuZyIsImlhdCI6MTc0NTg4ODgwMSwiZXhwIjoxNzUxMzg4ODgwMX0.8igVmWQLhE6Gco_RtHfjL1Driytb5ZrG62Ioz0bGVuM))
+![Product HUb Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%209.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA5LnBuZyIsImlhdCI6MTc0NTg4OTEwMCwiZXhwIjoxNzUxMzg4OTEwMH0.tfz6RXh13onTCT3_qkqvc1zRISmrSQsVFHPo-hfaaHk)
 - Modern UI interface for the cart and categories
 - Real-time Responses
 - Loading indicators and animations
   
   ### Profile Page Interface
-![Profile Page Interface]([https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%207.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA3LmpwZWciLCJpYXQiOjE3NDI3NDE5NjEsImV4cCI6MTc1MTA3NDE5NjF9.mFi5g-zfUXYz_UTv3zpcjvmHN_3n6xAsblJatKkrP84](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%206.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA2LnBuZyIsImlhdCI6MTc0NTg4ODU0NCwiZXhwIjoxNzUxMzg4ODU0NH0.XAXMNdEbGux4Uf8zo0TnSDItBOZxG3ufJhCWO9FWMwU))
+![Profile Page Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%206.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA2LnBuZyIsImlhdCI6MTc0NTg4OTEzMiwiZXhwIjoxNzUxMzg4OTEzMn0.f8nNL9rjauRP28eat_VMQeIs9Tjv6HTSCFfy2TyB5Xc)
 - Minimal Prpfile Interface
 - Smooth Responses
 - Loading , saving indicators and animations
