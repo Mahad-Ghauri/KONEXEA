@@ -22,6 +22,10 @@ class ProfileScreen extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 200,
             pinned: true,
+            // leading: IconButton(
+            //   icon: const Icon(Iconsax.arrow_left_2),
+            //   onPressed: () => Navigator.of(context).pop(),
+            // ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(
