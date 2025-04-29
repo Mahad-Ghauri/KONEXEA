@@ -103,6 +103,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           //     ],
                           //   ),
                           // ),
+                          // ignore: avoid_unnecessary_containers
                           Container(
                             // decoration: BoxDecoration(
                             //   borderRadius: BorderRadius.circular(25),

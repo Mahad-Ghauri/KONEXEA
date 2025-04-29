@@ -22,7 +22,7 @@ class InterfacePage extends StatefulWidget {
 }
 
 class _InterfacePageState extends State<InterfacePage> {
-  bool _isLoading = false;
+  final bool _isLoading = false;
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [

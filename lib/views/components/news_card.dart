@@ -115,7 +115,8 @@ Widget buildStandardNewsCard(BuildContext context, dynamic article) {
     child: InkWell(
       borderRadius: BorderRadius.circular(12),
       onTap: () {
-        // TODO: Handle article tap
+        /*
+        // TODO: Handle article tap will handle later*/
       },
       child: Container(
         padding: const EdgeInsets.all(12.0),

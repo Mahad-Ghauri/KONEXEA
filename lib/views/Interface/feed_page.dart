@@ -34,7 +34,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
   final Map<String, bool> _videoInitialized = {};
   late AnimationController _fabAnimationController;
   bool _showFabs = true;
-  Timer? _scrollEndTimer;
+  // Timer? _scrollEndTimer;
 
   // Animation for refreshing
   late final AnimationController _refreshAnimationController =
@@ -42,9 +42,10 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     vsync: this,
     duration: const Duration(milliseconds: 300),
   );
-  late final Animation<double> _refreshAnimation = Tween(begin: 0.0, end: 1.0)
+  
+  /*late final Animation<double> _refreshAnimation = Tween(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(
-          parent: _refreshAnimationController, curve: Curves.easeOut));
+          parent: _refreshAnimationController, curve: Curves.easeOut));*/
 
   @override
   void initState() {
@@ -415,6 +416,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                     },
                   ),
                 )
+                // ignore: unnecessary_to_list_in_spreads
                 .toList(),
           ],
         ),
@@ -828,8 +830,8 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                 ),
                                 shape: BoxShape.circle,
                               ),
-                              child: Center(
-                                child: const Icon(
+                              child: const Center(
+                                child: Icon(
                                   Icons.person_outlined,
                                   color: Colors.white,
                                   size: 24,
@@ -1152,7 +1154,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                     // Logic to save post
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Post saved to collection'),
+                        content: const Text('Post saved to collection'),
                         behavior: SnackBarBehavior.floating,
                         duration: const Duration(seconds: 2),
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -1169,7 +1171,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                     // Logic to copy post link
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Link copied to clipboard!'),
+                        content: const Text('Link copied to clipboard!'),
                         behavior: SnackBarBehavior.floating,
                         duration: const Duration(seconds: 2),
                         backgroundColor: Theme.of(context).colorScheme.primary,
@@ -1196,7 +1198,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                     // Logic to turn on notifications
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('Post notifications turned on'),
+                        content: const Text('Post notifications turned on'),
                         behavior: SnackBarBehavior.floating,
                         duration: const Duration(seconds: 2),
                         backgroundColor: Theme.of(context).colorScheme.primary,
