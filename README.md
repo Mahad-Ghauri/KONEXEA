@@ -104,9 +104,6 @@ flutter run
 ## 📁 Project Structure
 
 ```
-social_swap/
-├── android/                  # Android platform-specific code
-├── ios/                     # iOS platform-specific code
 ├── lib/                     # Main application code
 │   ├── Controllers/         # Business logic and services
 │   │   ├── Services/
