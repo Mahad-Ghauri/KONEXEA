@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:social_swap/views/Interface/about_page.dart';
+import 'package:social_swap/views/Interface/Profile/about_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:social_swap/views/Interface/profile/edit_profile_page.dart';
 import 'package:social_swap/views/Interface/profile/security_center_page.dart';

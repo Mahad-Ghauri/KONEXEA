@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
-import 'package:social_swap/views/Authentication/login.dart';
+import 'package:social_swap/views/Interface/Authentication/login.dart';
 import 'package:social_swap/views/Interface/interface.dart';
 
 class AuthGate extends StatelessWidget {
@@ -13,7 +13,8 @@ class AuthGate extends StatelessWidget {
       stream: AuthenticationController().supabase.auth.onAuthStateChange,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Scaffold(body: Center(child: CircularProgressIndicator()));
+          return const Scaffold(
+              body: Center(child: CircularProgressIndicator()));
         }
         if (snapshot.hasError) {
           return Scaffold(body: Center(child: Text(snapshot.error.toString())));
