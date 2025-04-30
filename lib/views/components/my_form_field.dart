@@ -106,7 +106,7 @@ class _MyFormFieldState extends State<MyFormField>
               ),
               hintText: widget.hintText,
               errorStyle: TextStyle(
-                color: _isFocused ? Colors.red : Colors.white70,
+                color: _isFocused ? Colors.red : Colors.red,
                 fontFamily: GoogleFonts.urbanist().fontFamily,
               ),
               hintStyle:
@@ -154,7 +154,7 @@ class _MyFormFieldState extends State<MyFormField>
               ),
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
-                borderSide: const BorderSide(color: Colors.white70, width: 1.5),
+                borderSide: const BorderSide(color: Colors.red, width: 1.5),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
