@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/utils/flutter_toast.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -13,6 +14,9 @@ class FeedServices extends ChangeNotifier {
 
   //  Instance for supabase database
   final SupabaseClient _supabase = Supabase.instance.client;
+
+  //  Instance for authentication controller
+  final AuthenticationController _authController = AuthenticationController();
 
   //  variables
   File? _image;
@@ -44,6 +48,7 @@ class FeedServices extends ChangeNotifier {
           'image': data['image'] ?? '',
           'description': data['description'] ?? '',
           'timeStamp': (data['timeStamp'] as Timestamp).toDate(),
+          'userEmail': data['userEmail'] ?? '',
         };
       }).toList();
 
@@ -85,6 +90,14 @@ class FeedServices extends ChangeNotifier {
       return;
     }
 
+    // Get current user's email
+    final userEmail = _authController.getUserEmail();
+    if (userEmail == null) {
+      FlutterToast().toastMessage("Please login to post");
+      notifyListeners();
+      return;
+    }
+
     String postId = DateTime.now().microsecondsSinceEpoch.toString();
     String fileName = "post_$postId.jpg";
 
@@ -106,10 +119,11 @@ class FeedServices extends ChangeNotifier {
         'description': descriptionController.text,
         'postId': postId,
         'timeStamp': DateTime.timestamp(),
+        'userEmail': userEmail,
       }).then((value) {
         log("Post Uploaded");
         descriptionController.clear();
-        _image == null;
+        _image = null;
         loading = false;
         notifyListeners();
       }).onError((error, stacktrace) {
@@ -149,6 +163,7 @@ class FeedServices extends ChangeNotifier {
             'image': data['image'] ?? '',
             'description': data['description'] ?? '',
             'timeStamp': (data['timeStamp'] as Timestamp).toDate(),
+            'userEmail': data['userEmail'] ?? '',
           };
         }).toList();
 
