@@ -3,6 +3,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:social_swap/Views/Interface/Authentication/login.dart';
 import 'package:social_swap/views/Interface/interface.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -94,13 +95,32 @@ class AuthenticationController {
   }
 
   //  Sign out method
-  Future<bool> signOutCurrentSession() async {
+  Future<void> signOutAndEndSession(BuildContext context) async {
     try {
-      await supabase.auth.signOut();
-      return true;
+      await supabase.auth.signOut().then((value) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        ); //  Redirect the user to the login page
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text('Thanks For Using Our Services. See you Soon!'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }).onError((error, stackTrace) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text('Error: Unable to Sign Out'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        log("Error: $error");
+        throw Exception("Error Occurred!");
+      });
     } catch (error) {
-      log('Sign out error: $error');
-      return false;
+      log(error.toString());
     }
   }
 

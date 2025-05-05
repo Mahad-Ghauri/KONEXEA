@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Interface/Profile/about_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:social_swap/views/Interface/profile/edit_profile_page.dart';
@@ -15,6 +16,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Supabase.instance.client.auth.currentUser;
+    final AuthenticationController authController =
+        AuthenticationController(); // Create an instance of the controller
 
     return Scaffold(
       body: CustomScrollView(
@@ -123,12 +126,47 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () async {
-                        await Supabase.instance.client.auth.signOut();
-                        if (context.mounted) {
-                          Navigator.of(context).pushReplacementNamed('/login');
-                        }
-                      },
+                      onPressed: () => authController
+                          .signOutAndEndSession(context)
+                          .then((value) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.green.shade700,
+                            content: Text(
+                              "Hope to see you soon!",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: .5,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                              ),
+                            ),
+                          ),
+                        );
+                      }).onError((error, stackTrace) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            backgroundColor: Colors.red.shade700,
+                            content: Text(
+                              "Error Occurred: $error",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: .5,
+                                fontFamily: GoogleFonts.urbanist().fontFamily,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
                         padding: const EdgeInsets.symmetric(
