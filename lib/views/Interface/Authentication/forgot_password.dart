@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_swap/Controllers/input_controllers.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
