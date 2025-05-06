@@ -85,7 +85,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
 
       // Show error message
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text("Failed to send reset link. Please try again."),
           backgroundColor: Colors.red,
         ),
@@ -270,7 +270,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
                                         ),
                                         child:
                                             _isLoading
-                                                ? SizedBox(
+                                                ? const SizedBox(
                                                   width: 24,
                                                   height: 24,
                                                   child:
