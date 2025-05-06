@@ -28,7 +28,7 @@ class DrawerComponent extends StatelessWidget {
         ),
         title: Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             color: Colors.black87,
             fontWeight: FontWeight.w600,
             fontSize: 16,
@@ -36,7 +36,7 @@ class DrawerComponent extends StatelessWidget {
         ),
         subtitle: Text(
           subtitle,
-          style: TextStyle(color: Colors.black54, fontSize: 12),
+          style: const TextStyle(color: Colors.black54, fontSize: 12),
         ),
         trailing: Icon(
           Icons.arrow_forward_ios,

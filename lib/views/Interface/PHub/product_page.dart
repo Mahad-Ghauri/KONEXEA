@@ -232,7 +232,7 @@ class _ProductPageState extends State<ProductPage> {
         onPressed: () => Navigator.pop(context),
         icon: const Icon(Icons.arrow_back_ios),
       ),
-      actions: [const CartIcon()],
+      actions: const [CartIcon()],
     );
   }
 

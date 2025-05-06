@@ -42,7 +42,7 @@ class ChatbotController extends ChangeNotifier {
   Future<void> createNewChat() async {
     try {
       // First message will be used as title
-      final initialTitle = "New conversation";
+      const initialTitle = "New conversation";
       _currentChatId = await _chatHistoryService.createNewChat(initialTitle);
       messages = [];
       notifyListeners();
@@ -96,10 +96,10 @@ class ChatbotController extends ChangeNotifier {
   //  METHOD TO SCROLL TO THE BOTTOM
   void scrollToBottom() {
     if (scrollController.hasClients) {
-      Future.delayed(Duration(milliseconds: 300), () {
+      Future.delayed(const Duration(milliseconds: 300), () {
         scrollController.animateTo(
           0, // For reversed ListView, 0 is the "bottom" (most recent messages)
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           curve: Curves.easeOut,
         );
       });

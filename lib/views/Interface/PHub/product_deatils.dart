@@ -553,10 +553,10 @@ class _ProductDetailState extends State<ProductDetail>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        const Row(
           children: [
             Icon(Icons.check_circle, color: Colors.green, size: 24),
-            const SizedBox(width: 8),
+            SizedBox(width: 8),
             Text(
               "Item already in cart",
               style: TextStyle(
