@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/Controllers/input_controllers.dart';
+import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -20,7 +21,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
   // Form key and controllers
   final _formKey = GlobalKey<FormState>();
   final InputControllers _inputControllers = InputControllers();
-  final AuthServices _authServices = AuthServices();
+  final AuthenticationController _authServices = AuthenticationController();
 
   // Loading state
   bool _isLoading = false;
