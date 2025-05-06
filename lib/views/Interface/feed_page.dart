@@ -3,11 +3,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
+import 'package:social_swap/Views/Interface/PHub/phub_interface.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:social_swap/views/Interface/PHub/phub_interface.dart';
+
 import 'package:social_swap/views/Interface/Chat Bot/chatbot_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
@@ -269,7 +270,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             hasBorder: true,
             borderColor: const Color(0xFF228B22),
             onPressed: () {
-              Navigator.of(context).push(_elegantRoute(const PHubInterface()));
+              Navigator.of(context).push(_elegantRoute(const PHubInterfacePage()));
             },
           ),
         ],

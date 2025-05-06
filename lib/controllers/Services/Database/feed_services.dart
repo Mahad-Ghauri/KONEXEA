@@ -91,7 +91,7 @@ class FeedServices extends ChangeNotifier {
     }
 
     // Get current user's email
-    final userEmail = _authController.getUserEmail();
+    final userEmail = _authController.getCurrentUserEmail();
     if (userEmail == null) {
       FlutterToast().toastMessage("Please login to post");
       notifyListeners();

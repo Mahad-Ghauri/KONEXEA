@@ -125,7 +125,7 @@ class AuthenticationController {
   }
 
   //  Get user email from current session
-  String? getUserEmail() {
+  String? getCurrentUserEmail() {
     return supabase.auth.currentUser?.email;
   }
 

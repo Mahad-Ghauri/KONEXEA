@@ -1,10 +1,13 @@
 import 'package:flutter/widgets.dart';
+import 'package:social_swap/Model/product_model.dart';
 
 class InputControllers {
   //  Loading variable
   bool loading = false;
   //  Form Validator
   final formKey = GlobalKey<FormState>();
+  final List<Product> cartItems = [];
+  String sortOption = 'Default';
   //  Text Field Controllers
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -12,6 +15,8 @@ class InputControllers {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  final TextEditingController messageController = TextEditingController();
+  final TextEditingController searchController = TextEditingController();
 
   void dispose() {
     nameController.dispose();
@@ -19,5 +24,7 @@ class InputControllers {
     passwordController.dispose();
     confirmPasswordController.dispose();
     descriptionController.dispose();
+    messageController.dispose();
+    searchController.dispose();
   }
 }
