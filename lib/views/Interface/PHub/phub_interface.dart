@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Intrerface/interface_controllers.dart';
+import 'package:social_swap/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
 import 'package:social_swap/Views/Components/Product%20Hub/cart_icon.dart';
 import 'package:social_swap/Views/Components/Product%20Hub/category_tile.dart';
 import 'package:social_swap/Views/Components/Product%20Hub/large_category_tile.dart';

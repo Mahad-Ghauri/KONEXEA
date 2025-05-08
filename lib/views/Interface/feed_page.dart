@@ -821,8 +821,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
           final post = feedService.posts[index];
           final postId = post['postId'] ?? '';
           final isExpanded = _expandedPosts[postId] ?? false;
-          final userEmail =
-              Supabase.instance.client.auth.currentUser?.email ?? 'Anonymous';
+          final posterEmail = post['username'] ?? 'Anonymous';
           final isLiked = _likedPosts[postId] ?? false;
 
           // Create staggered animations based on index
@@ -903,13 +902,15 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                             .tertiary,
                                       ),
                                       const SizedBox(width: 8),
-                                      Text(
-                                        userEmail,
-                                        style: GoogleFonts.urbanist(
-                                          fontWeight: FontWeight.w600,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary,
+                                      Expanded(
+                                        child: Text(
+                                          posterEmail, // Use the email from the post
+                                          style: GoogleFonts.urbanist(
+                                            fontWeight: FontWeight.w600,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                          ),
                                         ),
                                       ),
                                       const SizedBox(width: 6),

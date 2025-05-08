@@ -109,9 +109,10 @@ class FeedServices extends ChangeNotifier {
       final bytes = await _image!.readAsBytes();
 
       //  image went to storage
-      await supabase.storage.from("feed").updateBinary(fileName, bytes);
+      await supabase.storage.from("feedposts").updateBinary(fileName, bytes);
 
-      final imageUrl = supabase.storage.from("feed").getPublicUrl(fileName);
+      final imageUrl =
+          supabase.storage.from("feedposts").getPublicUrl(fileName);
 
       //  Post the data to firestore database
       await fireStore.collection("Feed").doc(postId).set({

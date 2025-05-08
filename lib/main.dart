@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Intrerface/interface_controllers.dart';
+import 'package:social_swap/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
 import 'package:social_swap/Controllers/Services/API/Thrift%20Store/phub_api_services.dart';
 import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
 import 'dart:developer';

@@ -1,7 +1,7 @@
 // import 'package:flutter/material.dart';
 
 // class InterfaceServices extends ChangeNotifier {
-//   List<String> _carouselItems = [
+//   final List<String> _carouselItems = [
 //     "assets/carousel/carousel1.jpg",
 //     "assets/carousel/carousel2.jpg",
 //     "assets/carousel/carousel3.jpg",

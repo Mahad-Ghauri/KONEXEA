@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Intrerface/interface_controllers.dart';
+import 'package:social_swap/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
 import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
 
 import 'package:social_swap/Controllers/input_controllers.dart';

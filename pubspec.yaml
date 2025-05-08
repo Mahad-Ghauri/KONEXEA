@@ -42,5 +42,5 @@ flutter:
   
   assets:
     - assets/categories/
-    - assets/carousel/
+    - assets/Carousel/
     - assets/lottie/

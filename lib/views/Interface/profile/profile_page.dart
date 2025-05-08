@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
         //   FontAwesomeIcons.infinity,
         //   color: Theme.of(context).colorScheme.primary,
         // ),
-        title: const Text('Home page'),
+        title: const Text('Profile page'),
         titleTextStyle: TextStyle(
           color: Theme.of(context).colorScheme.tertiary,
           fontSize: height * 0.024,

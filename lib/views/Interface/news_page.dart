@@ -54,19 +54,19 @@ class _NewsPageState extends State<NewsPage> {
         Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        // leading: Icon(
-        //   FontAwesomeIcons.infinity,
-        //   color: Theme.of(context).colorScheme.primary,
-        // ),
-        title: const Text('News Page'),
-        titleTextStyle: TextStyle(
-          color: Theme.of(context).colorScheme.tertiary,
-          fontSize: height * 0.024,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.5,
-          fontFamily: GoogleFonts.lobsterTwo().fontFamily,
-        ),
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            // leading: Icon(
+            //   FontAwesomeIcons.infinity,
+            //   color: Theme.of(context).colorScheme.primary,
+            // ),
+            title: const Text('News Page'),
+            titleTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.tertiary,
+              fontSize: height * 0.024,
+              fontWeight: FontWeight.bold,
+              letterSpacing: 1.5,
+              fontFamily: GoogleFonts.lobsterTwo().fontFamily,
+            ),
           ),
           body: Column(
             children: [
