@@ -821,7 +821,11 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
           final post = feedService.posts[index];
           final postId = post['postId'] ?? '';
           final isExpanded = _expandedPosts[postId] ?? false;
-          final posterEmail = post['username'] ?? 'Anonymous';
+          // final posterEmail = post['username'] ?? 'Anonymous';
+          // Get email from post and extract username part (before @)
+          final String fullEmail = post['userEmail'] ?? 'Anonymous';
+          final String posterUsername =
+              fullEmail.contains('@') ? fullEmail.split('@')[0] : fullEmail;
           final isLiked = _likedPosts[postId] ?? false;
 
           // Create staggered animations based on index
@@ -904,7 +908,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
-                                          posterEmail, // Use the email from the post
+                                          posterUsername, // Use the email from the post
                                           style: GoogleFonts.urbanist(
                                             fontWeight: FontWeight.w600,
                                             color: Theme.of(context)
