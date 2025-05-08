@@ -8,7 +8,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:social_swap/Views/Interface/profile/profile_page.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Interface/chat_page.dart';
-// import 'package:social_swap/views/Interface/drawer_page.dart';
 import 'package:social_swap/views/Interface/feed_page.dart';
 import 'package:social_swap/views/Interface/news_page.dart';
 import 'package:social_swap/views/Interface/upload_page.dart';
@@ -23,6 +22,7 @@ class InterfacePage extends StatefulWidget {
 
 class _InterfacePageState extends State<InterfacePage> {
   final bool _isLoading = false;
+  final ScrollController _scrollController = ScrollController();
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -36,88 +36,21 @@ class _InterfacePageState extends State<InterfacePage> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.grey[50],
-      // drawer: DrawerPage(
-      //   onPageSelected: (index) {
-      //     setState(() {
-      //       _selectedIndex = index;
-      //     });
-      //   },
-      //   currentPage: _selectedIndex,
-      //   authController: _authController,
-      //   isLoading: _isLoading,
-      //   setLoading: (value) {
-      //     setState(() {
-      //       _isLoading = value;
-      //     });
-      //   },
-      // ),
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Theme.of(context).colorScheme.primary),
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        title: Row(
-          children: [
-            Icon(
-              FontAwesomeIcons.infinity,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-            const SizedBox(width: 15),
-            Text(
-              'Social Swap',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.tertiary,
-                fontSize: height * 0.024,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1.5,
-                fontFamily: GoogleFonts.lobsterTwo().fontFamily,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          if (_selectedIndex == 0)
-            IconButton(
-              icon: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: Theme.of(context).colorScheme.primary,
-                    width: 2,
-                  ),
-                ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(
-                    Iconsax.message_2,
-                    color: Color(0xFF228B22),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const ChatPage(),
-                  ),
-                );
-              },
-            ),
-          if (_selectedIndex == 0) const SizedBox(width: 16),
-        ],
-      ),
-      body: _screens[_selectedIndex],
+        body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        buttonBackgroundColor: Theme.of(context).colorScheme.surface,
-        color: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        buttonBackgroundColor:
+            Theme.of(context).colorScheme.primary.withOpacity(0.7),
+        color: Theme.of(context).colorScheme.primary,
         animationDuration: const Duration(milliseconds: 350),
         items: [
-          Icon(Iconsax.home, color: Theme.of(context).colorScheme.primary),
+          Icon(Iconsax.home, color: Theme.of(context).colorScheme.surface),
           Icon(Iconsax.add_circle,
-              color: Theme.of(context).colorScheme.primary),
-          Icon(Icons.public, color: Theme.of(context).colorScheme.primary),
-          Icon(Iconsax.user, color: Theme.of(context).colorScheme.primary),
+              color: Theme.of(context).colorScheme.surface),
+          Icon(Icons.public, color: Theme.of(context).colorScheme.surface),
+          Icon(Iconsax.user, color: Theme.of(context).colorScheme.surface),
         ],
         index: _selectedIndex,
         onTap: (index) {

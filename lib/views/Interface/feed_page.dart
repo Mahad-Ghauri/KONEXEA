@@ -1,14 +1,15 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:social_swap/Views/Interface/PHub/phub_interface.dart';
+import 'package:social_swap/Views/Interface/chat_page.dart';
 import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
-
 import 'package:social_swap/views/Interface/Chat Bot/chatbot_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'dart:math' as math;
@@ -43,7 +44,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     vsync: this,
     duration: const Duration(milliseconds: 300),
   );
-  
+
   /*late final Animation<double> _refreshAnimation = Tween(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(
           parent: _refreshAnimationController, curve: Curves.easeOut));*/
@@ -190,7 +191,54 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    int _selectedIndex = 0;
+
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        // leading: Icon(
+        //   FontAwesomeIcons.infinity,
+        //   color: Theme.of(context).colorScheme.primary,
+        // ),
+        title: const Text('Home page'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.tertiary,
+          fontSize: height * 0.024,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.5,
+          fontFamily: GoogleFonts.lobsterTwo().fontFamily,
+        ),
+        actions: [
+          if (_selectedIndex == 0)
+            IconButton(
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.primary,
+                    width: 2,
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Iconsax.message_2,
+                    color: Color(0xFF228B22),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ChatPage(),
+                  ),
+                );
+              },
+            ),
+          if (_selectedIndex == 0) const SizedBox(width: 16),
+        ],
+      ),
       body: Stack(
         children: [
           // Enhanced background gradient with subtle pattern
@@ -270,7 +318,8 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             hasBorder: true,
             borderColor: const Color(0xFF228B22),
             onPressed: () {
-              Navigator.of(context).push(_elegantRoute(const PHubInterfacePage()));
+              Navigator.of(context)
+                  .push(_elegantRoute(const PHubInterfacePage()));
             },
           ),
         ],

@@ -18,28 +18,32 @@ class ProfileScreen extends StatelessWidget {
     final user = Supabase.instance.client.auth.currentUser;
     final AuthenticationController authController =
         AuthenticationController(); // Create an instance of the controller
-
+    final height = MediaQuery.of(context).size.height;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        // leading: Icon(
+        //   FontAwesomeIcons.infinity,
+        //   color: Theme.of(context).colorScheme.primary,
+        // ),
+        title: const Text('Home page'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.tertiary,
+          fontSize: height * 0.024,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.5,
+          fontFamily: GoogleFonts.lobsterTwo().fontFamily,
+        ),
+      ),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: 200,
             pinned: true,
-            // leading: IconButton(
-            //   icon: const Icon(Iconsax.arrow_left_2),
-            //   onPressed: () => Navigator.of(context).pop(),
-            // ),
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      const Color(0xFFFFFDD0),
-                      const Color(0xFFFFFDD0).withOpacity(0.8)
-                    ],
-                  ),
+                  color: Theme.of(context).colorScheme.surface,
                 ),
                 child: Center(
                   child: Column(
@@ -58,7 +62,7 @@ class ProfileScreen extends StatelessWidget {
                           child: Icon(
                             Iconsax.user,
                             size: 40,
-                            color: Color(0xFF228B22),
+                            color: Colors.teal,
                           ),
                         ),
                       ),
@@ -221,7 +225,7 @@ class ProfileScreen extends StatelessWidget {
         side: BorderSide(color: const Color(0xFF556B2F).withOpacity(0.1)),
       ),
       child: ListTile(
-        leading: Icon(icon, color: const Color(0xFF228B22)),
+        leading: Icon(icon, color: Colors.teal),
         title: Text(
           title,
           style: GoogleFonts.urbanist(
@@ -229,7 +233,7 @@ class ProfileScreen extends StatelessWidget {
             fontWeight: FontWeight.w500,
           ),
         ),
-        trailing: const Icon(Icons.chevron_right, color: Color(0xFF228B22)),
+        trailing: const Icon(Icons.chevron_right, color: Colors.teal),
         onTap: onTap,
       ),
     );

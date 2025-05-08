@@ -45,6 +45,21 @@ class _UploadPageState extends State<UploadPage>
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        // leading: Icon(
+        //   FontAwesomeIcons.infinity,
+        //   color: Theme.of(context).colorScheme.primary,
+        // ),
+        title: const Text('Upload page'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.tertiary,
+          fontSize: height * 0.024,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.5,
+          fontFamily: GoogleFonts.lobsterTwo().fontFamily,
+        ),
+      ),
       resizeToAvoidBottomInset: true,
       body: Stack(
         children: [
@@ -231,7 +246,6 @@ class _UploadPageState extends State<UploadPage>
                                           .colorScheme
                                           .surface),
                                 );
-
                               },
                             ),
                           ],

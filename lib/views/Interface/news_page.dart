@@ -1,7 +1,7 @@
-// ignore_for_file: use_build_context_synchronously, deprecated_member_use
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use, prefer_final_fields
 
 import 'package:flutter/material.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:social_swap/controllers/Services/API/News API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -45,6 +45,7 @@ class _NewsPageState extends State<NewsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return Stack(
       children: [
         Positioned.fill(
@@ -52,34 +53,23 @@ class _NewsPageState extends State<NewsPage> {
         ),
         Scaffold(
           backgroundColor: Colors.transparent,
+          appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        // leading: Icon(
+        //   FontAwesomeIcons.infinity,
+        //   color: Theme.of(context).colorScheme.primary,
+        // ),
+        title: const Text('News Page'),
+        titleTextStyle: TextStyle(
+          color: Theme.of(context).colorScheme.tertiary,
+          fontSize: height * 0.024,
+          fontWeight: FontWeight.bold,
+          letterSpacing: 1.5,
+          fontFamily: GoogleFonts.lobsterTwo().fontFamily,
+        ),
+          ),
           body: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: TextField(
-                  controller: _searchController,
-                  decoration: InputDecoration(
-                    hintText: "Search news...",
-                    hintStyle: GoogleFonts.urbanist(),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true,
-                    fillColor:
-                        Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                    prefixIcon: const Icon(Icons.search),
-                    suffixIcon: IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _searchController.clear();
-                        _performSearch();
-                      },
-                    ),
-                  ),
-                  onSubmitted: (_) => _performSearch(),
-                ),
-              ),
               Expanded(
                 child: Consumer<ApiServices>(
                   builder: (context, apiService, _) {
@@ -166,26 +156,8 @@ class _NewsPageState extends State<NewsPage> {
     return buildStandardNewsCard(context, article);
   }
 
-  void _performSearch() {
-    setState(() {
-      _searchQuery = _searchController.text.trim().isEmpty
-          ? "tesla"
-          : _searchController.text.trim();
-    });
-    _fetchNewsWithCurrentFilters();
-  }
-
   void _refreshNews() {
     Provider.of<ApiServices>(context, listen: false).refreshNews(
-      query: _searchQuery,
-      fromDate: _fromDate,
-      toDate: _toDate,
-      sortBy: _sortBy,
-    );
-  }
-
-  void _fetchNewsWithCurrentFilters() {
-    Provider.of<ApiServices>(context, listen: false).fetchNews(
       query: _searchQuery,
       fromDate: _fromDate,
       toDate: _toDate,
