@@ -38,7 +38,7 @@ class _InterfacePageState extends State<InterfacePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[50],
-        body: _screens[_selectedIndex],
+      body: _screens[_selectedIndex],
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Theme.of(context).colorScheme.surface,
         buttonBackgroundColor:

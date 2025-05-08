@@ -316,7 +316,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             icon: Icons.shopping_bag_rounded,
             color: const Color(0xFFFFFDD0),
             hasBorder: true,
-            borderColor: const Color(0xFF228B22),
+            // borderColor: const Color(0xFF228B22),
             onPressed: () {
               Navigator.of(context)
                   .push(_elegantRoute(const PHubInterfacePage()));
@@ -484,59 +484,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
       ),
     );
   }
-
-  // Widget _buildAnimatedAppBar() {
-  //   return AnimatedBuilder(
-  //     animation: _scrollController,
-  //     builder: (context, child) {
-  //       // Calculate opacity based on scroll position
-  //       double opacity = _scrollController.hasClients
-  //           ? (_scrollController.offset / 100).clamp(0.0, 1.0)
-  //           : 0.0;
-
-  //       return Container(
-  //         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-  //         decoration: BoxDecoration(
-  //           color: Theme.of(context).colorScheme.surface.withOpacity(opacity),
-  //           boxShadow: [
-  //             if (opacity > 0.5)
-  //               BoxShadow(
-  //                 color: Colors.black.withOpacity(0.1),
-  //                 blurRadius: 4,
-  //                 offset: const Offset(0, 2),
-  //               ),
-  //           ],
-  //         ),
-  //         height: 60,
-  //         child: Row(
-  //           children: [
-  //             Text(
-  //               "Social Swap",
-  //               style: GoogleFonts.urbanist(
-  //                 fontSize: 20,
-  //                 fontWeight: FontWeight.bold,
-  //                 color: Theme.of(context).colorScheme.primary,
-  //               ),
-  //             ),
-  //             const Spacer(),
-  //             IconButton(
-  //               icon: const Icon(Iconsax.search_normal),
-  //               onPressed: () {
-  //                 // Search functionality
-  //               },
-  //             ),
-  //             IconButton(
-  //               icon: const Icon(Iconsax.notification),
-  //               onPressed: () {
-  //                 // Notifications
-  //               },
-  //             ),
-  //           ],
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 
   Widget _buildFloatingActionButton({
     required IconData icon,
@@ -917,24 +864,25 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(width: 6),
-                                      Container(
-                                        padding: const EdgeInsets.all(4),
-                                        decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                              .withOpacity(0.1),
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Icon(
-                                          Iconsax.tick_circle,
-                                          size: 14,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                        ),
-                                      ),
+                                      const Icon(
+                                        Iconsax.tick_circle,
+                                        size: 14,
+                                        color: Colors.teal,
+                                      )
+
+                                      // Container(
+                                      //   padding: const EdgeInsets.all(4),
+                                      //   decoration: BoxDecoration(
+                                      //     color: Theme.of(context)
+                                      //         .colorScheme
+                                      //         .primary
+                                      //         .withOpacity(0.1),
+                                      //     shape: BoxShape.circle,
+                                      //   ),
+                                      //   child:
+                                      // ),
+
+                                      // const SizedBox(width: 6),
                                     ],
                                   ),
                                   Text(
