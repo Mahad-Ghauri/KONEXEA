@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/controllers/Services/Database/feed_services.dart';
+import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/components/auth_button.dart';
 import 'package:google_fonts/google_fonts.dart';

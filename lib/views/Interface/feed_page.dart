@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.dart';
 import 'package:social_swap/Views/Interface/PHub/phub_interface.dart';
 import 'package:social_swap/Views/Interface/chat_page.dart';
-import 'package:social_swap/controllers/Services/Database/feed_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
