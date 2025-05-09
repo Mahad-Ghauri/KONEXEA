@@ -5,6 +5,7 @@ import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.d
 import 'package:social_swap/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
 import 'package:social_swap/Controllers/Services/API/Thrift%20Store/phub_api_services.dart';
 import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
 import 'dart:developer';
 import 'package:social_swap/Utils/consts.dart';
 import 'package:social_swap/controllers/Services/API/News API/api_services.dart';
@@ -31,6 +32,7 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (context) => PHubApiServices()),
             ChangeNotifierProvider(create: (context) => FeedServices()),
             ChangeNotifierProvider(create: (context) => CartServices()),
+            ChangeNotifierProvider(create: (context) => ChatServices()),
             ChangeNotifierProvider(
               create: (context) => ChatbotController(),
             ),

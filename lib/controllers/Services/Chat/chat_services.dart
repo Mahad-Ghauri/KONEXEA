@@ -1,0 +1,342 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+class ChatServices extends ChangeNotifier {
+  // Instance for Firebase Firestore
+  final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
+
+  // Instance for Supabase
+  final SupabaseClient _supabase = Supabase.instance.client;
+
+  // Instance for authentication controller
+  final AuthenticationController _authController = AuthenticationController();
+
+  // Variables
+  bool _loading = false;
+  List<Map<String, dynamic>> _chats = [];
+  List<Map<String, dynamic>> _messages = [];
+  String? _currentChatId;
+  Map<String, String> _usernameCache = {};
+
+  // Getters
+  bool get loading => _loading;
+  List<Map<String, dynamic>> get chats => _chats;
+  List<Map<String, dynamic>> get messages => _messages;
+  String? get currentChatId => _currentChatId;
+
+  // Method to fetch all chats for the current user
+  Future<void> fetchChats() async {
+    try {
+      _loading = true;
+      notifyListeners();
+
+      // Get current user's email
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) {
+        _loading = false;
+        notifyListeners();
+        return;
+      }
+
+      // Query chats where the current user is a participant
+      final QuerySnapshot querySnapshot = await _fireStore
+          .collection("Chats")
+          .where('participants', arrayContains: userEmail)
+          .orderBy('lastMessageTime', descending: true)
+          .get();
+
+      _chats = await Future.wait(querySnapshot.docs.map((doc) async {
+        final data = doc.data() as Map<String, dynamic>;
+        final participants = List<String>.from(data['participants'] ?? []);
+        
+        // Get the other participant's email (for 1:1 chats)
+        final otherParticipantEmail = participants.firstWhere(
+          (email) => email != userEmail,
+          orElse: () => 'Unknown',
+        );
+        
+        // Get username for the other participant
+        final otherUsername = await getUsernameFromEmail(otherParticipantEmail);
+        
+        return {
+          'chatId': doc.id,
+          'participants': participants,
+          'lastMessage': data['lastMessage'] ?? '',
+          'lastMessageTime': (data['lastMessageTime'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          'unreadCount': data['unreadCount'] ?? 0,
+          'otherParticipantEmail': otherParticipantEmail,
+          'otherParticipantUsername': otherUsername,
+        };
+      }).toList());
+
+      _loading = false;
+      notifyListeners();
+    } catch (error) {
+      _loading = false;
+      log('Error fetching chats: $error');
+      notifyListeners();
+    }
+  }
+
+  // Method to fetch messages for a specific chat
+  Future<void> fetchMessages(String chatId) async {
+    try {
+      _loading = true;
+      _currentChatId = chatId;
+      notifyListeners();
+
+      final QuerySnapshot querySnapshot = await _fireStore
+          .collection("Chats")
+          .doc(chatId)
+          .collection("Messages")
+          .orderBy('timestamp', descending: false)
+          .get();
+
+      _messages = querySnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return {
+          'messageId': doc.id,
+          'senderId': data['senderId'] ?? '',
+          'senderEmail': data['senderEmail'] ?? '',
+          'text': data['text'] ?? '',
+          'timestamp': (data['timestamp'] as Timestamp).toDate(),
+          'isRead': data['isRead'] ?? false,
+        };
+      }).toList();
+
+      // Mark messages as read
+      await markMessagesAsRead(chatId);
+
+      _loading = false;
+      notifyListeners();
+    } catch (error) {
+      _loading = false;
+      log('Error fetching messages: $error');
+      notifyListeners();
+    }
+  }
+
+  // Method to send a message
+  Future<void> sendMessage(String recipientEmail, String messageText) async {
+    try {
+      // Get current user's email
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) {
+        return;
+      }
+
+      // Check if a chat already exists between these users
+      String chatId = await _findOrCreateChat(userEmail, recipientEmail);
+
+      // Add the message to the chat
+      final messageData = {
+        'senderId': _supabase.auth.currentUser!.id,
+        'senderEmail': userEmail,
+        'text': messageText,
+        'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
+      };
+
+      await _fireStore
+          .collection("Chats")
+          .doc(chatId)
+          .collection("Messages")
+          .add(messageData);
+
+      // Update the chat with the last message
+      await _fireStore.collection("Chats").doc(chatId).update({
+        'lastMessage': messageText,
+        'lastMessageTime': FieldValue.serverTimestamp(),
+        'lastSender': userEmail,
+        // Increment unread count for the recipient
+        'unreadCount': FieldValue.increment(1),
+      });
+
+      // If this is the current chat, refresh messages
+      if (_currentChatId == chatId) {
+        await fetchMessages(chatId);
+      }
+
+      // Refresh the chat list
+      await fetchChats();
+    } catch (error) {
+      log('Error sending message: $error');
+    }
+  }
+
+  // Method to mark messages as read
+  Future<void> markMessagesAsRead(String chatId) async {
+    try {
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) {
+        return;
+      }
+
+      // Get unread messages sent by others
+      final QuerySnapshot unreadMessages = await _fireStore
+          .collection("Chats")
+          .doc(chatId)
+          .collection("Messages")
+          .where('isRead', isEqualTo: false)
+          .where('senderEmail', isNotEqualTo: userEmail)
+          .get();
+
+      // Mark each message as read
+      final batch = _fireStore.batch();
+      for (var doc in unreadMessages.docs) {
+        batch.update(doc.reference, {'isRead': true});
+      }
+      await batch.commit();
+
+      // Reset unread count for this chat
+      await _fireStore.collection("Chats").doc(chatId).update({
+        'unreadCount': 0,
+      });
+
+      // Refresh chat list
+      await fetchChats();
+    } catch (error) {
+      log('Error marking messages as read: $error');
+    }
+  }
+
+  // Helper method to find an existing chat or create a new one
+  Future<String> _findOrCreateChat(String userEmail, String recipientEmail) async {
+    try {
+      // Check if a chat already exists between these users
+      final QuerySnapshot existingChats = await _fireStore
+          .collection("Chats")
+          .where('participants', arrayContains: userEmail)
+          .get();
+
+      // Look for a chat that contains both users
+      for (var doc in existingChats.docs) {
+        final participants = List<String>.from((doc.data() as Map<String, dynamic>)['participants'] ?? []);
+        if (participants.contains(recipientEmail)) {
+          return doc.id;
+        }
+      }
+
+      // If no chat exists, create a new one
+      final chatData = {
+        'participants': [userEmail, recipientEmail],
+        'createdAt': FieldValue.serverTimestamp(),
+        'lastMessage': '',
+        'lastMessageTime': FieldValue.serverTimestamp(),
+        'unreadCount': 0,
+      };
+
+      final docRef = await _fireStore.collection("Chats").add(chatData);
+      return docRef.id;
+    } catch (error) {
+      log('Error finding or creating chat: $error');
+      rethrow;
+    }
+  }
+
+  // Method to get username from email
+  Future<String> getUsernameFromEmail(String email) async {
+    // Check cache first
+    if (_usernameCache.containsKey(email)) {
+      return _usernameCache[email]!;
+    }
+
+    try {
+      // Extract username from email (before @)
+      final String username = email.contains('@') ? email.split('@')[0] : email;
+      
+      // Cache the result
+      _usernameCache[email] = username;
+      
+      return username;
+    } catch (error) {
+      log('Error getting username: $error');
+      return email; // Fallback to email if username can't be extracted
+    }
+  }
+
+  // Method to start a new chat with a user
+  Future<void> startNewChat(String recipientEmail) async {
+    try {
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) {
+        return;
+      }
+
+      // Create a new chat or get existing one
+      final chatId = await _findOrCreateChat(userEmail, recipientEmail);
+      
+      // Set as current chat and fetch messages
+      _currentChatId = chatId;
+      await fetchMessages(chatId);
+    } catch (error) {
+      log('Error starting new chat: $error');
+    }
+  }
+
+  // Method to listen for new messages in real-time
+  Stream<List<Map<String, dynamic>>> getMessagesStream(String chatId) {
+    return _fireStore
+        .collection("Chats")
+        .doc(chatId)
+        .collection("Messages")
+        .orderBy('timestamp', descending: false)
+        .snapshots()
+        .map((snapshot) {
+      return snapshot.docs.map((doc) {
+        final data = doc.data();
+        return {
+          'messageId': doc.id,
+          'senderId': data['senderId'] ?? '',
+          'senderEmail': data['senderEmail'] ?? '',
+          'text': data['text'] ?? '',
+          'timestamp': (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          'isRead': data['isRead'] ?? false,
+        };
+      }).toList();
+    });
+  }
+
+  // Method to listen for chat updates in real-time
+  Stream<List<Map<String, dynamic>>> getChatsStream() {
+    final userEmail = _authController.getCurrentUserEmail();
+    if (userEmail == null) {
+      return Stream.value([]);
+    }
+
+    return _fireStore
+        .collection("Chats")
+        .where('participants', arrayContains: userEmail)
+        .orderBy('lastMessageTime', descending: true)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      return Future.wait(snapshot.docs.map((doc) async {
+        final data = doc.data();
+        final participants = List<String>.from(data['participants'] ?? []);
+        
+        // Get the other participant's email
+        final otherParticipantEmail = participants.firstWhere(
+          (email) => email != userEmail,
+          orElse: () => 'Unknown',
+        );
+        
+        // Get username for the other participant
+        final otherUsername = await getUsernameFromEmail(otherParticipantEmail);
+        
+        return {
+          'chatId': doc.id,
+          'participants': participants,
+          'lastMessage': data['lastMessage'] ?? '',
+          'lastMessageTime': (data['lastMessageTime'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          'unreadCount': data['unreadCount'] ?? 0,
+          'otherParticipantEmail': otherParticipantEmail,
+          'otherParticipantUsername': otherUsername,
+        };
+      }).toList());
+    });
+  }
+}
