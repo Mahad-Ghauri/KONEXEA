@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:social_swap/views/Auth%20Gate/auth_gate.dart';
-
+  
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 

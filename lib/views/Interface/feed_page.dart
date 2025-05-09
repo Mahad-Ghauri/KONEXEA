@@ -768,7 +768,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
           final post = feedService.posts[index];
           final postId = post['postId'] ?? '';
           final isExpanded = _expandedPosts[postId] ?? false;
-          // final posterEmail = post['username'] ?? 'Anonymous';
           // Get email from post and extract username part (before @)
           final String fullEmail = post['userEmail'] ?? 'Anonymous';
           final String posterUsername =
