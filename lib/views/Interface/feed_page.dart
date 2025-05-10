@@ -294,9 +294,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
           SafeArea(
             child: Column(
               children: [
-                // Animated app bar
-                // _buildAnimatedAppBar(),
-
                 // Main feed content
                 Expanded(
                   child: Consumer<FeedServices>(
@@ -524,42 +521,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
       ),
     );
   }
-
-  // Widget _buildFloatingActionButton({
-  //   required IconData icon,
-  //   required Color color,
-  //   required VoidCallback onPressed,
-  //   bool hasBorder = false,
-  //   Color borderColor = Colors.transparent,
-  // }) {
-  //   return AnimatedContainer(
-  //     duration: const Duration(milliseconds: 200),
-  //     // curve: Curves.easeOut,
-  //     child: FloatingActionButton(
-  //       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-  //       elevation: 4,
-  //       onPressed: () {
-  //         HapticFeedback.lightImpact();
-  //         onPressed();
-  //       },
-  //       child: Container(
-  //         decoration: BoxDecoration(
-  //           shape: BoxShape.circle,
-  //           border: hasBorder ? Border.all(color: borderColor, width: 2) : null,
-  //         ),
-  //         child: Center(
-  //           child: Padding(
-  //             padding: const EdgeInsets.all(3.0),
-  //             child: Icon(
-  //               icon,
-  //               color: color,
-  //             ),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
+ 
   Widget buildFloatingActionButton({
     required IconData icon,
     required Color color,
@@ -966,20 +928,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                         size: 14,
                                         color: Colors.teal,
                                       )
-
-                                      // Container(
-                                      //   padding: const EdgeInsets.all(4),
-                                      //   decoration: BoxDecoration(
-                                      //     color: Theme.of(context)
-                                      //         .colorScheme
-                                      //         .primary
-                                      //         .withOpacity(0.1),
-                                      //     shape: BoxShape.circle,
-                                      //   ),
-                                      //   child:
-                                      // ),
-
-                                      // const SizedBox(width: 6),
                                     ],
                                   ),
                                   Text(
