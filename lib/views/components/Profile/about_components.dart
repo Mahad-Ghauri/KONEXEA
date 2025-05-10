@@ -25,7 +25,7 @@ class AboutComponents {
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 2.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.1),
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
@@ -77,7 +77,10 @@ class AboutComponents {
                   description,
                   style: TextStyle(
                       fontSize: 14,
-                      color: Theme.of(context).colorScheme.secondary),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .tertiary
+                          .withOpacity(0.7)), 
                 ),
               ],
             ),

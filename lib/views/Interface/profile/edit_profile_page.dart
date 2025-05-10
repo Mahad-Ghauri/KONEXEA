@@ -290,7 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             color: Color(0xFF228B22))
                         : Text('Save Profile',
                             style: TextStyle(
-                                color: const Color(0xFFFFFDD0),
+                                color:  Colors.white,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,
                                 fontWeight: FontWeight.w600)),
                   ),

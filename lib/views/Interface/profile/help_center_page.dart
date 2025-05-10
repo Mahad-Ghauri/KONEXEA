@@ -465,14 +465,14 @@ class _HelpCenterPageState extends State<HelpCenterPage>
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: colorScheme.secondary.withOpacity(0.1),
+                  color: colorScheme.surfaceContainerLowest,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.school_outlined,
-                      color: colorScheme.secondary,
+                      color: colorScheme.surface,
                       size: 32,
                     ),
                     const SizedBox(width: 16),

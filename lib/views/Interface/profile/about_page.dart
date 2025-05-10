@@ -41,13 +41,13 @@ class AboutPage extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color:
-                      Theme.of(context).colorScheme.tertiary.withOpacity(0.2),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
                   shape: BoxShape.circle,
                 ),
                 child: Icon(
                   Icons.info,
-                  color: Theme.of(context).colorScheme.tertiary,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: 25,
                 ),
               ),
               const SizedBox(width: 10),
@@ -130,7 +130,7 @@ class AboutPage extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: Theme.of(context)
                               .colorScheme
-                              .tertiary
+                              .primary
                               .withOpacity(0.2),
                           borderRadius: BorderRadius.circular(24),
                         ),
@@ -343,7 +343,7 @@ class AboutPage extends StatelessWidget {
                                       fontSize: 14,
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .secondary
+                                          .tertiary
                                           .withOpacity(0.7),
                                     ),
                                   ),
@@ -409,7 +409,7 @@ class AboutPage extends StatelessWidget {
                                       fontSize: 14,
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .secondary
+                                          .tertiary
                                           .withOpacity(0.7),
                                     ),
                                   ),

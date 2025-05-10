@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
 import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.dart';
+import 'package:social_swap/Views/Components/pulsating_widget.dart';
 import 'package:social_swap/Views/Interface/Chat/chat_page.dart';
 import 'package:social_swap/Views/Interface/Comments/comment_dialog.dart';
 import 'package:social_swap/Views/Interface/PHub/phub_interface.dart';
@@ -321,7 +322,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           // Enhanced floating action buttons with animations
-          _buildFloatingActionButton(
+          buildFloatingActionButton(
             icon: Icons.smart_toy_outlined,
             color: Colors.white70,
             onPressed: () {
@@ -329,11 +330,10 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             },
           ),
           const SizedBox(height: 10),
-          _buildFloatingActionButton(
+          buildFloatingActionButton(
             icon: Icons.shopping_bag_rounded,
             color: Colors.white70,
             hasBorder: true,
-            // borderColor: const Color(0xFF228B22),
             onPressed: () {
               Navigator.of(context)
                   .push(_elegantRoute(const PHubInterfacePage()));
@@ -525,34 +525,92 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildFloatingActionButton({
+  // Widget _buildFloatingActionButton({
+  //   required IconData icon,
+  //   required Color color,
+  //   required VoidCallback onPressed,
+  //   bool hasBorder = false,
+  //   Color borderColor = Colors.transparent,
+  // }) {
+  //   return AnimatedContainer(
+  //     duration: const Duration(milliseconds: 200),
+  //     // curve: Curves.easeOut,
+  //     child: FloatingActionButton(
+  //       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+  //       elevation: 4,
+  //       onPressed: () {
+  //         HapticFeedback.lightImpact();
+  //         onPressed();
+  //       },
+  //       child: Container(
+  //         decoration: BoxDecoration(
+  //           shape: BoxShape.circle,
+  //           border: hasBorder ? Border.all(color: borderColor, width: 2) : null,
+  //         ),
+  //         child: Center(
+  //           child: Padding(
+  //             padding: const EdgeInsets.all(3.0),
+  //             child: Icon(
+  //               icon,
+  //               color: color,
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  Widget buildFloatingActionButton({
     required IconData icon,
     required Color color,
     required VoidCallback onPressed,
     bool hasBorder = false,
     Color borderColor = Colors.transparent,
+    double size = 56.0,
+    double iconSize = 24.0,
+    double elevation = 4.0,
+    Curve animationCurve = Curves.easeOutQuart,
+    Duration animationDuration = const Duration(milliseconds: 300),
+    List<BoxShadow>? customShadows,
+    bool enablePulseAnimation = false,
+    Color? splashColor,
+    Color? backgroundColor,
   }) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-      child: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 4,
-        onPressed: () {
-          HapticFeedback.lightImpact();
-          onPressed();
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: hasBorder ? Border.all(color: borderColor, width: 2) : null,
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Icon(
-                icon,
-                color: color,
+      duration: animationDuration,
+      curve: animationCurve,
+      child: PulsatingWidget(
+        enabled: enablePulseAnimation,
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: FloatingActionButton(
+            heroTag: UniqueKey(),
+            backgroundColor: backgroundColor ??
+                Theme.of(context).colorScheme.primary.withOpacity(0.7),
+            elevation: elevation,
+            splashColor: splashColor ?? color.withOpacity(0.3),
+            highlightElevation: elevation + 2,
+            onPressed: () {
+              HapticFeedback.lightImpact();
+              onPressed();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border:
+                    hasBorder ? Border.all(color: borderColor, width: 2) : null,
+                boxShadow: customShadows,
+              ),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: Icon(
+                    icon,
+                    color: color,
+                    size: iconSize,
+                  ),
+                ),
               ),
             ),
           ),

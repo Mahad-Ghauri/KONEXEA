@@ -202,7 +202,7 @@ class _SecurityCenterPageState extends State<SecurityCenterPage> {
                           color: Color(0xFF228B22))
                       : Text('Save',
                           style: TextStyle(
-                              color: const Color(0xFFFFFDD0),
+                              color:  Colors.white,
                               fontFamily: GoogleFonts.urbanist().fontFamily,
                               fontWeight: FontWeight.w600)),
                 ),

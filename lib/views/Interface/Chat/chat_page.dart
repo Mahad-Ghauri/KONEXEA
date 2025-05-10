@@ -261,13 +261,13 @@ class _ChatPageState extends State<ChatPage> {
           if (!isCurrentUser)
             CircleAvatar(
               radius: 16,
-              backgroundColor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+              backgroundColor: Theme.of(context).colorScheme.surface.withOpacity(0.2),
               child: Text(
                 message['senderEmail']?.toString().isNotEmpty == true 
                     ? message['senderEmail'][0].toUpperCase() 
                     : '?',
                 style: TextStyle(
-                  color: Theme.of(context).colorScheme.secondary,
+                  color: Theme.of(context).colorScheme.surface,
                   fontWeight: FontWeight.bold,
                   fontSize: 12,
                 ),
