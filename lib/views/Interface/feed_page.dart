@@ -5,6 +5,7 @@ import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
 import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.dart';
 import 'package:social_swap/Views/Interface/Chat/chat_page.dart';
+import 'package:social_swap/Views/Interface/Comments/comment_dialog.dart';
 import 'package:social_swap/Views/Interface/PHub/phub_interface.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -128,13 +129,14 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
   // }
 
   void _initializeLikeCounts() {
-    // Demo initialization - in real app, fetch from database
+    // Initialize like counts from the service
     Future.delayed(Duration.zero, () {
       final feedService = Provider.of<FeedServices>(context, listen: false);
       if (feedService.posts.isNotEmpty) {
         for (var post in feedService.posts) {
           final postId = post['postId'] ?? '';
-          _likeCount[postId] = math.Random().nextInt(100);
+          _likeCount[postId] = feedService.getLikeCount(postId);
+          _likedPosts[postId] = feedService.isPostLikedByCurrentUser(postId);
         }
       }
     });
@@ -145,42 +147,59 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     _animationController.dispose();
     _scrollController.dispose();
     _refreshAnimationController.dispose();
+
+    // Dispose video controllers
+    for (var controller in _videoControllers.values) {
+      controller?.dispose();
+    }
+
     super.dispose();
   }
 
-  void _handleLikePost(String postId) {
+  Future<void> _handleLikePost(String postId) async {
     // Haptic feedback for better interaction
     HapticFeedback.mediumImpact();
 
-    setState(() {
-      _likedPosts[postId] = !(_likedPosts[postId] ?? false);
+    final feedService = Provider.of<FeedServices>(context, listen: false);
+    final isLiked = await feedService.toggleLikePost(postId);
 
-      // Update like count
-      if (_likedPosts[postId] == true) {
-        _likeCount[postId] = (_likeCount[postId] ?? 0) + 1;
-      } else {
-        _likeCount[postId] = (_likeCount[postId] ?? 1) - 1;
-      }
+    setState(() {
+      _likedPosts[postId] = isLiked;
     });
 
-    // In a real app, update the like in database
-    // feedService.likePost(postId, _likedPosts[postId]);
+    // If the post was liked (not unliked), show the heart animation for 20 seconds
+    if (isLiked) {
+      // Reset the animation after 20 seconds
+      Future.delayed(const Duration(seconds: 20), () {
+        if (mounted) {
+          setState(() {
+            // Only reset the animation state, not the actual like state
+            _likedPosts[postId] = feedService.isPostLikedByCurrentUser(postId);
+          });
+        }
+      });
+    }
   }
 
-  void _handleDoubleTapLike(String postId) {
-    if (!(_likedPosts[postId] ?? false)) {
-      _handleLikePost(postId);
+  Future<void> _handleDoubleTapLike(String postId) async {
+    final feedService = Provider.of<FeedServices>(context, listen: false);
+    final isCurrentlyLiked = feedService.isPostLikedByCurrentUser(postId);
 
-      // Show heart animation for 1 second
+    if (!isCurrentlyLiked) {
+      await _handleLikePost(postId);
+
+      // Show heart animation for 20 seconds
       setState(() {
+        // This is just for the animation, the actual like state is managed by the service
         _likedPosts[postId] = true;
       });
 
-      // Reset the like state after 1 second
-      Future.delayed(const Duration(seconds: 1), () {
+      // Reset the animation after 20 seconds
+      Future.delayed(const Duration(seconds: 10), () {
         if (mounted) {
           setState(() {
-            _likedPosts[postId] = false;
+            // Only reset the animation state, not the actual like state
+            _likedPosts[postId] = feedService.isPostLikedByCurrentUser(postId);
           });
         }
       });
@@ -321,6 +340,29 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  void _showCommentsBottomSheet(
+      BuildContext context, String postId, String posterUsername) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.85,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        child: CommentDialog(
+          postId: postId,
+          posterUsername: posterUsername,
+        ),
       ),
     );
   }
@@ -948,8 +990,9 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                               ),
 
                               // Like overlay animation (visible when double-tapped)
-                              StatefulBuilder(
-                                builder: (context, setInnerState) {
+                              Consumer<FeedServices>(
+                                builder: (context, feedService, _) {
+                                  final isLiked = _likedPosts[postId] ?? false;
                                   return AnimatedContainer(
                                     duration: const Duration(milliseconds: 300),
                                     curve: Curves.easeOutBack,
@@ -1027,24 +1070,40 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                         child: Row(
                           children: [
                             // Like button
-                            _buildInteractionButton(
-                              icon: isLiked
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: isLiked
-                                  ? Theme.of(context).colorScheme.primary
-                                  : null,
-                              label: _formatCount(_likeCount[postId] ?? 0),
-                              onPressed: () => _handleLikePost(postId),
+                            Consumer<FeedServices>(
+                              builder: (context, feedService, _) {
+                                final isLiked = feedService
+                                    .isPostLikedByCurrentUser(postId);
+                                final likeCount =
+                                    feedService.getLikeCount(postId);
+                                return _buildInteractionButton(
+                                  icon: isLiked
+                                      ? Icons.favorite
+                                      : Icons.favorite_border,
+                                  color: isLiked
+                                      ? Theme.of(context).colorScheme.primary
+                                      : null,
+                                  label: _formatCount(likeCount),
+                                  onPressed: () => _handleLikePost(postId),
+                                );
+                              },
                             ),
                             const SizedBox(width: 16),
                             // Comment button
-                            _buildInteractionButton(
-                              icon: Iconsax.message,
-                              label: _formatCount(math.Random().nextInt(20)),
-                              onPressed: () {
-                                // Open comments
-                                HapticFeedback.lightImpact();
+                            Consumer<FeedServices>(
+                              builder: (context, feedService, _) {
+                                final commentCount =
+                                    feedService.comments[postId]?.length ?? 0;
+                                return _buildInteractionButton(
+                                  icon: Iconsax.message,
+                                  label: _formatCount(commentCount),
+                                  onPressed: () {
+                                    // Open comments as bottom sheet
+                                    HapticFeedback.lightImpact();
+                                    _showCommentsBottomSheet(
+                                        context, postId, posterUsername);
+                                  },
+                                );
                               },
                             ),
                             const SizedBox(width: 16),
