@@ -135,9 +135,9 @@ class AboutPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                         ),
                         child: const Text(
-                          "v1.0.0",
+                          "v1.2.0",
                           style: TextStyle(
-                            color: Color(0xFFFFFDD0),
+                            color: Colors.black,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
