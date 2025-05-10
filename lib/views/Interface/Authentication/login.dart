@@ -121,8 +121,8 @@ class _LoginPageState extends State<LoginPage>
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.black.withOpacity(0.3),
-              Colors.black.withOpacity(0.1),
+              Colors.grey.shade100,
+              Colors.grey.shade200,
             ],
           ),
         ),
@@ -297,6 +297,7 @@ class _LoginPageState extends State<LoginPage>
                                 Text(
                                   'Don\'t have an account?',
                                   style: TextStyle(
+                                    fontSize: 16,
                                     color:
                                         Theme.of(context).colorScheme.tertiary,
                                     fontFamily: GoogleFonts.outfit().fontFamily,
@@ -310,6 +311,7 @@ class _LoginPageState extends State<LoginPage>
                                   child: Text(
                                     'Sign Up',
                                     style: TextStyle(
+                                      fontSize: 16,
                                       color:
                                           Theme.of(context).colorScheme.primary,
                                       fontWeight: FontWeight.bold,

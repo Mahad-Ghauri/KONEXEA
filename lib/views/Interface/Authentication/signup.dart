@@ -16,11 +16,12 @@ class SignUpPage extends StatefulWidget {
   State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateMixin {
+class _SignUpPageState extends State<SignUpPage>
+    with SingleTickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final AuthenticationController _authController = AuthenticationController();
   final InputControllers _inputControllers = InputControllers();
-  
+
   // Animation controller for slide-up effect
   late AnimationController _animationController;
   late Animation<Offset> _slideAnimation;
@@ -29,13 +30,13 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
   @override
   void initState() {
     super.initState();
-    
+
     // Initialize animation controller
     _animationController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 1000),
     );
-    
+
     // Create slide-up animation
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.5),
@@ -44,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
       parent: _animationController,
       curve: Curves.easeOutQuint,
     ));
-    
+
     // Create fade-in animation
     _fadeAnimation = Tween<double>(
       begin: 0.0,
@@ -53,7 +54,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
       parent: _animationController,
       curve: Curves.easeOut,
     ));
-    
+
     // Start animation after widget is built
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _animationController.forward();
@@ -71,29 +72,31 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
     if (_formKey.currentState!.validate()) {
       if (_inputControllers.passwordController.text !=
           _inputControllers.confirmPasswordController.text) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Passwords do not match'),
-            backgroundColor: Colors.red,
-            behavior: SnackBarBehavior.floating,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          )
-        );
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: const Text('Passwords do not match'),
+          backgroundColor: Colors.red,
+          behavior: SnackBarBehavior.floating,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        ));
         return;
       }
-      
+
       setState(() {
         _inputControllers.loading = true;
       });
-      
+
       try {
-        await _authController.signUpWithEmailPassword(
+        await _authController
+            .signUpWithEmailPassword(
           _inputControllers.emailController.text,
           _inputControllers.passwordController.text,
           context,
-        ).then((_) {
-          Navigator.of(context).pushReplacement(_createPageRoute(const LoginPage(), slideDirection: 'right'));
+        )
+            .then((_) {
+          Navigator.of(context).pushReplacement(
+              _createPageRoute(const LoginPage(), slideDirection: 'right'));
         });
       } catch (error) {
         if (mounted) {
@@ -102,10 +105,12 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
           });
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: const Text("An unexpected error occurred. Please try again."),
+              content:
+                  const Text("An unexpected error occurred. Please try again."),
               backgroundColor: Colors.red,
               behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             ),
           );
@@ -127,8 +132,8 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.black.withOpacity(0.3),
-              Colors.black.withOpacity(0.1),
+              Colors.grey.shade100,
+              Colors.grey.shade200,
             ],
           ),
         ),
@@ -144,7 +149,10 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                     padding: EdgeInsets.symmetric(horizontal: width * 0.05),
                     child: Card(
                       elevation: 15,
-                      shadowColor: Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                      shadowColor: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.3),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(28),
                       ),
@@ -176,19 +184,22 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               ),
                             ),
                             SizedBox(height: height * 0.01),
-                            
+
                             // Subtitle
                             Text(
                               "Welcome to Social Swap",
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary.withOpacity(0.9),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .tertiary
+                                    .withOpacity(0.9),
                                 fontSize: height * 0.018,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,
                                 letterSpacing: 0.5,
                               ),
                             ),
                             SizedBox(height: height * 0.025),
-                            
+
                             // Form
                             Form(
                               key: _formKey,
@@ -198,10 +209,14 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                   MyFormField(
                                     hintText: "Enter your name",
                                     hintStyle: TextStyle(
-                                      color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary
+                                          .withOpacity(0.7),
                                     ),
                                     prefixIcon: Icons.person_outline_rounded,
-                                    controller: _inputControllers.nameController,
+                                    controller:
+                                        _inputControllers.nameController,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter your name';
@@ -210,15 +225,19 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                     },
                                   ),
                                   SizedBox(height: height * 0.02),
-                                  
+
                                   // Email Field
                                   MyFormField(
                                     hintText: "Email",
                                     hintStyle: TextStyle(
-                                      color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary
+                                          .withOpacity(0.7),
                                     ),
                                     prefixIcon: Icons.alternate_email,
-                                    controller: _inputControllers.emailController,
+                                    controller:
+                                        _inputControllers.emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -231,15 +250,19 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                     },
                                   ),
                                   SizedBox(height: height * 0.02),
-                                  
+
                                   // Password Field
                                   MyFormField(
                                     hintText: "Password",
                                     hintStyle: TextStyle(
-                                      color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary
+                                          .withOpacity(0.7),
                                     ),
                                     prefixIcon: Icons.lock_outline_rounded,
-                                    controller: _inputControllers.passwordController,
+                                    controller:
+                                        _inputControllers.passwordController,
                                     obscureText: true,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
@@ -252,21 +275,27 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                     },
                                   ),
                                   SizedBox(height: height * 0.02),
-                                  
+
                                   // Confirm Password Field
                                   MyFormField(
                                     hintText: "Confirm Password",
                                     hintStyle: TextStyle(
-                                      color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .tertiary
+                                          .withOpacity(0.7),
                                     ),
                                     prefixIcon: Icons.lock_outline_rounded,
-                                    controller: _inputControllers.confirmPasswordController,
+                                    controller: _inputControllers
+                                        .confirmPasswordController,
                                     obscureText: true,
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please confirm your password';
                                       }
-                                      if (value != _inputControllers.passwordController.text) {
+                                      if (value !=
+                                          _inputControllers
+                                              .passwordController.text) {
                                         return 'Passwords do not match';
                                       }
                                       return null;
@@ -276,7 +305,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               ),
                             ),
                             SizedBox(height: height * 0.03),
-                            
+
                             // SignUp Button
                             AuthButton(
                               onPressed: _handleSignUp,
@@ -290,7 +319,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                               isLoading: _inputControllers.loading,
                             ),
                             SizedBox(height: height * 0.02),
-                            
+
                             // Login Link
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -298,23 +327,27 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
                                 Text(
                                   'Already have an account?',
                                   style: TextStyle(
-                                    color: Theme.of(context).colorScheme.tertiary,
+                                    fontSize: 16,
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
                                     fontFamily: GoogleFonts.outfit().fontFamily,
                                   ),
                                 ),
                                 TextButton(
                                   onPressed: () {
                                     Navigator.of(context).push(_createPageRoute(
-                                      const LoginPage(),
-                                      slideDirection: 'right'
-                                    ));
+                                        const LoginPage(),
+                                        slideDirection: 'right'));
                                   },
                                   child: Text(
                                     'Login',
                                     style: TextStyle(
-                                      color: Theme.of(context).colorScheme.primary,
+                                      fontSize: 16,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: GoogleFonts.outfit().fontFamily,
+                                      fontFamily:
+                                          GoogleFonts.outfit().fontFamily,
                                     ),
                                   ),
                                 ),
@@ -334,7 +367,8 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
     );
   }
 
-  PageRouteBuilder _createPageRoute(Widget page, {String slideDirection = 'left'}) {
+  PageRouteBuilder _createPageRoute(Widget page,
+      {String slideDirection = 'left'}) {
     return PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -349,7 +383,7 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
         } else {
           beginOffset = const Offset(0.0, -1.0); // Slide from top
         }
-        
+
         // Create slide transition
         var slideAnimation = Tween<Offset>(
           begin: beginOffset,
@@ -358,12 +392,12 @@ class _SignUpPageState extends State<SignUpPage> with SingleTickerProviderStateM
           parent: animation,
           curve: Curves.easeOutCubic,
         ));
-        
+
         // Create fade transition
         var fadeAnimation = Tween<double>(begin: 0.3, end: 1.0).animate(
           CurvedAnimation(parent: animation, curve: Curves.easeInOut),
         );
-        
+
         // Apply transitions
         return FadeTransition(
           opacity: fadeAnimation,
