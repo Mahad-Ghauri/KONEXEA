@@ -114,9 +114,9 @@ class _ForgotPasswordState extends State<ForgotPassword>
                   padding: const EdgeInsets.only(top: 20.0),
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.arrow_back_ios_new_rounded,
-                      color: Colors.yellow.shade800,
+                      color: Colors.teal,
                     ),
                   ),
                 ),
@@ -141,7 +141,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
                                 fontSize: 32,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
-                                fontFamily: GoogleFonts.outfit().fontFamily,
+                                fontFamily: GoogleFonts.italiana().fontFamily,
                               ),
                             ),
                             const SizedBox(height: 16),
@@ -169,16 +169,16 @@ class _ForgotPasswordState extends State<ForgotPassword>
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     // Email label
-                                    Text(
-                                      "Email Address",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.black87,
-                                        fontFamily:
-                                            GoogleFonts.outfit().fontFamily,
-                                      ),
-                                    ),
+                                    // Text(
+                                    //   "Email Address",
+                                    //   style: TextStyle(
+                                    //     fontSize: 14,
+                                    //     fontWeight: FontWeight.w600,
+                                    //     color: Colors.black87,
+                                    //     fontFamily:
+                                    //         GoogleFonts.outfit().fontFamily,
+                                    //   ),
+                                    // ),
                                     const SizedBox(height: 8),
 
                                     // Email field
@@ -216,17 +216,17 @@ class _ForgotPasswordState extends State<ForgotPassword>
                                             color: Colors.grey.shade500,
                                             fontSize: 14,
                                           ),
-                                          prefixIcon: Icon(
+                                          prefixIcon: const Icon(
                                             Icons.email_outlined,
-                                            color: Colors.yellow.shade800,
+                                            color: Colors.teal,
                                             size: 20,
                                           ),
                                           border: InputBorder.none,
                                           contentPadding:
                                               const EdgeInsets.symmetric(
-                                                horizontal: 16,
-                                                vertical: 16,
-                                              ),
+                                            horizontal: 16,
+                                            vertical: 16,
+                                          ),
                                         ),
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
@@ -252,43 +252,37 @@ class _ForgotPasswordState extends State<ForgotPassword>
                                         onPressed:
                                             _isLoading ? null : _resetPassword,
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              Colors.yellow.shade800,
+                                          backgroundColor: Colors.teal,
                                           foregroundColor: Colors.white,
-                                          disabledBackgroundColor: Colors
-                                              .yellow
-                                              .shade800
-                                              .withOpacity(0.7),
+                                          disabledBackgroundColor: Colors.teal,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(
                                               12,
                                             ),
                                           ),
                                           elevation: 5,
-                                          shadowColor: Colors.yellow.shade800
-                                              .withOpacity(0.5),
+                                          shadowColor: Colors.teal,
                                         ),
-                                        child:
-                                            _isLoading
-                                                ? const SizedBox(
-                                                  width: 24,
-                                                  height: 24,
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                        color: Colors.white,
-                                                        strokeWidth: 2,
-                                                      ),
-                                                )
-                                                : Text(
-                                                  "Send Reset Link",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.bold,
-                                                    fontFamily:
-                                                        GoogleFonts.poppins()
-                                                            .fontFamily,
-                                                  ),
+                                        child: _isLoading
+                                            ? const SizedBox(
+                                                width: 24,
+                                                height: 24,
+                                                child:
+                                                    CircularProgressIndicator(
+                                                  color: Colors.white,
+                                                  strokeWidth: 2,
                                                 ),
+                                              )
+                                            : Text(
+                                                "Send Reset Link",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily:
+                                                      GoogleFonts.poppins()
+                                                          .fontFamily,
+                                                ),
+                                              ),
                                       ),
                                     ),
                                   ],
@@ -349,9 +343,8 @@ class _ForgotPasswordState extends State<ForgotPassword>
                                           style: TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.bold,
-                                            fontFamily:
-                                                GoogleFonts.poppins()
-                                                    .fontFamily,
+                                            fontFamily: GoogleFonts.poppins()
+                                                .fontFamily,
                                           ),
                                         ),
                                       ),
@@ -387,24 +380,23 @@ class _ForgotPasswordState extends State<ForgotPassword>
                               ),
                             ),
                             TextButton(
-                              onPressed:
-                                  _isLoading
-                                      ? null
-                                      : () {
-                                        if (_emailSent) {
-                                          // Resend the reset link
-                                          _resetPassword();
-                                        } else {
-                                          // Focus on form
-                                          FocusScope.of(
-                                            context,
-                                          ).requestFocus(FocusNode());
-                                        }
-                                      },
+                              onPressed: _isLoading
+                                  ? null
+                                  : () {
+                                      if (_emailSent) {
+                                        // Resend the reset link
+                                        _resetPassword();
+                                      } else {
+                                        // Focus on form
+                                        FocusScope.of(
+                                          context,
+                                        ).requestFocus(FocusNode());
+                                      }
+                                    },
                               child: Text(
                                 "Resend",
                                 style: TextStyle(
-                                  color: Colors.yellow.shade800,
+                                  color: Colors.teal,
                                   fontWeight: FontWeight.bold,
                                   fontFamily: GoogleFonts.poppins().fontFamily,
                                 ),

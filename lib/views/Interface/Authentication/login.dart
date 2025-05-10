@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:social_swap/Views/Interface/Authentication/forgot_password.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/controllers/input_controllers.dart';
 import 'package:social_swap/views/Interface/Authentication/signup.dart';
@@ -250,7 +251,11 @@ class _LoginPageState extends State<LoginPage>
                               alignment: Alignment.centerRight,
                               child: TextButton(
                                 onPressed: () {
-                                  // Add forgot password functionality here
+                                  Navigator.of(context).push(
+                                    _elegantRoute(
+                                      const ForgotPassword(),
+                                    ),
+                                  );
                                 },
                                 style: TextButton.styleFrom(
                                   padding: EdgeInsets.zero,
