@@ -20,13 +20,15 @@ class ChatServices extends ChangeNotifier {
   List<Map<String, dynamic>> _chats = [];
   List<Map<String, dynamic>> _messages = [];
   String? _currentChatId;
-  Map<String, String> _usernameCache = {};
+  final Map<String, String> _usernameCache = {};
+  List<Map<String, dynamic>> _allUsers = [];
 
   // Getters
   bool get loading => _loading;
   List<Map<String, dynamic>> get chats => _chats;
   List<Map<String, dynamic>> get messages => _messages;
   String? get currentChatId => _currentChatId;
+  List<Map<String, dynamic>> get allUsers => _allUsers;
 
   // Method to fetch all chats for the current user
   Future<void> fetchChats() async {
@@ -52,21 +54,23 @@ class ChatServices extends ChangeNotifier {
       _chats = await Future.wait(querySnapshot.docs.map((doc) async {
         final data = doc.data() as Map<String, dynamic>;
         final participants = List<String>.from(data['participants'] ?? []);
-        
+
         // Get the other participant's email (for 1:1 chats)
         final otherParticipantEmail = participants.firstWhere(
           (email) => email != userEmail,
           orElse: () => 'Unknown',
         );
-        
+
         // Get username for the other participant
         final otherUsername = await getUsernameFromEmail(otherParticipantEmail);
-        
+
         return {
           'chatId': doc.id,
           'participants': participants,
           'lastMessage': data['lastMessage'] ?? '',
-          'lastMessageTime': (data['lastMessageTime'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          'lastMessageTime':
+              (data['lastMessageTime'] as Timestamp?)?.toDate() ??
+                  DateTime.now(),
           'unreadCount': data['unreadCount'] ?? 0,
           'otherParticipantEmail': otherParticipantEmail,
           'otherParticipantUsername': otherUsername,
@@ -205,7 +209,8 @@ class ChatServices extends ChangeNotifier {
   }
 
   // Helper method to find an existing chat or create a new one
-  Future<String> _findOrCreateChat(String userEmail, String recipientEmail) async {
+  Future<String> _findOrCreateChat(
+      String userEmail, String recipientEmail) async {
     try {
       // Check if a chat already exists between these users
       final QuerySnapshot existingChats = await _fireStore
@@ -215,7 +220,8 @@ class ChatServices extends ChangeNotifier {
 
       // Look for a chat that contains both users
       for (var doc in existingChats.docs) {
-        final participants = List<String>.from((doc.data() as Map<String, dynamic>)['participants'] ?? []);
+        final participants = List<String>.from(
+            (doc.data() as Map<String, dynamic>)['participants'] ?? []);
         if (participants.contains(recipientEmail)) {
           return doc.id;
         }
@@ -248,10 +254,10 @@ class ChatServices extends ChangeNotifier {
     try {
       // Extract username from email (before @)
       final String username = email.contains('@') ? email.split('@')[0] : email;
-      
+
       // Cache the result
       _usernameCache[email] = username;
-      
+
       return username;
     } catch (error) {
       log('Error getting username: $error');
@@ -269,7 +275,7 @@ class ChatServices extends ChangeNotifier {
 
       // Create a new chat or get existing one
       final chatId = await _findOrCreateChat(userEmail, recipientEmail);
-      
+
       // Set as current chat and fetch messages
       _currentChatId = chatId;
       await fetchMessages(chatId);
@@ -294,7 +300,8 @@ class ChatServices extends ChangeNotifier {
           'senderId': data['senderId'] ?? '',
           'senderEmail': data['senderEmail'] ?? '',
           'text': data['text'] ?? '',
-          'timestamp': (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          'timestamp':
+              (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
           'isRead': data['isRead'] ?? false,
         };
       }).toList();
@@ -317,26 +324,53 @@ class ChatServices extends ChangeNotifier {
       return Future.wait(snapshot.docs.map((doc) async {
         final data = doc.data();
         final participants = List<String>.from(data['participants'] ?? []);
-        
+
         // Get the other participant's email
         final otherParticipantEmail = participants.firstWhere(
           (email) => email != userEmail,
           orElse: () => 'Unknown',
         );
-        
+
         // Get username for the other participant
         final otherUsername = await getUsernameFromEmail(otherParticipantEmail);
-        
+
         return {
           'chatId': doc.id,
           'participants': participants,
           'lastMessage': data['lastMessage'] ?? '',
-          'lastMessageTime': (data['lastMessageTime'] as Timestamp?)?.toDate() ?? DateTime.now(),
+          'lastMessageTime':
+              (data['lastMessageTime'] as Timestamp?)?.toDate() ??
+                  DateTime.now(),
           'unreadCount': data['unreadCount'] ?? 0,
           'otherParticipantEmail': otherParticipantEmail,
           'otherParticipantUsername': otherUsername,
         };
       }).toList());
     });
+  }
+
+  // Method to fetch all users from Supabase
+  Future<void> fetchAllUsers() async {
+    try {
+      _loading = true;
+      notifyListeners();
+
+      final currentUserEmail = _authController.getCurrentUserEmail();
+      if (currentUserEmail == null) return;
+
+      final response = await _supabase
+          .from('users')
+          .select('id, email, username, avatar_url')
+          .neq('email', currentUserEmail); // Exclude current user
+
+      _allUsers = List<Map<String, dynamic>>.from(response);
+    
+      _loading = false;
+      notifyListeners();
+    } catch (error) {
+      _loading = false;
+      log('Error fetching users: $error');
+      notifyListeners();
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
-import 'package:social_swap/Views/Interface/chat_page.dart';
+import 'package:social_swap/Views/Interface/Chat/chat_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 
@@ -14,14 +14,26 @@ class ChatListPage extends StatefulWidget {
   State<ChatListPage> createState() => _ChatListPageState();
 }
 
-class _ChatListPageState extends State<ChatListPage> {
+class _ChatListPageState extends State<ChatListPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
   @override
   void initState() {
     super.initState();
-    // Fetch chats when the page loads
+    _tabController = TabController(length: 2, vsync: this);
+    // Fetch chats and users when the page loads
     Future.microtask(() {
-      Provider.of<ChatServices>(context, listen: false).fetchChats();
+      final chatServices = Provider.of<ChatServices>(context, listen: false);
+      chatServices.fetchChats();
+      chatServices.fetchAllUsers();
     });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   String _formatChatTime(DateTime time) {
@@ -29,7 +41,7 @@ class _ChatListPageState extends State<ChatListPage> {
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
     final messageDate = DateTime(time.year, time.month, time.day);
-    
+
     if (messageDate == today) {
       return DateFormat('h:mm a').format(time);
     } else if (messageDate == yesterday) {
@@ -47,13 +59,47 @@ class _ChatListPageState extends State<ChatListPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Chats',
+          'Messages',
           style: TextStyle(
             fontFamily: GoogleFonts.outfit().fontFamily,
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Theme.of(context).colorScheme.primary,
           ),
+        ),
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Theme.of(context).colorScheme.primary,
+          labelColor: Theme.of(context).colorScheme.primary,
+          unselectedLabelColor: Theme.of(context).textTheme.bodyMedium?.color,
+          tabs: [
+            Tab(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Iconsax.message_text_1),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Chats',
+                    style: GoogleFonts.urbanist(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+            Tab(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Iconsax.people),
+                  const SizedBox(width: 8),
+                  Text(
+                    'People',
+                    style: GoogleFonts.urbanist(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
         actions: [
           IconButton(
@@ -64,36 +110,12 @@ class _ChatListPageState extends State<ChatListPage> {
           ),
         ],
       ),
-      body: Consumer<ChatServices>(
-        builder: (context, chatServices, _) {
-          if (chatServices.loading) {
-            return _buildLoadingShimmer();
-          }
-          
-          if (chatServices.chats.isEmpty) {
-            return _buildEmptyState();
-          }
-          
-          return StreamBuilder<List<Map<String, dynamic>>>(
-            stream: chatServices.getChatsStream(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
-                return _buildLoadingShimmer();
-              }
-              
-              final chats = snapshot.data ?? chatServices.chats;
-              
-              return ListView.builder(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                itemCount: chats.length,
-                itemBuilder: (context, index) {
-                  final chat = chats[index];
-                  return _buildChatListItem(chat);
-                },
-              );
-            },
-          );
-        },
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          _buildChatsTab(),
+          _buildPeopleTab(),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -103,14 +125,148 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
     );
   }
-  
+
+  Widget _buildChatsTab() {
+    return Consumer<ChatServices>(
+      builder: (context, chatServices, _) {
+        if (chatServices.loading) {
+          return _buildLoadingShimmer();
+        }
+
+        if (chatServices.chats.isEmpty) {
+          return _buildEmptyState();
+        }
+
+        return StreamBuilder<List<Map<String, dynamic>>>(
+          stream: chatServices.getChatsStream(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting &&
+                !snapshot.hasData) {
+              return _buildLoadingShimmer();
+            }
+
+            final chats = snapshot.data ?? chatServices.chats;
+
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              itemCount: chats.length,
+              itemBuilder: (context, index) {
+                final chat = chats[index];
+                return _buildChatListItem(chat);
+              },
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildPeopleTab() {
+    return Consumer<ChatServices>(
+      builder: (context, chatServices, _) {
+        if (chatServices.loading) {
+          return _buildLoadingShimmer();
+        }
+
+        if (chatServices.allUsers.isEmpty) {
+          return Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Iconsax.people,
+                  size: 64,
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No users found',
+                  style: GoogleFonts.urbanist(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+
+        return ListView.builder(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          itemCount: chatServices.allUsers.length,
+          itemBuilder: (context, index) {
+            final user = chatServices.allUsers[index];
+            return _buildUserListItem(user);
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildUserListItem(Map<String, dynamic> user) {
+    final username = user['username'] ?? user['email'].split('@')[0];
+    final avatarUrl = user['avatar_url'];
+
+    return ListTile(
+      onTap: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => ChatPage(
+              recipientEmail: user['email'],
+            ),
+          ),
+        );
+      },
+      leading: CircleAvatar(
+        backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+        backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl) : null,
+        child: avatarUrl == null
+            ? Text(
+                username.isNotEmpty ? username[0].toUpperCase() : '?',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            : null,
+      ),
+      title: Text(
+        username,
+        style: GoogleFonts.urbanist(
+          fontWeight: FontWeight.w600,
+          fontSize: 16,
+        ),
+      ),
+      subtitle: Text(
+        user['email'],
+        style: GoogleFonts.urbanist(
+          color: Theme.of(context).textTheme.bodySmall?.color,
+          fontSize: 14,
+        ),
+      ),
+      trailing: IconButton(
+        icon: const Icon(Iconsax.message),
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => ChatPage(
+                recipientEmail: user['email'],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   Widget _buildChatListItem(Map<String, dynamic> chat) {
     final otherUsername = chat['otherParticipantUsername'] ?? 'User';
     final lastMessage = chat['lastMessage'] ?? '';
-    final lastMessageTime = chat['lastMessageTime'] as DateTime? ?? DateTime.now();
+    final lastMessageTime =
+        chat['lastMessageTime'] as DateTime? ?? DateTime.now();
     final unreadCount = chat['unreadCount'] ?? 0;
     final formattedTime = _formatChatTime(lastMessageTime);
-    
+
     return ListTile(
       onTap: () {
         Navigator.of(context).push(
@@ -143,8 +299,8 @@ class _ChatListPageState extends State<ChatListPage> {
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: GoogleFonts.urbanist(
-          color: unreadCount > 0 
-              ? Theme.of(context).colorScheme.primary 
+          color: unreadCount > 0
+              ? Theme.of(context).colorScheme.primary
               : Theme.of(context).textTheme.bodyMedium?.color,
           fontWeight: unreadCount > 0 ? FontWeight.w500 : FontWeight.normal,
         ),
@@ -157,8 +313,8 @@ class _ChatListPageState extends State<ChatListPage> {
             formattedTime,
             style: GoogleFonts.urbanist(
               fontSize: 12,
-              color: unreadCount > 0 
-                  ? Theme.of(context).colorScheme.primary 
+              color: unreadCount > 0
+                  ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).textTheme.bodySmall?.color,
             ),
           ),
@@ -183,7 +339,7 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
     );
   }
-  
+
   Widget _buildLoadingShimmer() {
     return Shimmer.fromColors(
       baseColor: Colors.grey[300]!,
@@ -231,7 +387,7 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
     );
   }
-  
+
   Widget _buildEmptyState() {
     return Center(
       child: Column(
@@ -279,10 +435,10 @@ class _ChatListPageState extends State<ChatListPage> {
       ),
     );
   }
-  
+
   void _showNewChatDialog() {
     final TextEditingController emailController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

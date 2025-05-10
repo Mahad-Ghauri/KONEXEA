@@ -12,10 +12,8 @@ import 'package:social_swap/Views/Components/Product%20Hub/large_category_tile.d
 import 'package:social_swap/Views/Interface/Chat%20Bot/chatbot_page.dart';
 import 'package:social_swap/Views/Interface/PHub/Featured%20Categories/featured_products.dart';
 import 'package:social_swap/Views/Interface/PHub/product_page.dart';
-import 'package:social_swap/Views/Interface/feed_page.dart';
 import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:social_swap/views/Auth%20Gate/auth_gate.dart';
-import 'package:social_swap/views/Interface/interface.dart';
 // import 'package:social_swap/Views/Components/Product%20Hub/drawer_component.dart';
 // import 'package:social_swap/Views/Interface/PHub/Cart/cart_page.dart';
 // import 'package:social_swap/views/Interface/Profile/about_page.dart';

@@ -115,11 +115,11 @@ class _ChatbotPageState extends State<ChatbotPage> {
                               fontSize: 14,
                               color: Theme.of(
                                 context,
-                              ).colorScheme.tertiary.withOpacity(0.2),
+                              ).colorScheme.tertiary.withOpacity(0.5),
                             ),
                           ),
                         ],
-                      ),  
+                      ),
                     ],
                   ),
                 ),
@@ -242,10 +242,8 @@ class _ChatbotPageState extends State<ChatbotPage> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.8),
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.8),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.1),

@@ -190,7 +190,10 @@ class _UploadPageState extends State<UploadPage>
                               key: inputControllers.formKey,
                               child: TextFormField(
                                 style: GoogleFonts.urbanist(
-                                  color: Theme.of(context).colorScheme.tertiary,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .tertiary
+                                      .withOpacity(0.2),
                                   fontSize: width * 0.035,
                                 ),
                                 maxLines: 5,

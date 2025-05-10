@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, prefer_final_fields
 
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:social_swap/controllers/Services/API/News API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
