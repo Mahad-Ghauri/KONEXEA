@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
 import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.dart';
+import 'package:social_swap/Views/Components/Feed/feed_ui_components.dart';
+import 'package:social_swap/Views/Components/custom_app_bar.dart';
 import 'package:social_swap/Views/Components/pulsating_widget.dart';
 import 'package:social_swap/Views/Interface/Chat/chat_page.dart';
 import 'package:social_swap/Views/Interface/Comments/comment_dialog.dart';
@@ -213,20 +215,21 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     int _selectedIndex = 0;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        // leading: Icon(
-        //   FontAwesomeIcons.infinity,
-        //   color: Theme.of(context).colorScheme.primary,
-        // ),
-        title: const Text('Home page'),
-        titleTextStyle: TextStyle(
-          color: Theme.of(context).colorScheme.tertiary,
-          fontSize: height * 0.024,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.5,
-          fontFamily: GoogleFonts.lobsterTwo().fontFamily,
+      appBar: CustomAppBar(
+        title: 'Social Swap',
+        centerTitle: false,
+        showBackButton: false,
+        titleWidget: Text(
+          'Social Swap',
+          style: GoogleFonts.lobsterTwo(
+            color: Theme.of(context).colorScheme.tertiary,
+            fontSize: height * 0.024,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.5,
+          ),
         ),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        enableShadow: true,
         actions: [
           if (_selectedIndex == 0)
             IconButton(
@@ -521,7 +524,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
       ),
     );
   }
- 
+
   Widget buildFloatingActionButton({
     required IconData icon,
     required Color color,

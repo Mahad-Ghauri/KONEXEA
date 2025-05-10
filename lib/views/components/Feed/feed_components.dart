@@ -252,29 +252,40 @@ class FeedComponents {
     bool hasBorder = false,
     Color borderColor = Colors.transparent,
   }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeOut,
-      child: FloatingActionButton(
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        elevation: 4,
-        onPressed: onPressed,
-        child: Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: hasBorder ? Border.all(color: borderColor, width: 2) : null,
-          ),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(3.0),
-              child: Icon(
-                icon,
-                color: color,
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: FloatingActionButton(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              elevation: 4,
+              onPressed: onPressed,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: hasBorder
+                      ? Border.all(color: borderColor, width: 2)
+                      : null,
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(3.0),
+                    child: Icon(
+                      icon,
+                      color: color,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -294,7 +305,7 @@ class FeedComponents {
           children: [
             Icon(
               icon,
-              size: 22,
+              size: 20,
               color: color ?? Theme.of(context).colorScheme.tertiary,
             ),
             if (label != null) ...[

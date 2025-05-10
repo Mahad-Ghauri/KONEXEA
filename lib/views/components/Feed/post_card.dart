@@ -81,62 +81,140 @@ class _PostCardState extends State<PostCard>
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOutQuad,
       margin: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildPostHeader(),
-          _buildPostMedia(),
-          _buildPostContent(),
-          _buildPostActions(),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+            spreadRadius: 0,
+          ),
         ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () {
+              // Optional: Add tap interaction for the entire post
+            },
+            splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+            highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.02),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildPostHeader(),
+                _buildPostMedia(),
+                _buildPostContent(),
+                _buildPostActions(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildPostHeader() {
     return Padding(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 20,
-            backgroundImage: widget.authorAvatar != null
-                ? CachedNetworkImageProvider(widget.authorAvatar!)
-                : null,
-            child:
-                widget.authorAvatar == null ? const Icon(Iconsax.user) : null,
+          // Enhanced avatar with subtle shadow
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: CircleAvatar(
+              radius: 22,
+              backgroundColor: Theme.of(context).colorScheme.surface,
+              backgroundImage: widget.authorAvatar != null
+                  ? CachedNetworkImageProvider(widget.authorAvatar!)
+                  : null,
+              child: widget.authorAvatar == null 
+                  ? Icon(
+                      Iconsax.user, 
+                      color: Theme.of(context).colorScheme.primary,
+                      size: 20,
+                    ) 
+                  : null,
+            ),
           ),
           const SizedBox(width: 12),
+          // Author info with enhanced typography
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   widget.authorName ?? 'Anonymous',
-                  style: GoogleFonts.urbanist(
-                    fontSize: 16,
+                  style: GoogleFonts.outfit(
                     fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    letterSpacing: -0.2,
                     color: Theme.of(context).colorScheme.tertiary,
                   ),
                 ),
-                Text(
-                  formatDate(widget.timestamp),
-                  style: GoogleFonts.urbanist(
-                    fontSize: 12,
-                    color:
-                        Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
-                  ),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
+                    Text(
+                      formatDate(widget.timestamp),
+                      style: GoogleFonts.outfit(
+                        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.6),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Container(
+                      width: 3,
+                      height: 3,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.tertiary.withOpacity(0.4),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    const SizedBox(width: 4),
+                    Icon(
+                      Iconsax.global,
+                      size: 12,
+                      color: Theme.of(context).colorScheme.tertiary.withOpacity(0.6),
+                    ),
+                  ],
                 ),
               ],
             ),
           ),
-          IconButton(
-            icon: const Icon(Iconsax.more),
-            onPressed: widget.onOptions,
+          // Enhanced options button with ripple effect
+          Material(
+            color: Colors.transparent,
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            child: IconButton(
+              icon: Icon(
+                Iconsax.more,
+                color: Theme.of(context).colorScheme.tertiary,
+                size: 22,
+              ),
+              splashColor: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+              highlightColor: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+              onPressed: widget.onOptions,
+            ),
           ),
         ],
       ),
@@ -246,29 +324,57 @@ class _PostCardState extends State<PostCard>
     VoidCallback? onPressed,
     Color? color,
   }) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              size: 20,
-              color: color ?? Theme.of(context).colorScheme.tertiary,
-            ),
-            if (label != null) ...[
-              const SizedBox(width: 4),
-              Text(
-                label,
-                style: GoogleFonts.urbanist(
-                  fontSize: 12,
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
+    final buttonColor = color ?? Theme.of(context).colorScheme.tertiary;
+    
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () {
+          if (onPressed != null) {
+            // Add subtle haptic feedback for better interaction
+            // HapticFeedback.lightImpact();
+            onPressed();
+          }
+        },
+        borderRadius: BorderRadius.circular(12),
+        splashColor: buttonColor.withOpacity(0.1),
+        highlightColor: buttonColor.withOpacity(0.05),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Row(
+            children: [
+              // Animated icon that scales slightly on hover/press
+              TweenAnimationBuilder<double>(
+                tween: Tween<double>(begin: 1.0, end: 1.0),
+                duration: const Duration(milliseconds: 200),
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: Icon(
+                      icon,
+                      size: 22,
+                      color: buttonColor,
+                    ),
+                  );
+                },
               ),
+              if (label != null) ...[
+                const SizedBox(width: 6),
+                Text(
+                  label,
+                  style: GoogleFonts.outfit(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: buttonColor,
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );
