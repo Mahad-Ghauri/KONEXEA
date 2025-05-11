@@ -170,10 +170,10 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
       _likedPosts[postId] = isLiked;
     });
 
-    // If the post was liked (not unliked), show the heart animation for 20 seconds
+    // If the post was liked (not unliked), briefly show the animation
     if (isLiked) {
-      // Reset the animation after 20 seconds
-      Future.delayed(const Duration(seconds: 20), () {
+      // Reset the animation after 1 second
+      Future.delayed(const Duration(milliseconds: 1000), () {
         if (mounted) {
           setState(() {
             // Only reset the animation state, not the actual like state
@@ -184,25 +184,29 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     }
   }
 
+  // Then update the _handleDoubleTapLike method to control the animation timing:
   Future<void> _handleDoubleTapLike(String postId) async {
     final feedService = Provider.of<FeedServices>(context, listen: false);
     final isCurrentlyLiked = feedService.isPostLikedByCurrentUser(postId);
 
     if (!isCurrentlyLiked) {
-      await _handleLikePost(postId);
+      // Haptic feedback for better interaction
+      HapticFeedback.mediumImpact();
 
-      // Show heart animation for 20 seconds
+      // Show heart animation immediately
       setState(() {
-        // This is just for the animation, the actual like state is managed by the service
         _likedPosts[postId] = true;
       });
 
-      // Reset the animation after 20 seconds
-      Future.delayed(const Duration(seconds: 10), () {
+      // Actually like the post in the database
+      await feedService.toggleLikePost(postId);
+
+      // Hide the heart animation after a short delay
+      Future.delayed(const Duration(milliseconds: 1000), () {
         if (mounted) {
           setState(() {
-            // Only reset the animation state, not the actual like state
-            _likedPosts[postId] = feedService.isPostLikedByCurrentUser(postId);
+            // Only reset the animation state, the actual like remains
+            _likedPosts[postId] = false;
           });
         }
       });
@@ -998,30 +1002,31 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                 ),
                               ),
 
-                              // Like overlay animation (visible when double-tapped)
+                              // Instagram-style pop-up heart animation
                               Consumer<FeedServices>(
                                 builder: (context, feedService, _) {
                                   final isLiked = _likedPosts[postId] ?? false;
-                                  return AnimatedContainer(
-                                    duration: const Duration(milliseconds: 300),
-                                    curve: Curves.easeOutBack,
-                                    child: TweenAnimationBuilder<double>(
-                                      tween: Tween<double>(
-                                          begin: 0.0, end: isLiked ? 1.0 : 0.0),
+                                  return AnimatedScale(
+                                    scale: isLiked ? 1.0 : 0.0,
+                                    duration: const Duration(milliseconds: 200),
+                                    curve: Curves.elasticOut,
+                                    child: AnimatedOpacity(
+                                      opacity: isLiked ? 1.0 : 0.0,
                                       duration:
-                                          const Duration(milliseconds: 300),
-                                      builder: (context, value, child) {
-                                        return Opacity(
-                                          opacity: value * 0.9,
-                                          child: Icon(
-                                            Icons.favorite,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary,
-                                            size: 100 * value,
+                                          const Duration(milliseconds: 200),
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: Colors.teal,
+                                        size: 100,
+                                        shadows: [
+                                          BoxShadow(
+                                            color:
+                                                Colors.black.withOpacity(0.5),
+                                            blurRadius: 15,
+                                            spreadRadius: 1,
                                           ),
-                                        );
-                                      },
+                                        ],
+                                      ),
                                     ),
                                   );
                                 },
@@ -1029,7 +1034,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                             ],
                           ),
                         ),
-
                       // Enhanced post description
                       Padding(
                         padding: const EdgeInsets.all(16),
