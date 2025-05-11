@@ -19,13 +19,13 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  
+
   // Set system UI overlay style for a more immersive experience
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
@@ -35,12 +35,12 @@ Future<void> main() async {
       systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
-  
+
   // Initialize Firebase
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) {
     log("Firebase Initialization Completed");
-    
+
     // Initialize Supabase
     Supabase.initialize(url: url, anonKey: anonKey).then((value) {
       log("Supabase Initialized");
@@ -84,12 +84,12 @@ class MainApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         // Default transition for all routes
         Widget page = const AuthGate();
-        
+
         // Add specific route handling here if needed
         // if (settings.name == SomePage.routeName) {
         //   page = const SomePage();
         // }
-        
+
         return CustomPageRoute(
           page: page,
           duration: const Duration(milliseconds: 350),
@@ -107,10 +107,10 @@ class AppStartupAnimation extends StatefulWidget {
   State<AppStartupAnimation> createState() => _AppStartupAnimationState();
 }
 
-class _AppStartupAnimationState extends State<AppStartupAnimation> 
+class _AppStartupAnimationState extends State<AppStartupAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -118,13 +118,13 @@ class _AppStartupAnimationState extends State<AppStartupAnimation>
       vsync: this,
       duration: const Duration(milliseconds: 1500),
     );
-    
+
     // Start the animation after a short delay
     Future.delayed(const Duration(milliseconds: 200), () {
       _animationController.forward();
     });
   }
-  
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -140,14 +140,14 @@ class _AppStartupAnimationState extends State<AppStartupAnimation>
         curve: const Interval(0.0, 0.6, curve: Curves.easeOut),
       ),
     );
-    
+
     final scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(
         parent: _animationController,
         curve: const Interval(0.0, 0.6, curve: Curves.easeOutBack),
       ),
     );
-    
+
     return AnimatedBuilder(
       animation: _animationController,
       builder: (context, child) {

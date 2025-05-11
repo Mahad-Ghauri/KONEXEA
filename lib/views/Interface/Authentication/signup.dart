@@ -27,6 +27,10 @@ class _SignUpPageState extends State<SignUpPage>
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
 
+  // Logo animations
+  late Animation<double> _logoScaleAnimation;
+  late Animation<double> _logoRotateAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -53,6 +57,24 @@ class _SignUpPageState extends State<SignUpPage>
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeOut,
+    ));
+
+    // Create logo scale animation
+    _logoScaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.elasticOut,
+    ));
+
+    // Create logo rotation animation with reduced tilt
+    _logoRotateAnimation = Tween<double>(
+      begin: 0.0,
+      end: 0.02, // Reduced tilt from 0.1 to 0.02
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.elasticOut,
     ));
 
     // Start animation after widget is built
@@ -141,224 +163,278 @@ class _SignUpPageState extends State<SignUpPage>
           child: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child: Card(
-                      elevation: 15,
-                      shadowColor: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      color: Theme.of(context).colorScheme.surface,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05,
-                          vertical: height * 0.03,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // SignUp Header
-                            Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: height * 0.045,
-                                letterSpacing: 2,
-                                fontFamily: GoogleFonts.italiana().fontFamily,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    offset: Offset(2, 2),
-                                    blurRadius: 4,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: height * 0.01),
-
-                            // Subtitle
-                            Text(
-                              "Welcome to Social Swap",
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .tertiary
-                                    .withOpacity(0.9),
-                                fontSize: height * 0.018,
-                                fontFamily: GoogleFonts.urbanist().fontFamily,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            SizedBox(height: height * 0.025),
-
-                            // Form
-                            Form(
-                              key: _formKey,
-                              child: Column(
-                                children: [
-                                  // Name Field
-                                  MyFormField(
-                                    hintText: "Enter your name",
-                                    hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.7),
-                                    ),
-                                    prefixIcon: Icons.person_outline_rounded,
-                                    controller:
-                                        _inputControllers.nameController,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your name';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  SizedBox(height: height * 0.02),
-
-                                  // Email Field
-                                  MyFormField(
-                                    hintText: "Email",
-                                    hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.7),
-                                    ),
-                                    prefixIcon: Icons.alternate_email,
-                                    controller:
-                                        _inputControllers.emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your email';
-                                      }
-                                      if (!value.contains('@')) {
-                                        return 'Please enter a valid email';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  SizedBox(height: height * 0.02),
-
-                                  // Password Field
-                                  MyFormField(
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.7),
-                                    ),
-                                    prefixIcon: Icons.lock_outline_rounded,
-                                    controller:
-                                        _inputControllers.passwordController,
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your password';
-                                      }
-                                      if (value.length < 6) {
-                                        return 'Password must be at least 6 characters';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  SizedBox(height: height * 0.02),
-
-                                  // Confirm Password Field
-                                  MyFormField(
-                                    hintText: "Confirm Password",
-                                    hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.7),
-                                    ),
-                                    prefixIcon: Icons.lock_outline_rounded,
-                                    controller: _inputControllers
-                                        .confirmPasswordController,
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please confirm your password';
-                                      }
-                                      if (value !=
-                                          _inputControllers
-                                              .passwordController.text) {
-                                        return 'Passwords do not match';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: height * 0.03),
-
-                            // SignUp Button
-                            AuthButton(
-                              onPressed: _handleSignUp,
-                              text: "Sign Up",
-                              textStyle: TextStyle(
-                                fontFamily: GoogleFonts.outfit().fontFamily,
-                                color: Theme.of(context).colorScheme.surface,
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              isLoading: _inputControllers.loading,
-                            ),
-                            SizedBox(height: height * 0.02),
-
-                            // Login Link
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  'Already have an account?',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                    fontFamily: GoogleFonts.outfit().fontFamily,
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(_createPageRoute(
-                                        const LoginPage(),
-                                        slideDirection: 'right'));
-                                  },
-                                  child: Text(
-                                    'Login',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily:
-                                          GoogleFonts.outfit().fontFamily,
-                                    ),
-                                  ),
+              child: Column(
+                children: [
+                  // Logo - Moved outside the card
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ScaleTransition(
+                      scale: _logoScaleAnimation,
+                      child: RotationTransition(
+                        turns: _logoRotateAnimation,
+                        child: Hero(
+                          tag: 'logo',
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.3),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10),
                                 ),
                               ],
                             ),
-                          ],
+                            child: Center(
+                              child: Icon(
+                                Icons.group,
+                                size: 70,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                  SizedBox(height: height * 0.03),
+
+                  // Card with signup form
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                        child: Card(
+                          elevation: 15,
+                          shadowColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          color: Theme.of(context).colorScheme.surface,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05,
+                              vertical: height * 0.03,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // SignUp Header
+                                Text(
+                                  "Sign Up",
+                                  style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.tertiary,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.045,
+                                    letterSpacing: 2,
+                                    fontFamily:
+                                        GoogleFonts.italiana().fontFamily,
+                                    shadows: const [
+                                      Shadow(
+                                        color: Colors.black26,
+                                        offset: Offset(2, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.01),
+
+                                // Subtitle
+                                Text(
+                                  "Welcome to Social Swap",
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .tertiary
+                                        .withOpacity(0.9),
+                                    fontSize: height * 0.018,
+                                    fontFamily:
+                                        GoogleFonts.urbanist().fontFamily,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.025),
+
+                                // Form
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      // Name Field
+                                      MyFormField(
+                                        hintText: "Enter your name",
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary
+                                              .withOpacity(0.7),
+                                        ),
+                                        prefixIcon:
+                                            Icons.person_outline_rounded,
+                                        controller:
+                                            _inputControllers.nameController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your name';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+
+                                      // Email Field
+                                      MyFormField(
+                                        hintText: "Email",
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary
+                                              .withOpacity(0.7),
+                                        ),
+                                        prefixIcon: Icons.alternate_email,
+                                        controller:
+                                            _inputControllers.emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your email';
+                                          }
+                                          if (!value.contains('@')) {
+                                            return 'Please enter a valid email';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+
+                                      // Password Field
+                                      MyFormField(
+                                        hintText: "Password",
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary
+                                              .withOpacity(0.7),
+                                        ),
+                                        prefixIcon: Icons.lock_outline_rounded,
+                                        controller: _inputControllers
+                                            .passwordController,
+                                        obscureText: true,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your password';
+                                          }
+                                          if (value.length < 6) {
+                                            return 'Password must be at least 6 characters';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+
+                                      // Confirm Password Field
+                                      MyFormField(
+                                        hintText: "Confirm Password",
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary
+                                              .withOpacity(0.7),
+                                        ),
+                                        prefixIcon: Icons.lock_outline_rounded,
+                                        controller: _inputControllers
+                                            .confirmPasswordController,
+                                        obscureText: true,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please confirm your password';
+                                          }
+                                          if (value !=
+                                              _inputControllers
+                                                  .passwordController.text) {
+                                            return 'Passwords do not match';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.03),
+
+                                // SignUp Button
+                                AuthButton(
+                                  onPressed: _handleSignUp,
+                                  text: "Sign Up",
+                                  textStyle: TextStyle(
+                                    fontFamily: GoogleFonts.outfit().fontFamily,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  isLoading: _inputControllers.loading,
+                                ),
+                                SizedBox(height: height * 0.02),
+
+                                // Login Link
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Already have an account?',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                        fontFamily:
+                                            GoogleFonts.outfit().fontFamily,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                            _createPageRoute(const LoginPage(),
+                                                slideDirection: 'right'));
+                                      },
+                                      child: Text(
+                                        'Login',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily:
+                                              GoogleFonts.outfit().fontFamily,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

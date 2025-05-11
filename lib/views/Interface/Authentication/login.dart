@@ -28,6 +28,10 @@ class _LoginPageState extends State<LoginPage>
   late Animation<Offset> _slideAnimation;
   late Animation<double> _fadeAnimation;
 
+  // Logo animations
+  late Animation<double> _logoScaleAnimation;
+  late Animation<double> _logoRotateAnimation;
+
   @override
   void initState() {
     super.initState();
@@ -54,6 +58,24 @@ class _LoginPageState extends State<LoginPage>
     ).animate(CurvedAnimation(
       parent: _animationController,
       curve: Curves.easeOut,
+    ));
+
+    // Create logo scale animation
+    _logoScaleAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.elasticOut,
+    ));
+
+    // Create logo rotation animation with reduced tilt
+    _logoRotateAnimation = Tween<double>(
+      begin: 0.0,
+      end: 0.02, // Reduced tilt from 0.1 to 0.02
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.elasticOut,
     ));
 
     // Start animation after widget is built
@@ -130,31 +152,74 @@ class _LoginPageState extends State<LoginPage>
           child: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
-              child: FadeTransition(
-                opacity: _fadeAnimation,
-                child: SlideTransition(
-                  position: _slideAnimation,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    child: Card(
-                      elevation: 15,
-                      shadowColor: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.3),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(28),
-                      ),
-                      color: Theme.of(context).colorScheme.surface,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05,
-                          vertical: height * 0.04,
+              child: Column(
+                children: [
+                  // Logo - Moved outside the card
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: ScaleTransition(
+                      scale: _logoScaleAnimation,
+                      child: RotationTransition(
+                        turns: _logoRotateAnimation,
+                        child: Hero(
+                          tag: 'logo',
+                          child: Container(
+                            width: 120,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.3),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 10),
+                                ),
+                              ],
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.group,
+                                size: 70,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            // Login Header
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: height * 0.03),
+                  
+                  // Card with login form
+                  FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
+                        child: Card(
+                          elevation: 15,
+                          shadowColor: Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(28),
+                          ),
+                          color: Theme.of(context).colorScheme.surface,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.05,
+                              vertical: height * 0.04,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                // Login Header
                             Text(
                               "Log In",
                               style: TextStyle(
@@ -329,10 +394,11 @@ class _LoginPageState extends State<LoginPage>
                   ),
                 ),
               ),
-            ),
+  ],),
           ),
         ),
       ),
+    ),
     );
   }
 
