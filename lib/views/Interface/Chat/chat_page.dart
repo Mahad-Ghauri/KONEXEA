@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,17 +9,18 @@ import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
 import 'package:social_swap/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:social_swap/Views/Auth%20Gate/auth_gate.dart';
 
 // Import components
-import 'package:social_swap/Views/Interface/Chat/components/chat_list_item.dart';
-import 'package:social_swap/Views/Interface/Chat/components/message_bubble.dart';
-import 'package:social_swap/Views/Interface/Chat/components/message_composer.dart';
-import 'package:social_swap/Views/Interface/Chat/components/chat_app_bar.dart';
-import 'package:social_swap/Views/Interface/Chat/components/empty_states.dart';
+import 'package:social_swap/Views/Components/Chat/chat_list_item.dart';
+import 'package:social_swap/Views/Components/Chat/message_bubble.dart';
+import 'package:social_swap/Views/Components/Chat/message_composer.dart';
+import 'package:social_swap/Views/Components/Chat/chat_app_bar.dart';
+import 'package:social_swap/Views/Components/Chat/empty_states.dart';
 
 class ChatPage extends StatefulWidget {
   final String? recipientEmail;
-  
+
   const ChatPage({super.key, this.recipientEmail});
 
   @override
@@ -32,19 +35,19 @@ class _ChatPageState extends State<ChatPage> {
   bool _isComposing = false;
   String? _currentChatId;
   String? _currentUserEmail;
-  
+
   @override
   void initState() {
     super.initState();
     _currentUserEmail = _authController.getCurrentUserEmail();
-    
+
     // Initialize chat services
     Future.microtask(() {
       _chatServices = Provider.of<ChatServices>(context, listen: false);
       _initializeChat();
     });
   }
-  
+
   Future<void> _initializeChat() async {
     // If a recipient email is provided, start a new chat with that user
     if (widget.recipientEmail != null) {
@@ -57,7 +60,7 @@ class _ChatPageState extends State<ChatPage> {
       await _chatServices.fetchChats();
     }
   }
-  
+
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
       _scrollController.animateTo(
@@ -67,17 +70,17 @@ class _ChatPageState extends State<ChatPage> {
       );
     }
   }
-  
+
   Future<void> _handleSendMessage() async {
     final text = _messageController.text.trim();
     if (text.isEmpty) return;
-    
+
     // Clear the input field
     _messageController.clear();
     setState(() {
       _isComposing = false;
     });
-    
+
     // If we're in a chat, send the message
     if (_currentChatId != null) {
       // Get the recipient email from the current chat
@@ -85,13 +88,13 @@ class _ChatPageState extends State<ChatPage> {
         (chat) => chat['chatId'] == _currentChatId,
         orElse: () => {'participants': []},
       );
-      
+
       final participants = List<String>.from(chat['participants'] ?? []);
       final recipientEmail = participants.firstWhere(
         (email) => email != _currentUserEmail,
         orElse: () => widget.recipientEmail ?? '',
       );
-      
+
       if (recipientEmail.isNotEmpty) {
         await _chatServices.sendMessage(recipientEmail, text);
         // Scroll to the bottom after sending
@@ -107,18 +110,18 @@ class _ChatPageState extends State<ChatPage> {
       Future.delayed(const Duration(milliseconds: 100), _scrollToBottom);
     }
   }
-  
+
   Widget _buildChatList() {
     return Consumer<ChatServices>(
       builder: (context, chatServices, _) {
         if (chatServices.loading) {
           return EmptyStates.buildLoadingShimmer(context);
         }
-        
+
         if (chatServices.chats.isEmpty) {
           return EmptyStates.buildEmptyChatsState(context, _showNewChatDialog);
         }
-        
+
         return ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           itemCount: chatServices.chats.length,
@@ -139,44 +142,47 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
+
   Widget _buildChatMessages() {
     return Consumer<ChatServices>(
       builder: (context, chatServices, _) {
         if (chatServices.loading) {
           return EmptyStates.buildLoadingShimmer(context);
         }
-        
+
         if (_currentChatId == null) {
           return EmptyStates.buildSelectChatPrompt(context);
         }
-        
+
         // Use StreamBuilder for real-time updates
         return StreamBuilder<List<Map<String, dynamic>>>(
           stream: chatServices.getMessagesStream(_currentChatId!),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+            if (snapshot.connectionState == ConnectionState.waiting &&
+                !snapshot.hasData) {
               return EmptyStates.buildLoadingShimmer(context);
             }
-            
+
             final messages = snapshot.data ?? chatServices.messages;
-            
+
             if (messages.isEmpty) {
               return EmptyStates.buildEmptyChatState(context);
             }
-            
+
             // Scroll to bottom when new messages arrive
             WidgetsBinding.instance.addPostFrameCallback((_) {
               _scrollToBottom();
             });
-            
+
             return ListView.builder(
               controller: _scrollController,
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               itemCount: messages.length,
               itemBuilder: (context, index) {
                 final message = messages[index];
-                final isCurrentUser = message['senderEmail'] == _currentUserEmail;
+                final isCurrentUser =
+                    message['senderEmail'] == _currentUserEmail;
                 return MessageBubble(
                   message: message,
                   isCurrentUser: isCurrentUser,
@@ -189,19 +195,19 @@ class _ChatPageState extends State<ChatPage> {
       },
     );
   }
-  
+
   Widget _buildMessageComposer() {
     return MessageComposer(
       controller: _messageController,
       onSendMessage: _handleSendMessage,
     );
   }
-  
+
   // Empty state widgets have been moved to the EmptyStates class
-  
+
   void _showNewChatDialog() {
     final TextEditingController emailController = TextEditingController();
-    
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -254,13 +260,13 @@ class _ChatPageState extends State<ChatPage> {
       ),
     );
   }
-  
+
   String _formatChatTime(DateTime time) {
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
     final messageDate = DateTime(time.year, time.month, time.day);
-    
+
     if (messageDate == today) {
       return DateFormat('h:mm a').format(time);
     } else if (messageDate == yesterday) {
@@ -275,18 +281,27 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: ChatAppBar(
-        currentChatId: _currentChatId,
-        onBackPressed: () {
-          setState(() {
-            _currentChatId = null;
-          });
-        },
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Iconsax.arrow_left),
+          onPressed: () {
+            Navigator.of(context).pop(_elegantRoute(AuthGate()));
+            _chatServices.fetchChats();
+          },
+        ),
+        title: Text(
+          'Chats',
+          style: GoogleFonts.urbanist(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
-          image: DecorationImage(
+          image: const DecorationImage(
             image: AssetImage('assets/images/chat_background.png'),
             fit: BoxFit.cover,
             opacity: 0.05,
@@ -296,9 +311,11 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             // Main content - either chat list or messages
             Expanded(
-              child: _currentChatId != null ? _buildChatMessages() : _buildChatList(),
+              child: _currentChatId != null
+                  ? _buildChatMessages()
+                  : _buildChatList(),
             ),
-            
+
             // Message composer - only show when in a chat
             if (_currentChatId != null) _buildMessageComposer(),
           ],
@@ -317,11 +334,32 @@ class _ChatPageState extends State<ChatPage> {
           : null,
     );
   }
-  
+
   @override
   void dispose() {
     _messageController.dispose();
     _scrollController.dispose();
     super.dispose();
+  }
+
+  Route _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        const begin = Offset(0.0, 1.0);
+        const end = Offset.zero;
+        const curve = Curves.easeInOutCubic;
+
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var offsetAnimation = animation.drive(tween);
+
+        return SlideTransition(
+          position: offsetAnimation,
+          child: child,
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+    );
   }
 }
