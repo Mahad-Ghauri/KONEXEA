@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:Konexea/Controllers/input_controllers.dart';
 import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
 

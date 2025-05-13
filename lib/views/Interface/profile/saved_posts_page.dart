@@ -10,6 +10,7 @@ import 'package:Konexea/Controllers/Services/Feed%20Database/feed_services.dart'
 import 'package:Konexea/Controllers/Services/Feed%20Database/saved_post_services.dart';
 import 'package:Konexea/Views/Components/custom_app_bar.dart';
 import 'package:Konexea/Views/Interface/Comments/comment_dialog.dart';
+import 'package:Konexea/Views/Components/Profile/profile_image_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:video_player/video_player.dart';
@@ -516,13 +517,10 @@ class _SavedPostsPageState extends State<SavedPostsPage>
                             width: 2,
                           ),
                         ),
-                        child: const CircleAvatar(
-                          backgroundColor: Colors.transparent,
-                          radius: 18,
-                          child: Icon(
-                            Iconsax.user,
-                            color: Colors.teal,
-                          ),
+                        child: ProfileImageWidget(
+                          size: 36, // Double the radius (18*2) for the diameter
+                          isEditable: false,
+                          email: userEmail,
                         ),
                       ),
                       const SizedBox(width: 12),
