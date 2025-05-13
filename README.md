@@ -89,7 +89,7 @@ flutter pub get
 ```
 
 3. Set up environment variables:
-Create a `.env` file in the root directory with:
+Update the `consts.dart` file in the root directory with:
 ```
 SUPABASE_URL=your_supabase_url
 SUPABASE_ANON_KEY=your_supabase_anon_key
