@@ -1,8 +1,9 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'package:Konexea/Views/Components/Auth%20Components/my_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:Konexea/Views/components/my_form_field.dart';
+
 
 class SecurityCenterPage extends StatefulWidget {
   const SecurityCenterPage({super.key});

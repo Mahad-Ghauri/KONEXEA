@@ -1,13 +1,16 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Konexea/Views/Interface/Authentication/forgot_password.dart';
 import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:Konexea/controllers/input_controllers.dart';
 import 'package:Konexea/views/Interface/Authentication/signup.dart';
-import 'package:Konexea/views/components/auth_button.dart';
-import 'package:Konexea/views/components/my_form_field.dart';
+import 'package:Konexea/views/components/Auth Components/auth_button.dart';
+import 'package:Konexea/views/components/Auth Components/my_form_field.dart';
+import 'package:rive/rive.dart' as rive;
 
 class LoginPage extends StatefulWidget {
   static const String id = 'LoginPage';
@@ -19,6 +22,9 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage>
     with SingleTickerProviderStateMixin {
+  late rive.RiveAnimationController _btnAnimationController;
+
+  bool isShowSignInDialog = false;
   final _formKey = GlobalKey<FormState>();
   final AuthenticationController _authController = AuthenticationController();
   final InputControllers _inputControllers = InputControllers();
@@ -34,6 +40,10 @@ class _LoginPageState extends State<LoginPage>
 
   @override
   void initState() {
+    _btnAnimationController = rive.OneShotAnimation(
+      "active",
+      autoplay: false,
+    );
     super.initState();
 
     // Initialize animation controller
@@ -137,275 +147,305 @@ class _LoginPageState extends State<LoginPage>
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.grey.shade100,
-              Colors.grey.shade200,
-            ],
+      body: Stack(
+        children: [
+          Positioned(
+            width: MediaQuery.of(context).size.width * 1.7,
+            left: 100,
+            bottom: 100,
+            child: Image.asset(
+              "assets/Backgrounds/Spline.png",
+            ),
           ),
-        ),
-        child: SafeArea(
-          child: Center(
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  // Logo - Moved outside the card
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: ScaleTransition(
-                      scale: _logoScaleAnimation,
-                      child: RotationTransition(
-                        turns: _logoRotateAnimation,
-                        child: Hero(
-                          tag: 'logo',
-                          child: Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).colorScheme.surface,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .primary
-                                      .withOpacity(0.3),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 10),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+              child: const SizedBox(),
+            ),
+          ),
+          const rive.RiveAnimation.asset(
+            "assets/RiveAssets/shapes.riv",
+          ),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 30, sigmaY: 30),
+              child: const SizedBox(),
+            ),
+          ),
+          AnimatedPositioned(
+            top: isShowSignInDialog ? -50 : 0,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            duration: const Duration(milliseconds: 260),
+            child: SafeArea(
+              child: Center(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    children: [
+                      // Logo - Moved outside the card
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: ScaleTransition(
+                          scale: _logoScaleAnimation,
+                          child: RotationTransition(
+                            turns: _logoRotateAnimation,
+                            child: Hero(
+                              tag: 'logo',
+                              child: Container(
+                                width: 120,
+                                height: 120,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.surface,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withOpacity(0.3),
+                                      blurRadius: 20,
+                                      offset: const Offset(0, 10),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Icon(
-                                Icons.group,
-                                size: 70,
-                                color: Theme.of(context).colorScheme.primary,
+                                child: Center(
+                                  child: Icon(
+                                    Icons.group,
+                                    size: 70,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  SizedBox(height: height * 0.03),
+                      SizedBox(height: height * 0.03),
 
-                  // Card with login form
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: width * 0.05),
-                        child: Card(
-                          elevation: 15,
-                          shadowColor: Theme.of(context)
-                              .colorScheme
-                              .primary
-                              .withOpacity(0.3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(28),
-                          ),
-                          color: Theme.of(context).colorScheme.surface,
+                      // Card with login form
+                      FadeTransition(
+                        opacity: _fadeAnimation,
+                        child: SlideTransition(
+                          position: _slideAnimation,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: width * 0.05,
-                              vertical: height * 0.04,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                // Login Header
-                                Text(
-                                  "Log In",
-                                  style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: height * 0.045,
-                                    letterSpacing: 2,
-                                    fontFamily:
-                                        GoogleFonts.italiana().fontFamily,
-                                    shadows: const [
-                                      Shadow(
-                                        color: Colors.black26,
-                                        offset: Offset(2, 2),
-                                        blurRadius: 4,
-                                      ),
-                                    ],
-                                  ),
+                            padding:
+                                EdgeInsets.symmetric(horizontal: width * 0.05),
+                            child: Card(
+                              elevation: 15,
+                              shadowColor: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.3),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(28),
+                              ),
+                              color: Theme.of(context).colorScheme.surface,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: width * 0.05,
+                                  vertical: height * 0.04,
                                 ),
-                                SizedBox(height: height * 0.01),
-
-                                // Subtitle
-                                Text(
-                                  "Welcome back! You've been missed",
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .tertiary
-                                        .withOpacity(0.9),
-                                    fontSize: height * 0.018,
-                                    fontFamily:
-                                        GoogleFonts.urbanist().fontFamily,
-                                    letterSpacing: 0.5,
-                                  ),
-                                ),
-                                SizedBox(height: height * 0.035),
-
-                                // Form
-                                Form(
-                                  key: _formKey,
-                                  child: Column(
-                                    children: [
-                                      // Email Field
-                                      MyFormField(
-                                        hintText: "Email",
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary
-                                              .withOpacity(0.7),
-                                        ),
-                                        prefixIcon: Icons.alternate_email,
-                                        controller:
-                                            _inputControllers.emailController,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter your email';
-                                          }
-                                          if (!value.contains('@')) {
-                                            return 'Please enter a valid email';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                      SizedBox(height: height * 0.02),
-
-                                      // Password Field
-                                      MyFormField(
-                                        hintText: "Password",
-                                        hintStyle: TextStyle(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .tertiary
-                                              .withOpacity(0.7),
-                                        ),
-                                        prefixIcon: Icons.lock_outline_rounded,
-                                        controller: _inputControllers
-                                            .passwordController,
-                                        obscureText: true,
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Please enter your password';
-                                          }
-                                          if (value.length < 6) {
-                                            return 'Password must be at least 6 characters';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                // Forgot Password Link
-                                Align(
-                                  alignment: Alignment.centerRight,
-                                  child: TextButton(
-                                    onPressed: () {
-                                      Navigator.of(context).push(
-                                        _elegantRoute(
-                                          const ForgotPassword(),
-                                        ),
-                                      );
-                                    },
-                                    style: TextButton.styleFrom(
-                                      padding: EdgeInsets.zero,
-                                      minimumSize: const Size(0, 36),
-                                      tapTargetSize:
-                                          MaterialTapTargetSize.shrinkWrap,
-                                    ),
-                                    child: Text(
-                                      "Forgot Password?",
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                        fontFamily:
-                                            GoogleFonts.outfit().fontFamily,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: height * 0.02),
-
-                                // Login Button
-                                AuthButton(
-                                  onPressed: _handleLogin,
-                                  text: "Log In",
-                                  textStyle: TextStyle(
-                                    fontFamily: GoogleFonts.outfit().fontFamily,
-                                    color:
-                                        Theme.of(context).colorScheme.surface,
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  isLoading: _inputControllers.loading,
-                                ),
-                                SizedBox(height: height * 0.025),
-
-                                // Sign Up Link
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
+                                    // Login Header
                                     Text(
-                                      'Don\'t have an account?',
+                                      "Log In",
                                       style: TextStyle(
-                                        fontSize: 16,
                                         color: Theme.of(context)
                                             .colorScheme
                                             .tertiary,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: height * 0.045,
+                                        letterSpacing: 2,
                                         fontFamily:
-                                            GoogleFonts.outfit().fontFamily,
+                                            GoogleFonts.italiana().fontFamily,
+                                        shadows: const [
+                                          Shadow(
+                                            color: Colors.black26,
+                                            offset: Offset(2, 2),
+                                            blurRadius: 4,
+                                          ),
+                                        ],
                                       ),
                                     ),
-                                    TextButton(
-                                      onPressed: _navigateToSignUpScreen,
-                                      child: Text(
-                                        'Sign Up',
-                                        style: TextStyle(
-                                          fontSize: 16,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily:
-                                              GoogleFonts.outfit().fontFamily,
+                                    SizedBox(height: height * 0.01),
+
+                                    // Subtitle
+                                    Text(
+                                      "Welcome back! You've been missed",
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary
+                                            .withOpacity(0.9),
+                                        fontSize: height * 0.018,
+                                        fontFamily:
+                                            GoogleFonts.urbanist().fontFamily,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                    SizedBox(height: height * 0.035),
+
+                                    // Form
+                                    Form(
+                                      key: _formKey,
+                                      child: Column(
+                                        children: [
+                                          // Email Field
+                                          MyFormField(
+                                            hintText: "Email",
+                                            hintStyle: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .tertiary
+                                                  .withOpacity(0.7),
+                                            ),
+                                            prefixIcon: Icons.alternate_email,
+                                            controller: _inputControllers
+                                                .emailController,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please enter your email';
+                                              }
+                                              if (!value.contains('@')) {
+                                                return 'Please enter a valid email';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                          SizedBox(height: height * 0.02),
+
+                                          // Password Field
+                                          MyFormField(
+                                            hintText: "Password",
+                                            hintStyle: TextStyle(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .tertiary
+                                                  .withOpacity(0.7),
+                                            ),
+                                            prefixIcon:
+                                                Icons.lock_outline_rounded,
+                                            controller: _inputControllers
+                                                .passwordController,
+                                            obscureText: true,
+                                            validator: (value) {
+                                              if (value == null ||
+                                                  value.isEmpty) {
+                                                return 'Please enter your password';
+                                              }
+                                              if (value.length < 6) {
+                                                return 'Password must be at least 6 characters';
+                                              }
+                                              return null;
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+
+                                    // Forgot Password Link
+                                    Align(
+                                      alignment: Alignment.centerRight,
+                                      child: TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            _elegantRoute(
+                                              const ForgotPassword(),
+                                            ),
+                                          );
+                                        },
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.zero,
+                                          minimumSize: const Size(0, 36),
+                                          tapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                        child: Text(
+                                          "Forgot Password?",
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            fontFamily:
+                                                GoogleFonts.outfit().fontFamily,
+                                          ),
                                         ),
                                       ),
                                     ),
+                                    SizedBox(height: height * 0.02),
+
+                                    // Login Button
+                                    AuthButton(
+                                      onPressed: _handleLogin,
+                                      text: "Log In",
+                                      textStyle: TextStyle(
+                                        fontFamily:
+                                            GoogleFonts.outfit().fontFamily,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .surface,
+                                        fontSize: 19,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      isLoading: _inputControllers.loading,
+                                    ),
+                                    SizedBox(height: height * 0.025),
+
+                                    // Sign Up Link
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          'Don\'t have an account?',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                            fontFamily:
+                                                GoogleFonts.outfit().fontFamily,
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: _navigateToSignUpScreen,
+                                          child: Text(
+                                            'Sign Up',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: GoogleFonts.outfit()
+                                                  .fontFamily,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

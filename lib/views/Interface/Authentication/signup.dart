@@ -5,8 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:Konexea/controllers/input_controllers.dart';
 import 'package:Konexea/views/Interface/Authentication/login.dart';
-import 'package:Konexea/views/components/auth_button.dart';
-import 'package:Konexea/views/components/my_form_field.dart';
+import 'package:Konexea/views/components/Auth Components/auth_button.dart';
+import 'package:Konexea/views/components/Auth Components/my_form_field.dart';
 
 class SignUpPage extends StatefulWidget {
   static const String id = 'SignUpPage';

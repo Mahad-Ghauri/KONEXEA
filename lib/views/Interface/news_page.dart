@@ -1,11 +1,12 @@
 // ignore_for_file: use_build_context_synchronously, deprecated_member_use, prefer_final_fields
 
+import 'package:Konexea/Views/Components/News/news_card.dart';
 import 'package:flutter/material.dart';
 import 'package:Konexea/controllers/Services/API/News API/api_services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:Konexea/views/components/news_card.dart';
+
 
 class NewsPage extends StatefulWidget {
   const NewsPage({super.key});

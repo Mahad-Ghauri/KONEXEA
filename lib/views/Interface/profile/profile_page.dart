@@ -3,11 +3,10 @@
 import 'package:Konexea/Views/Interface/Profile/saved_posts_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
-import 'package:Konexea/Views/Components/profile_image_widget.dart';
+import 'package:Konexea/Views/Components/Profile/profile_image_widget.dart';
 import 'package:Konexea/views/Interface/Profile/about_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:Konexea/views/Interface/profile/edit_profile_page.dart';

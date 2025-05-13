@@ -8,7 +8,7 @@ import 'package:Konexea/Controllers/Services/Feed%20Database/feed_services.dart'
 import 'package:Konexea/Controllers/Services/Feed%20Database/saved_post_services.dart';
 import 'package:Konexea/Views/Components/Feed/feed_ui_components.dart';
 import 'package:Konexea/Views/Components/custom_app_bar.dart';
-import 'package:Konexea/Views/Components/pulsating_widget.dart';
+import 'package:Konexea/Views/Components/Feed/pulsating_widget.dart';
 import 'package:Konexea/Views/Interface/Chat/chat_page.dart';
 import 'package:Konexea/Views/Interface/Comments/comment_dialog.dart';
 import 'package:Konexea/Views/Interface/PHub/phub_interface.dart';

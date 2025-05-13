@@ -1,6 +1,6 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print
 
-import 'dart:io';
+import 'package:Konexea/Views/Components/Auth%20Components/my_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,7 +9,6 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 // import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:Konexea/Controllers/input_controllers.dart';
 import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
-import 'package:Konexea/views/components/my_form_field.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
