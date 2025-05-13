@@ -286,7 +286,7 @@ class _SignUpPageState extends State<SignUpPage>
 
                                     // Subtitle
                                     Text(
-                                      "Welcome to Social Swap",
+                                      "Welcome to Konexea",
                                       style: TextStyle(
                                         color: Theme.of(context)
                                             .colorScheme

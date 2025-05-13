@@ -102,7 +102,7 @@ class _ChatbotPageState extends State<ChatbotPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Social Swap',
+                            'Konexea',
                             style: GoogleFonts.urbanist(
                               fontSize: 18,
                               fontWeight: FontWeight.w600,

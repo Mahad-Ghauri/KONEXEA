@@ -492,7 +492,7 @@ class AboutPage extends StatelessWidget {
                 // Copyright
                 Center(
                   child: Text(
-                    "© 2024 Social Swap. All rights reserved.",
+                    "© 2024 Konexea. All rights reserved.",
                     style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context)

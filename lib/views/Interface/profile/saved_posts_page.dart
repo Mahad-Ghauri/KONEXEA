@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'package:Konexea/views/Auth%20Gate/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,7 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
 import 'package:Konexea/Controllers/Services/Feed%20Database/feed_services.dart';
 import 'package:Konexea/Controllers/Services/Feed%20Database/saved_post_services.dart';
-  import 'package:Konexea/Views/Components/custom_app_bar.dart';
+import 'package:Konexea/Views/Components/custom_app_bar.dart';
 import 'package:Konexea/Views/Interface/Comments/comment_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shimmer/shimmer.dart';
@@ -387,7 +388,7 @@ class _SavedPostsPageState extends State<SavedPostsPage>
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop(_elegantRoute(const AuthGate()));
             },
             icon: const Icon(Iconsax.home),
             label: Text(
@@ -723,5 +724,22 @@ class _SavedPostsPageState extends State<SavedPostsPage>
 
   String _formatDate(DateTime date) {
     return '${date.day}/${date.month}/${date.year}';
+  }
+
+  PageRouteBuilder _elegantRoute(Widget page) {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => page,
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var fadeAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
+        var scaleAnimation = Tween<double>(begin: 0.95, end: 1).animate(
+          CurvedAnimation(parent: animation, curve: Curves.easeOutExpo),
+        );
+        return FadeTransition(
+          opacity: fadeAnimation,
+          child: ScaleTransition(scale: scaleAnimation, child: child),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 500),
+    );
   }
 }
