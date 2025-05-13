@@ -13,6 +13,7 @@ import 'package:Konexea/Views/Interface/Chat/chat_page.dart';
 import 'package:Konexea/Views/Interface/Comments/comment_dialog.dart';
 import 'package:Konexea/Views/Interface/PHub/phub_interface.dart';
 import 'package:Konexea/Views/Interface/Profile/saved_posts_page.dart';
+import 'package:Konexea/Views/Components/Profile/profile_image_widget.dart'; // For user profile image
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
@@ -884,7 +885,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             ),
           ),
           const SizedBox(height: 32),
-         
         ],
       ),
     );
@@ -956,28 +956,11 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                         padding: const EdgeInsets.all(16),
                         child: Row(
                           children: [
-                            // Profile avatar with decoration
-                            Container(
-                              width: 40,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context).colorScheme.primary,
-                                    Theme.of(context).colorScheme.tertiary,
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                shape: BoxShape.circle,
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                  Icons.person_outlined,
-                                  color: Colors.white,
-                                  size: 24,
-                                ),
-                              ),
+                            // Profile avatar using ProfileImageWidget
+                            ProfileImageWidget(
+                              size: 40.0,
+                              isEditable: false,
+                              email: post['userEmail'],
                             ),
                             const SizedBox(width: 12),
                             Expanded(
