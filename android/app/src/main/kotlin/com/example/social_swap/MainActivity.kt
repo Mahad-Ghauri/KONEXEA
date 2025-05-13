@@ -1,4 +1,4 @@
-package com.example.social_swap
+package com.example.Konexea
 
 import io.flutter.embedding.android.FlutterActivity
 

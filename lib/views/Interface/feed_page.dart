@@ -3,17 +3,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Feed%20Database/feed_services.dart';
-import 'package:social_swap/Views/Components/Feed/feed_ui_components.dart';
-import 'package:social_swap/Views/Components/custom_app_bar.dart';
-import 'package:social_swap/Views/Components/pulsating_widget.dart';
-import 'package:social_swap/Views/Interface/Chat/chat_page.dart';
-import 'package:social_swap/Views/Interface/Comments/comment_dialog.dart';
-import 'package:social_swap/Views/Interface/PHub/phub_interface.dart';
+import 'package:Konexea/Controllers/Services/Feed%20Database/feed_services.dart';
+import 'package:Konexea/Views/Components/Feed/feed_ui_components.dart';
+import 'package:Konexea/Views/Components/custom_app_bar.dart';
+import 'package:Konexea/Views/Components/pulsating_widget.dart';
+import 'package:Konexea/Views/Interface/Chat/chat_page.dart';
+import 'package:Konexea/Views/Interface/Comments/comment_dialog.dart';
+import 'package:Konexea/Views/Interface/PHub/phub_interface.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:social_swap/views/Interface/Chat Bot/chatbot_page.dart';
+import 'package:Konexea/views/Interface/Chat Bot/chatbot_page.dart';
 import 'dart:math' as math;
 import 'dart:async'; // For periodic animations
 import 'package:cached_network_image/cached_network_image.dart';

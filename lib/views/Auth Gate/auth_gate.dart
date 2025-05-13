@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
-import 'package:social_swap/views/Interface/Authentication/login.dart';
-import 'package:social_swap/views/Interface/interface.dart';
+import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/views/Interface/Authentication/login.dart';
+import 'package:Konexea/views/Interface/interface.dart';
 
 class AuthGate extends StatelessWidget {
   static const String id = 'AuthGate';

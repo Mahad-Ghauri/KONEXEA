@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
-import 'package:social_swap/Views/Interface/Chat/chat_page.dart';
+import 'package:Konexea/Controllers/Services/Chat/chat_services.dart';
+import 'package:Konexea/Views/Interface/Chat/chat_page.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:intl/intl.dart';
 

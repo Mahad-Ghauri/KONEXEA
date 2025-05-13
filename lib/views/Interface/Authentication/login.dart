@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:social_swap/Views/Interface/Authentication/forgot_password.dart';
-import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
-import 'package:social_swap/controllers/input_controllers.dart';
-import 'package:social_swap/views/Interface/Authentication/signup.dart';
-import 'package:social_swap/views/components/auth_button.dart';
-import 'package:social_swap/views/components/my_form_field.dart';
+import 'package:Konexea/Views/Interface/Authentication/forgot_password.dart';
+import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/controllers/input_controllers.dart';
+import 'package:Konexea/views/Interface/Authentication/signup.dart';
+import 'package:Konexea/views/components/auth_button.dart';
+import 'package:Konexea/views/components/my_form_field.dart';
 
 class LoginPage extends StatefulWidget {
   static const String id = 'LoginPage';

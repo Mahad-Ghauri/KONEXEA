@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 
-import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
-import 'package:social_swap/Model/cart_item_model.dart';
-import 'package:social_swap/Model/featured_product_model.dart';
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Model/cart_item_model.dart';
+import 'package:Konexea/Model/featured_product_model.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({super.key});
@@ -78,29 +78,28 @@ class _CartPageState extends State<CartPage> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder:
-                      (context) => AlertDialog(
-                        title: const Text('Clear Cart'),
-                        content: const Text(
-                          'Are you sure you want to clear your cart?',
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              cartServices.clearCart();
-                              Navigator.pop(context);
-                            },
-                            style: TextButton.styleFrom(
-                              foregroundColor: Colors.red,
-                            ),
-                            child: const Text('Clear'),
-                          ),
-                        ],
+                  builder: (context) => AlertDialog(
+                    title: const Text('Clear Cart'),
+                    content: const Text(
+                      'Are you sure you want to clear your cart?',
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text('Cancel'),
                       ),
+                      TextButton(
+                        onPressed: () {
+                          cartServices.clearCart();
+                          Navigator.pop(context);
+                        },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.red,
+                        ),
+                        child: const Text('Clear'),
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
@@ -341,12 +340,11 @@ class _CartPageState extends State<CartPage> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed:
-                  _isCheckingOut
-                      ? null
-                      : () {
-                        _showCheckoutDialog(context, cartServices);
-                      },
+              onPressed: _isCheckingOut
+                  ? null
+                  : () {
+                      _showCheckoutDialog(context, cartServices);
+                    },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.yellow.shade800,
                 foregroundColor: Colors.white,
@@ -355,23 +353,22 @@ class _CartPageState extends State<CartPage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              child:
-                  _isCheckingOut
-                      ? const SizedBox(
-                        width: 24,
-                        height: 24,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                      : const Text(
-                        'Proceed to Checkout',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+              child: _isCheckingOut
+                  ? const SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
                       ),
+                    )
+                  : const Text(
+                      'Proceed to Checkout',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
             ),
           ),
         ],
@@ -445,76 +442,74 @@ class _CartPageState extends State<CartPage> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed:
-                          _isCheckingOut
-                              ? null
-                              : () async {
-                                if (_addressController.text.trim().isEmpty) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Please enter your delivery address',
-                                      ),
+                      onPressed: _isCheckingOut
+                          ? null
+                          : () async {
+                              if (_addressController.text.trim().isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Please enter your delivery address',
                                     ),
-                                  );
-                                  return;
-                                }
-
-                                setState(() {
-                                  _isCheckingOut = true;
-                                });
-
-                                // Process checkout
-                                final success = await cartServices.checkout(
-                                  address: _addressController.text.trim(),
-                                  paymentMethod: _selectedPaymentMethod,
+                                  ),
                                 );
+                                return;
+                              }
 
-                                setState(() {
-                                  _isCheckingOut = false;
-                                });
+                              setState(() {
+                                _isCheckingOut = true;
+                              });
 
-                                Navigator.pop(
-                                  context,
-                                ); // Close the bottom sheet
+                              // Process checkout
+                              final success = await cartServices.checkout(
+                                address: _addressController.text.trim(),
+                                paymentMethod: _selectedPaymentMethod,
+                              );
 
-                                if (success) {
-                                  // Show success dialog
-                                  showDialog(
-                                    context: context,
-                                    builder:
-                                        (context) => AlertDialog(
-                                          title: const Text(
-                                            'Order Placed Successfully',
-                                          ),
-                                          content: const Text(
-                                            'Your order has been placed successfully. You will receive a confirmation shortly.',
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                                Navigator.pop(
-                                                  context,
-                                                ); // Go back to previous screen
-                                              },
-                                              child: const Text('OK'),
-                                            ),
-                                          ],
-                                        ),
-                                  );
-                                } else {
-                                  // Show error dialog
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        'Failed to place order. Please try again.',
-                                      ),
-                                      backgroundColor: Colors.red,
+                              setState(() {
+                                _isCheckingOut = false;
+                              });
+
+                              Navigator.pop(
+                                context,
+                              ); // Close the bottom sheet
+
+                              if (success) {
+                                // Show success dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: const Text(
+                                      'Order Placed Successfully',
                                     ),
-                                  );
-                                }
-                              },
+                                    content: const Text(
+                                      'Your order has been placed successfully. You will receive a confirmation shortly.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          Navigator.pop(
+                                            context,
+                                          ); // Go back to previous screen
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                // Show error dialog
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text(
+                                      'Failed to place order. Please try again.',
+                                    ),
+                                    backgroundColor: Colors.red,
+                                  ),
+                                );
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.yellow.shade800,
                         foregroundColor: Colors.white,
@@ -523,23 +518,22 @@ class _CartPageState extends State<CartPage> {
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      child:
-                          _isCheckingOut
-                              ? const SizedBox(
-                                width: 24,
-                                height: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                              : const Text(
-                                'Place Order',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                      child: _isCheckingOut
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
                               ),
+                            )
+                          : const Text(
+                              'Place Order',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 16),

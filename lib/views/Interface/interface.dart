@@ -3,11 +3,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:social_swap/Views/Interface/profile/profile_page.dart';
-import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
-import 'package:social_swap/views/Interface/feed_page.dart';
-import 'package:social_swap/views/Interface/news_page.dart';
-import 'package:social_swap/views/Interface/upload_page.dart';
+import 'package:Konexea/Views/Interface/profile/profile_page.dart';
+import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/views/Interface/feed_page.dart';
+import 'package:Konexea/views/Interface/news_page.dart';
+import 'package:Konexea/views/Interface/upload_page.dart';
 
 class InterfacePage extends StatefulWidget {
   static const String id = 'InterfacePage';

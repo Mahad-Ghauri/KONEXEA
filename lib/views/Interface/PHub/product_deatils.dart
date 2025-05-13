@@ -3,10 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
-import 'package:social_swap/Model/featured_product_model.dart';
-import 'package:social_swap/Model/product_model.dart';
-import 'package:social_swap/Views/Interface/PHub/Cart/cart_page.dart';
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Model/featured_product_model.dart';
+import 'package:Konexea/Model/product_model.dart';
+import 'package:Konexea/Views/Interface/PHub/Cart/cart_page.dart';
 
 class ProductDetail extends StatefulWidget {
   final Product product;
@@ -150,11 +150,10 @@ class _ProductDetailState extends State<ProductDetail>
                         color: Colors.grey.shade200,
                         child: Center(
                           child: CircularProgressIndicator(
-                            value:
-                                loadingProgress.expectedTotalBytes != null
-                                    ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                    : null,
+                            value: loadingProgress.expectedTotalBytes != null
+                                ? loadingProgress.cumulativeBytesLoaded /
+                                    loadingProgress.expectedTotalBytes!
+                                : null,
                             color: Colors.yellow.shade800,
                           ),
                         ),
@@ -428,8 +427,8 @@ class _ProductDetailState extends State<ProductDetail>
                           index < widget.product.rating.rate.floor()
                               ? Icons.star
                               : index < widget.product.rating.rate
-                              ? Icons.star_half
-                              : Icons.star_border,
+                                  ? Icons.star_half
+                                  : Icons.star_border,
                           color: Colors.amber,
                           size: 24,
                         );
@@ -586,10 +585,9 @@ class _ProductDetailState extends State<ProductDetail>
                         color: Colors.white,
                         size: 24,
                       ),
-                      onPressed:
-                          () => cartServices.decrementQuantity(
-                            widget.product.id.toString(),
-                          ),
+                      onPressed: () => cartServices.decrementQuantity(
+                        widget.product.id.toString(),
+                      ),
                     ),
                     Text(
                       quantity.toString(),
@@ -605,10 +603,9 @@ class _ProductDetailState extends State<ProductDetail>
                         color: Colors.white,
                         size: 24,
                       ),
-                      onPressed:
-                          () => cartServices.incrementQuantity(
-                            widget.product.id.toString(),
-                          ),
+                      onPressed: () => cartServices.incrementQuantity(
+                        widget.product.id.toString(),
+                      ),
                     ),
                   ],
                 ),

@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
+import 'package:Konexea/Controllers/Services/Chat/chat_services.dart';
 
 class ChatAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? currentChatId;

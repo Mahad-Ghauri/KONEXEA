@@ -4,14 +4,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
-import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
 
-import 'package:social_swap/Controllers/input_controllers.dart';
-import 'package:social_swap/Model/featured_product_model.dart';
-import 'package:social_swap/Views/Components/Product%20Hub/cart_icon.dart';
-import 'package:social_swap/Views/Interface/PHub/Cart/cart_page.dart';
-import 'package:social_swap/Views/Interface/PHub/Featured%20Categories/featured_details.dart';
+import 'package:Konexea/Controllers/input_controllers.dart';
+import 'package:Konexea/Model/featured_product_model.dart';
+import 'package:Konexea/Views/Components/Product%20Hub/cart_icon.dart';
+import 'package:Konexea/Views/Interface/PHub/Cart/cart_page.dart';
+import 'package:Konexea/Views/Interface/PHub/Featured%20Categories/featured_details.dart';
 
 class FeaturedProducts extends StatefulWidget {
   final String category;
@@ -108,10 +108,9 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
               child: Consumer<InterfaceController>(
                 builder: (context, interfaceController, _) {
                   return StreamBuilder(
-                    stream:
-                        interfaceController.fireStore
-                            .collection(widget.category)
-                            .snapshots(),
+                    stream: interfaceController.fireStore
+                        .collection(widget.category)
+                        .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return _buildLoadingIndicator();
@@ -126,21 +125,17 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                       }
 
                       // Filter products based on search query
-                      final docs =
-                          _searchQuery.isEmpty
-                              ? snapshot.data!.docs
-                              : snapshot.data!.docs.where((doc) {
-                                final title =
-                                    (doc['title'] ?? '')
-                                        .toString()
-                                        .toLowerCase();
-                                final description =
-                                    (doc['description'] ?? '')
-                                        .toString()
-                                        .toLowerCase();
-                                return title.contains(_searchQuery) ||
-                                    description.contains(_searchQuery);
-                              }).toList();
+                      final docs = _searchQuery.isEmpty
+                          ? snapshot.data!.docs
+                          : snapshot.data!.docs.where((doc) {
+                              final title =
+                                  (doc['title'] ?? '').toString().toLowerCase();
+                              final description = (doc['description'] ?? '')
+                                  .toString()
+                                  .toLowerCase();
+                              return title.contains(_searchQuery) ||
+                                  description.contains(_searchQuery);
+                            }).toList();
 
                       if (docs.isEmpty) {
                         return Center(
@@ -196,15 +191,14 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
           labelText: "Search for products",
           labelStyle: const TextStyle(color: Colors.black54),
           prefixIcon: Icon(Icons.search, color: Colors.yellow.shade800),
-          suffixIcon:
-              inputController.searchController.text.isNotEmpty
-                  ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      inputController.searchController.clear();
-                    },
-                  )
-                  : null,
+          suffixIcon: inputController.searchController.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    inputController.searchController.clear();
+                  },
+                )
+              : null,
           filled: true,
           fillColor: Colors.white,
           contentPadding: const EdgeInsets.symmetric(
@@ -285,23 +279,21 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
 
     // Use Consumer only for the part that needs to rebuild
     return GestureDetector(
-      onTap:
-          () => Navigator.of(context).push(
-            PageRouteBuilder(
-              pageBuilder:
-                  (context, animation, secondaryAnimation) =>
-                      FeaturedProductDetails(product: product),
-              transitionDuration: const Duration(milliseconds: 500),
-              transitionsBuilder: (
-                context,
-                animation,
-                secondaryAnimation,
-                child,
-              ) {
-                return FadeTransition(opacity: animation, child: child);
-              },
-            ),
-          ),
+      onTap: () => Navigator.of(context).push(
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              FeaturedProductDetails(product: product),
+          transitionDuration: const Duration(milliseconds: 500),
+          transitionsBuilder: (
+            context,
+            animation,
+            secondaryAnimation,
+            child,
+          ) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      ),
       child: Card(
         elevation: 2,
         shadowColor: Colors.black26,
@@ -333,11 +325,10 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                           color: Colors.grey.shade200,
                           child: Center(
                             child: CircularProgressIndicator(
-                              value:
-                                  loadingProgress.expectedTotalBytes != null
-                                      ? loadingProgress.cumulativeBytesLoaded /
-                                          loadingProgress.expectedTotalBytes!
-                                      : null,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded /
+                                      loadingProgress.expectedTotalBytes!
+                                  : null,
                               color: Colors.yellow.shade800,
                               strokeWidth: 3,
                             ),
@@ -445,18 +436,17 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
 
                         return SizedBox(
                           width: double.infinity,
-                          child:
-                              isInCart
-                                  ? _buildQuantityControls(
-                                    product,
-                                    quantity,
-                                    cartServices,
-                                  )
-                                  : _buildAddToCartButton(
-                                    product,
-                                    cartServices,
-                                    context,
-                                  ),
+                          child: isInCart
+                              ? _buildQuantityControls(
+                                  product,
+                                  quantity,
+                                  cartServices,
+                                )
+                              : _buildAddToCartButton(
+                                  product,
+                                  cartServices,
+                                  context,
+                                ),
                         );
                       },
                     ),

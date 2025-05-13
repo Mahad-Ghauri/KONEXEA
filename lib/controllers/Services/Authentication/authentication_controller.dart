@@ -3,8 +3,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:social_swap/Views/Interface/Authentication/login.dart';
-import 'package:social_swap/views/Interface/interface.dart';
+import 'package:Konexea/Views/Interface/Authentication/login.dart';
+import 'package:Konexea/views/Interface/interface.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthenticationController {
@@ -123,54 +123,50 @@ class AuthenticationController {
       log(error.toString());
     }
   }
+
   //  Method for restoring password
   Future<void> restorePassword(String email, BuildContext context) async {
     final navigator = Navigator.of(context);
     try {
-      await supabase.auth
-          .resetPasswordForEmail(email)
-          .then((value) {
-            log("Password Reset Link Sent");
-            showAdaptiveDialog(
-              context: context,
-              builder:
-                  (context) => AlertDialog(
-                    title: const Text('Password Reset'),
-                    content: const Text(
-                      'A password reset link has been sent to your email',
-                    ),
-                    actions: [
-                      ElevatedButton(
-                        onPressed: () => navigator.pop(),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.white,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: const Text(
-                          "Dismiss",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: .5,
-                          ),
-                        ),
-                      ),
-                    ],
+      await supabase.auth.resetPasswordForEmail(email).then((value) {
+        log("Password Reset Link Sent");
+        showAdaptiveDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Password Reset'),
+            content: const Text(
+              'A password reset link has been sent to your email',
+            ),
+            actions: [
+              ElevatedButton(
+                onPressed: () => navigator.pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.amber,
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-            );
-          })
-          .onError((error, stackTrace) {
-            log("Error: $error");
-            throw Exception("Error Occurred!");
-          });
+                ),
+                child: const Text(
+                  "Dismiss",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: .5,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      }).onError((error, stackTrace) {
+        log("Error: $error");
+        throw Exception("Error Occurred!");
+      });
     } catch (error) {
       log(error.toString());
     }
   }
-
 
   //  Get user email from current session
   String? getCurrentUserEmail() {

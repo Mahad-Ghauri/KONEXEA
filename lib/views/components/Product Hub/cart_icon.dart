@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
-import 'package:social_swap/Views/Interface/PHub/Cart/cart_page.dart';
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Views/Interface/PHub/Cart/cart_page.dart';
 
 class CartIcon extends StatelessWidget {
   const CartIcon({super.key});

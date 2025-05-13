@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:social_swap/Controllers/Services/API/Chatbot/chatbot_history_service.dart';
+import 'package:Konexea/Controllers/Services/API/Chatbot/chatbot_history_service.dart';
 
 class ChatbotController extends ChangeNotifier {
   //  API KEY and RESPONSE TEXT
@@ -161,8 +161,8 @@ class ChatbotController extends ChangeNotifier {
       if (response.statusCode == 200) {
         // Check for successful response
         final data = jsonDecode(response.body);
-        responseText =
-            data["candidates"]?[0]["content"]?["parts"]?[0]["text"] ??
+        responseText = data["candidates"]?[0]["content"]?["parts"]?[0]
+                ["text"] ??
             "No response received";
         isLoading = false;
 

@@ -1,7 +1,7 @@
-# 🚀 Social Swap v1.2.0 Release Notes
+# 🚀 Konexea v1.2.0 Release Notes
 
 ## 📋 Overview
-Welcome to Social Swap v1.2.0! This release brings significant improvements to user experience, performance, and new features that make social swapping more seamless than ever.
+Welcome to Konexea v1.2.0! This release brings significant improvements to user experience, performance, and new features that make social swapping more seamless than ever.
 
 ## ✨ What's New
 

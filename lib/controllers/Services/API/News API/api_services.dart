@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:social_swap/Model/news_model.dart';
+import 'package:Konexea/Model/news_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:google_mlkit_translation/google_mlkit_translation.dart';

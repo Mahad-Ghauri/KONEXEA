@@ -5,18 +5,18 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
-import 'package:social_swap/Controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/Controllers/Services/Chat/chat_services.dart';
+import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:intl/intl.dart';
 // import 'package:shimmer/shimmer.dart';
-import 'package:social_swap/Views/Auth%20Gate/auth_gate.dart';
+import 'package:Konexea/Views/Auth%20Gate/auth_gate.dart';
 
 // Import components
-import 'package:social_swap/Views/Components/Chat/chat_list_item.dart';
-import 'package:social_swap/Views/Components/Chat/message_bubble.dart';
-import 'package:social_swap/Views/Components/Chat/message_composer.dart';
-// import 'package:social_swap/Views/Components/Chat/chat_app_bar.dart';
-import 'package:social_swap/Views/Components/Chat/empty_states.dart';
+import 'package:Konexea/Views/Components/Chat/chat_list_item.dart';
+import 'package:Konexea/Views/Components/Chat/message_bubble.dart';
+import 'package:Konexea/Views/Components/Chat/message_composer.dart';
+// import 'package:Konexea/Views/Components/Chat/chat_app_bar.dart';
+import 'package:Konexea/Views/Components/Chat/empty_states.dart';
 
 class ChatPage extends StatefulWidget {
   final String? recipientEmail;

@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:social_swap/Model/product_model.dart';
+import 'package:Konexea/Model/product_model.dart';
 
 class PHubApiServices extends ChangeNotifier {
   //  Loading Variable

@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/API/Thrift%20Store/phub_api_services.dart';
-import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
-import 'package:social_swap/Model/featured_product_model.dart';
-import 'package:social_swap/Model/product_model.dart';
-import 'package:social_swap/Views/Components/Product%20Hub/cart_icon.dart';
-import 'package:social_swap/Views/Interface/PHub/Cart/cart_page.dart';
-import 'package:social_swap/Views/Interface/PHub/product_deatils.dart';
-import 'package:social_swap/controllers/input_controllers.dart';
+import 'package:Konexea/Controllers/Services/API/Thrift%20Store/phub_api_services.dart';
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Model/featured_product_model.dart';
+import 'package:Konexea/Model/product_model.dart';
+import 'package:Konexea/Views/Components/Product%20Hub/cart_icon.dart';
+import 'package:Konexea/Views/Interface/PHub/Cart/cart_page.dart';
+import 'package:Konexea/Views/Interface/PHub/product_deatils.dart';
+import 'package:Konexea/controllers/input_controllers.dart';
 
 class ProductPage extends StatefulWidget {
   final String title;
@@ -84,12 +84,11 @@ class _ProductPageState extends State<ProductPage> {
 
     setState(() {
       // Filter by search text
-      _filteredProducts =
-          _cachedProducts!.where((product) {
-            return product.title.toLowerCase().contains(searchText) ||
-                product.description.toLowerCase().contains(searchText) ||
-                product.category.toLowerCase().contains(searchText);
-          }).toList();
+      _filteredProducts = _cachedProducts!.where((product) {
+        return product.title.toLowerCase().contains(searchText) ||
+            product.description.toLowerCase().contains(searchText) ||
+            product.category.toLowerCase().contains(searchText);
+      }).toList();
 
       // Apply sorting
       _sortProducts();
@@ -183,16 +182,15 @@ class _ProductPageState extends State<ProductPage> {
 
             // Product display - main content
             Expanded(
-              child:
-                  _isLoading
-                      ? _buildLoadingIndicator()
-                      : _errorMessage != null
+              child: _isLoading
+                  ? _buildLoadingIndicator()
+                  : _errorMessage != null
                       ? _buildErrorView()
                       : _cachedProducts == null || _cachedProducts!.isEmpty
-                      ? _buildNoProductsView()
-                      : _filteredProducts.isEmpty
-                      ? _buildNoMatchingProductsView()
-                      : _buildProductsGrid(),
+                          ? _buildNoProductsView()
+                          : _filteredProducts.isEmpty
+                              ? _buildNoMatchingProductsView()
+                              : _buildProductsGrid(),
             ),
           ],
         ),
@@ -258,15 +256,14 @@ class _ProductPageState extends State<ProductPage> {
           labelText: "Search for products",
           labelStyle: const TextStyle(color: Colors.black),
           prefixIcon: Icon(Icons.search, color: Colors.yellow.shade800),
-          suffixIcon:
-              inputController.searchController.text.isNotEmpty
-                  ? IconButton(
-                    icon: const Icon(Icons.clear),
-                    onPressed: () {
-                      inputController.searchController.clear();
-                    },
-                  )
-                  : null,
+          suffixIcon: inputController.searchController.text.isNotEmpty
+              ? IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    inputController.searchController.clear();
+                  },
+                )
+              : null,
           filled: true,
           fillColor: Colors.white,
         ),
@@ -438,8 +435,8 @@ class _ProductPageState extends State<ProductPage> {
       itemCount: _filteredProducts.length,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
-      itemBuilder:
-          (context, index) => _buildProductCard(_filteredProducts[index]),
+      itemBuilder: (context, index) =>
+          _buildProductCard(_filteredProducts[index]),
     );
   }
 
@@ -452,23 +449,21 @@ class _ProductPageState extends State<ProductPage> {
         final quantity = cartServices.getQuantity(data.id.toString());
 
         return GestureDetector(
-          onTap:
-              () => Navigator.of(context).push(
-                PageRouteBuilder(
-                  pageBuilder:
-                      (context, animation, secondaryAnimation) =>
-                          ProductDetail(product: data),
-                  transitionDuration: const Duration(milliseconds: 500),
-                  transitionsBuilder: (
-                    context,
-                    animation,
-                    secondaryAnimation,
-                    child,
-                  ) {
-                    return FadeTransition(opacity: animation, child: child);
-                  },
-                ),
-              ),
+          onTap: () => Navigator.of(context).push(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  ProductDetail(product: data),
+              transitionDuration: const Duration(milliseconds: 500),
+              transitionsBuilder: (
+                context,
+                animation,
+                secondaryAnimation,
+                child,
+              ) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+            ),
+          ),
           child: Card(
             elevation: 3,
             shape: RoundedRectangleBorder(
@@ -499,13 +494,11 @@ class _ProductPageState extends State<ProductPage> {
                               color: Colors.grey.shade200,
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  value:
-                                      loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!
-                                          : null,
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
                                   color: Colors.yellow.shade800,
                                 ),
                               ),
@@ -630,31 +623,30 @@ class _ProductPageState extends State<ProductPage> {
                       // Add to cart button or quantity controls
                       SizedBox(
                         width: double.infinity,
-                        child:
-                            isInCart
-                                ? _buildQuantityControls(
-                                  data,
-                                  quantity,
-                                  cartServices,
-                                )
-                                : ElevatedButton.icon(
-                                  onPressed: () => _addToCart(data),
-                                  icon: const Icon(
-                                    Icons.add_shopping_cart,
-                                    size: 16,
+                        child: isInCart
+                            ? _buildQuantityControls(
+                                data,
+                                quantity,
+                                cartServices,
+                              )
+                            : ElevatedButton.icon(
+                                onPressed: () => _addToCart(data),
+                                icon: const Icon(
+                                  Icons.add_shopping_cart,
+                                  size: 16,
+                                ),
+                                label: const Text("Add to Cart"),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.yellow.shade800,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
                                   ),
-                                  label: const Text("Add to Cart"),
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.yellow.shade800,
-                                    foregroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 8,
-                                    ),
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 8,
                                   ),
                                 ),
+                              ),
                       ),
                     ],
                   ),
@@ -684,8 +676,8 @@ class _ProductPageState extends State<ProductPage> {
         children: [
           IconButton(
             icon: const Icon(Icons.remove, color: Colors.white, size: 16),
-            onPressed:
-                () => cartServices.decrementQuantity(product.id.toString()),
+            onPressed: () =>
+                cartServices.decrementQuantity(product.id.toString()),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -698,8 +690,8 @@ class _ProductPageState extends State<ProductPage> {
           ),
           IconButton(
             icon: const Icon(Icons.add, color: Colors.white, size: 16),
-            onPressed:
-                () => cartServices.incrementQuantity(product.id.toString()),
+            onPressed: () =>
+                cartServices.incrementQuantity(product.id.toString()),
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
           ),
@@ -717,8 +709,8 @@ class _ProductPageState extends State<ProductPage> {
             i < rating.rate.floor()
                 ? Icons.star
                 : i < rating.rate
-                ? Icons.star_half
-                : Icons.star_border,
+                    ? Icons.star_half
+                    : Icons.star_border,
             color: Colors.amber,
             size: 16,
           );

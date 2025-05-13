@@ -1,10 +1,8 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:social_swap/Controllers/Services/Authentication/authentication_controller.dart';
-import 'package:social_swap/Model/cart_item_model.dart';
-import 'package:social_swap/Model/featured_product_model.dart';
+import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/Model/cart_item_model.dart';
+import 'package:Konexea/Model/featured_product_model.dart';
 
 class CartServices extends ChangeNotifier {
   // List to store cart items
@@ -113,15 +111,14 @@ class CartServices extends ChangeNotifier {
   int getQuantity(String productId) {
     final item = _cartItems.firstWhere(
       (item) => item.id == productId,
-      orElse:
-          () => CartItem(
-            id: productId,
-            title: '',
-            price: 0,
-            image: '',
-            quantity: 0,
-            category: '',
-          ),
+      orElse: () => CartItem(
+        id: productId,
+        title: '',
+        price: 0,
+        image: '',
+        quantity: 0,
+        category: '',
+      ),
     );
     return item.quantity;
   }
@@ -148,19 +145,18 @@ class CartServices extends ChangeNotifier {
         'totalAmount': totalPrice,
         'address': address,
         'paymentMethod': paymentMethod,
-        'items':
-            _cartItems
-                .map(
-                  (item) => {
-                    'id': item.id,
-                    'title': item.title,
-                    'price': item.price,
-                    'quantity': item.quantity,
-                    'image': item.image,
-                    'category': item.category,
-                  },
-                )
-                .toList(),
+        'items': _cartItems
+            .map(
+              (item) => {
+                'id': item.id,
+                'title': item.title,
+                'price': item.price,
+                'quantity': item.quantity,
+                'image': item.image,
+                'category': item.category,
+              },
+            )
+            .toList(),
       };
 
       // Save to Firestore

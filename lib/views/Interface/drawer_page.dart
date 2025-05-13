@@ -4,9 +4,9 @@
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // import 'package:google_fonts/google_fonts.dart';
 // import 'package:iconsax/iconsax.dart';
-// import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
-// import 'package:social_swap/views/Authentication/login.dart';
-// import 'package:social_swap/views/Interface/about_page.dart';
+// import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
+// import 'package:Konexea/views/Authentication/login.dart';
+// import 'package:Konexea/views/Interface/about_page.dart';
 
 // class DrawerPage extends StatelessWidget {
 //   final Function(int) onPageSelected;

@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:social_swap/Controllers/Services/Cart%20Services/cart_service.dart';
-import 'package:social_swap/Model/featured_product_model.dart';
-import 'package:social_swap/Views/Interface/PHub/Cart/cart_page.dart';
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Model/featured_product_model.dart';
+import 'package:Konexea/Views/Interface/PHub/Cart/cart_page.dart';
 
 class FeaturedProductDetails extends StatefulWidget {
   final FeaturedProduct product;
@@ -157,13 +157,11 @@ class _FeaturedProductDetailsState extends State<FeaturedProductDetails>
                               color: Colors.grey.shade200,
                               child: Center(
                                 child: CircularProgressIndicator(
-                                  value:
-                                      loadingProgress.expectedTotalBytes != null
-                                          ? loadingProgress
-                                                  .cumulativeBytesLoaded /
-                                              loadingProgress
-                                                  .expectedTotalBytes!
-                                          : null,
+                                  value: loadingProgress.expectedTotalBytes !=
+                                          null
+                                      ? loadingProgress.cumulativeBytesLoaded /
+                                          loadingProgress.expectedTotalBytes!
+                                      : null,
                                   color: Colors.yellow.shade800,
                                 ),
                               ),
@@ -553,10 +551,9 @@ class _FeaturedProductDetailsState extends State<FeaturedProductDetails>
                   child: Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color:
-                          _quantity > 1
-                              ? Colors.yellow.shade800
-                              : Colors.grey.shade300,
+                      color: _quantity > 1
+                          ? Colors.yellow.shade800
+                          : Colors.grey.shade300,
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(
@@ -737,9 +734,8 @@ class _FeaturedProductDetailsState extends State<FeaturedProductDetails>
                         color: Colors.white,
                         size: 24,
                       ),
-                      onPressed:
-                          () =>
-                              cartServices.decrementQuantity(widget.product.id),
+                      onPressed: () =>
+                          cartServices.decrementQuantity(widget.product.id),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(
@@ -765,9 +761,8 @@ class _FeaturedProductDetailsState extends State<FeaturedProductDetails>
                         color: Colors.white,
                         size: 24,
                       ),
-                      onPressed:
-                          () =>
-                              cartServices.incrementQuantity(widget.product.id),
+                      onPressed: () =>
+                          cartServices.incrementQuantity(widget.product.id),
                     ),
                   ],
                 ),

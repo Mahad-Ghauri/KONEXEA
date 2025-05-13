@@ -1,7 +1,7 @@
-# Social Swap
+# Konexea
 
 A modern social media application built with Flutter, featuring AI-powered interactions and seamless user experience.
-![Social Swap](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-icon/App%20Icon.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaWNvbi9BcHAgSWNvbi5qcGVnIiwiaWF0IjoxNzQyNzQxNTU0LCJleHAiOjE3NTEwNzQxNTU0fQ.yVPnwkj5nbnWspxG8adR28DKdDg4yw4CMyadFou6kvQ)
+![Konexea](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-icon/App%20Icon.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaWNvbi9BcHAgSWNvbi5qcGVnIiwiaWF0IjoxNzQyNzQxNTU0LCJleHAiOjE3NTEwNzQxNTU0fQ.yVPnwkj5nbnWspxG8adR28DKdDg4yw4CMyadFou6kvQ)
 
 ## 🌟 Features
 
@@ -80,7 +80,7 @@ A modern social media application built with Flutter, featuring AI-powered inter
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/social_swap.git
+git clone https://github.com/yourusername/Konexea.git
 ```
 
 2. Install dependencies:
@@ -176,6 +176,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👥 Authors
 
 - Mahad Ghauri
+- Mahateer Muhammad
 
 ## 🙏 Acknowledgments
 
@@ -187,3 +188,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support, email mahadghauri222@gmail.com.
+For support, email mahateermuhammad100@gmail.com.

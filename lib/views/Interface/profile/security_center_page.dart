@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:social_swap/Views/components/my_form_field.dart';
+import 'package:Konexea/Views/components/my_form_field.dart';
 
 class SecurityCenterPage extends StatefulWidget {
   const SecurityCenterPage({super.key});
@@ -202,7 +202,7 @@ class _SecurityCenterPageState extends State<SecurityCenterPage> {
                           color: Color(0xFF228B22))
                       : Text('Save',
                           style: TextStyle(
-                              color:  Colors.white,
+                              color: Colors.white,
                               fontFamily: GoogleFonts.urbanist().fontFamily,
                               fontWeight: FontWeight.w600)),
                 ),

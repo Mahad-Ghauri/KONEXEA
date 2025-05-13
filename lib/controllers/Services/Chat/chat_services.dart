@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:social_swap/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ChatServices extends ChangeNotifier {
@@ -364,7 +364,7 @@ class ChatServices extends ChangeNotifier {
           .neq('email', currentUserEmail); // Exclude current user
 
       _allUsers = List<Map<String, dynamic>>.from(response);
-    
+
       _loading = false;
       notifyListeners();
     } catch (error) {

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:social_swap/Model/product_model.dart';
+import 'package:Konexea/Model/product_model.dart';
 
 class InputControllers {
   //  Loading variable

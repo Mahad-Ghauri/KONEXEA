@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-// import 'package:social_swap/Controllers/Services/Authentication/authentication_controller.dart';
-import 'package:social_swap/Controllers/input_controllers.dart';
-import 'package:social_swap/views/components/my_form_field.dart';
+// import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/Controllers/input_controllers.dart';
+import 'package:Konexea/views/components/my_form_field.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -290,7 +290,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             color: Color(0xFF228B22))
                         : Text('Save Profile',
                             style: TextStyle(
-                                color:  Colors.white,
+                                color: Colors.white,
                                 fontFamily: GoogleFonts.urbanist().fontFamily,
                                 fontWeight: FontWeight.w600)),
                   ),

@@ -1,4 +1,4 @@
-# Contributing to Social Swap
+# Contributing to Konexea
 
 We love your input! We want to make contributing to Social Swap as easy and transparent as possible, whether it's:
 
