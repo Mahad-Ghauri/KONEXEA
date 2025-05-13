@@ -518,7 +518,7 @@ class _SavedPostsPageState extends State<SavedPostsPage>
                           ),
                         ),
                         child: ProfileImageWidget(
-                          size: 36, // Double the radius (18*2) for the diameter
+                          size: 36, 
                           isEditable: false,
                           email: userEmail,
                         ),
