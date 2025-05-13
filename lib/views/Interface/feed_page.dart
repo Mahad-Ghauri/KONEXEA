@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
 import 'package:Konexea/Controllers/Services/Feed%20Database/feed_services.dart';
+import 'package:Konexea/Controllers/Services/Feed%20Database/saved_post_services.dart';
 import 'package:Konexea/Views/Components/Feed/feed_ui_components.dart';
 import 'package:Konexea/Views/Components/custom_app_bar.dart';
 import 'package:Konexea/Views/Components/pulsating_widget.dart';
 import 'package:Konexea/Views/Interface/Chat/chat_page.dart';
 import 'package:Konexea/Views/Interface/Comments/comment_dialog.dart';
 import 'package:Konexea/Views/Interface/PHub/phub_interface.dart';
+import 'package:Konexea/Views/Interface/Profile/saved_posts_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:shimmer/shimmer.dart';
@@ -183,6 +185,31 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
         }
       });
     }
+    // final feedService = Provider.of<FeedServices>(context, listen: false);
+    // final isCurrentlyLiked = feedService.isPostLikedByCurrentUser(postId);
+
+    // if (!isCurrentlyLiked) {
+    //   // Haptic feedback for better interaction
+    //   HapticFeedback.mediumImpact();
+
+    //   // Show heart animation immediately
+    //   setState(() {
+    //     _likedPosts[postId] = true;
+    //   });
+
+    //   // Actually like the post in the database
+    //   await feedService.toggleLikePost(postId);
+
+    //   // Hide the heart animation after a short delay
+    //   Future.delayed(const Duration(milliseconds: 1000), () {
+    //     if (mounted) {
+    //       setState(() {
+    //         // Only reset the animation state, the actual like remains
+    //         _likedPosts[postId] = false;
+    //       });
+    //     }
+    //   });
+    // }
   }
 
   // Then update the _handleDoubleTapLike method to control the animation timing:
@@ -345,6 +372,77 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  void _showPostOptions(BuildContext context, Map<String, dynamic> post) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Post Options',
+              style: GoogleFonts.urbanist(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildOptionItem(
+              icon: Iconsax.save_2,
+              label: 'Save Post',
+              onTap: () async {
+                Navigator.pop(context);
+                HapticFeedback.lightImpact();
+
+                // Get the SavedPostServices instance
+                final savedPostService =
+                    Provider.of<SavedPostServices>(context, listen: false);
+
+                // Toggle save post
+                final isSaved = await savedPostService.toggleSavePost(post);
+
+                // Show feedback to user
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(isSaved
+                        ? 'Post saved to collection'
+                        : 'Post removed from saved'),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 2),
+                    backgroundColor: Theme.of(context).colorScheme.primary,
+                  ),
+                );
+              },
+            ),
+            _buildOptionItem(
+              icon: Iconsax.share,
+              label: 'Share Post',
+              onTap: () {
+                Navigator.pop(context);
+                _showShareOptions(context);
+              },
+            ),
+            _buildOptionItem(
+              icon: Iconsax.flag,
+              label: 'Report Post',
+              onTap: () {
+                Navigator.pop(context);
+                _showReportDialog(context);
+              },
+              isDestructive: true,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -934,11 +1032,11 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                           ),
                                         ),
                                       ),
-                                      const Icon(
-                                        Iconsax.tick_circle,
-                                        size: 14,
-                                        color: Colors.teal,
-                                      )
+                                      // const Icon(
+                                      //   Iconsax.tick_circle,
+                                      //   size: 14,
+                                      //   color: Colors.teal,
+                                      // )
                                     ],
                                   ),
                                   Text(
@@ -1106,7 +1204,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                               },
                             ),
                             const SizedBox(width: 16),
-                            // Comment button
+                            // Comment Button
                             Consumer<FeedServices>(
                               builder: (context, feedService, _) {
                                 final commentCount =
@@ -1115,7 +1213,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                   icon: Iconsax.message,
                                   label: _formatCount(commentCount),
                                   onPressed: () {
-                                    // Open comments as bottom sheet
                                     HapticFeedback.lightImpact();
                                     _showCommentsBottomSheet(
                                         context, postId, posterUsername);
@@ -1124,16 +1221,36 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                               },
                             ),
                             const SizedBox(width: 16),
-                            // Share button
-                            _buildInteractionButton(
-                              icon: Iconsax.send_1,
-                              onPressed: () {
-                                // Share post
-                                HapticFeedback.lightImpact();
+
+// Share / Save Button
+                            Consumer<SavedPostServices>(
+                              builder: (context, savedPostService, _) {
+                                return _buildInteractionButton(
+                                  icon: Iconsax.send_1,
+                                  onPressed: () async {
+                                    HapticFeedback.lightImpact();
+                                    final saved = await savedPostService
+                                        .toggleSavePost(post);
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(saved
+                                            ? 'Post saved to collection'
+                                            : 'Post removed from saved'),
+                                        behavior: SnackBarBehavior.floating,
+                                        duration: const Duration(seconds: 2),
+                                        backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                      ),
+                                    );
+                                  },
+                                );
                               },
                             ),
+
                             const Spacer(),
-                            // Bookmark button
+                            // Save post
                             IconButton(
                               icon: const Icon(Iconsax.bookmark),
                               onPressed: () {
@@ -1189,117 +1306,117 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
     );
   }
 
-  void _showPostOptions(BuildContext context, Map<String, dynamic> post) {
-    HapticFeedback.mediumImpact();
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      builder: (context) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surface,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.2),
-                blurRadius: 10,
-                offset: const Offset(0, -5),
-              ),
-            ],
-          ),
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  width: 40,
-                  height: 5,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                _buildOptionItem(
-                  icon: Iconsax.save_2,
-                  label: 'Save Post',
-                  onTap: () {
-                    Navigator.pop(context);
-                    HapticFeedback.lightImpact();
-                    // Logic to save post
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Post saved to collection'),
-                        behavior: SnackBarBehavior.floating,
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    );
-                  },
-                ),
-                _buildOptionItem(
-                  icon: Iconsax.copy,
-                  label: 'Copy Link',
-                  onTap: () {
-                    Navigator.pop(context);
-                    HapticFeedback.lightImpact();
-                    // Logic to copy post link
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Link copied to clipboard!'),
-                        behavior: SnackBarBehavior.floating,
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    );
-                  },
-                ),
-                _buildOptionItem(
-                  icon: Iconsax.share,
-                  label: 'Share Post',
-                  onTap: () {
-                    Navigator.pop(context);
-                    HapticFeedback.lightImpact();
-                    // Logic to share post
-                    _showShareOptions(context);
-                  },
-                ),
-                _buildOptionItem(
-                  icon: Iconsax.notification,
-                  label: 'Turn on Post Notifications',
-                  onTap: () {
-                    Navigator.pop(context);
-                    HapticFeedback.lightImpact();
-                    // Logic to turn on notifications
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text('Post notifications turned on'),
-                        behavior: SnackBarBehavior.floating,
-                        duration: const Duration(seconds: 2),
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                    );
-                  },
-                ),
-                _buildOptionItem(
-                  icon: Iconsax.flag,
-                  label: 'Report Post',
-                  isDestructive: true,
-                  onTap: () {
-                    Navigator.pop(context);
-                    HapticFeedback.lightImpact();
-                    // Logic to report post
-                    _showReportDialog(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  // void _showPostOptions(BuildContext context, Map<String, dynamic> post) {
+  //   HapticFeedback.mediumImpact();
+  //   showModalBottomSheet(
+  //     context: context,
+  //     backgroundColor: Colors.transparent,
+  //     isScrollControlled: true,
+  //     builder: (context) {
+  //       return Container(
+  //         decoration: BoxDecoration(
+  //           color: Theme.of(context).colorScheme.surface,
+  //           borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+  //           boxShadow: [
+  //             BoxShadow(
+  //               color: Colors.black.withOpacity(0.2),
+  //               blurRadius: 10,
+  //               offset: const Offset(0, -5),
+  //             ),
+  //           ],
+  //         ),
+  //         child: SafeArea(
+  //           child: Column(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               Container(
+  //                 margin: const EdgeInsets.only(top: 10),
+  //                 width: 40,
+  //                 height: 5,
+  //                 decoration: BoxDecoration(
+  //                   color: Colors.grey.withOpacity(0.3),
+  //                   borderRadius: BorderRadius.circular(5),
+  //                 ),
+  //               ),
+  //               _buildOptionItem(
+  //                 icon: Iconsax.save_2,
+  //                 label: 'Save Post',
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                   HapticFeedback.lightImpact();
+  //                   // Logic to save post
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     SnackBar(
+  //                       content: const Text('Post saved to collection'),
+  //                       behavior: SnackBarBehavior.floating,
+  //                       duration: const Duration(seconds: 2),
+  //                       backgroundColor: Theme.of(context).colorScheme.primary,
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //               _buildOptionItem(
+  //                 icon: Iconsax.copy,
+  //                 label: 'Copy Link',
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                   HapticFeedback.lightImpact();
+  //                   // Logic to copy post link
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     SnackBar(
+  //                       content: const Text('Link copied to clipboard!'),
+  //                       behavior: SnackBarBehavior.floating,
+  //                       duration: const Duration(seconds: 2),
+  //                       backgroundColor: Theme.of(context).colorScheme.primary,
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //               _buildOptionItem(
+  //                 icon: Iconsax.share,
+  //                 label: 'Share Post',
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                   HapticFeedback.lightImpact();
+  //                   // Logic to share post
+  //                   _showShareOptions(context);
+  //                 },
+  //               ),
+  //               _buildOptionItem(
+  //                 icon: Iconsax.notification,
+  //                 label: 'Turn on Post Notifications',
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                   HapticFeedback.lightImpact();
+  //                   // Logic to turn on notifications
+  //                   ScaffoldMessenger.of(context).showSnackBar(
+  //                     SnackBar(
+  //                       content: const Text('Post notifications turned on'),
+  //                       behavior: SnackBarBehavior.floating,
+  //                       duration: const Duration(seconds: 2),
+  //                       backgroundColor: Theme.of(context).colorScheme.primary,
+  //                     ),
+  //                   );
+  //                 },
+  //               ),
+  //               _buildOptionItem(
+  //                 icon: Iconsax.flag,
+  //                 label: 'Report Post',
+  //                 isDestructive: true,
+  //                 onTap: () {
+  //                   Navigator.pop(context);
+  //                   HapticFeedback.lightImpact();
+  //                   // Logic to report post
+  //                   _showReportDialog(context);
+  //                 },
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   Widget _buildOptionItem({
     required IconData icon,

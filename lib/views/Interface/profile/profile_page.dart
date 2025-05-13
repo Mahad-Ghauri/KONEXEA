@@ -1,23 +1,41 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
+import 'package:Konexea/Views/Interface/Profile/saved_posts_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:provider/provider.dart';
 import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
+import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
+import 'package:Konexea/Views/Components/profile_image_widget.dart';
 import 'package:Konexea/views/Interface/Profile/about_page.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:Konexea/views/Interface/profile/edit_profile_page.dart';
 import 'package:Konexea/views/Interface/profile/security_center_page.dart';
 import 'package:Konexea/views/Interface/profile/help_center_page.dart';
 
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
   @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  final AuthenticationController _authController = AuthenticationController();
+  
+  @override
+  void initState() {
+    super.initState();
+    // Initialize user profile data
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<UserProfileService>(context, listen: false).initializeUserProfile();
+    });
+  }
+  
+  @override
   Widget build(BuildContext context) {
     final user = Supabase.instance.client.auth.currentUser;
-    final AuthenticationController authController =
-        AuthenticationController(); // Create an instance of the controller
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
@@ -54,11 +72,10 @@ class ProfileScreen extends StatelessWidget {
                           ),
                         ),
                         child: const Padding(
-                          padding: EdgeInsets.all(30.0),
-                          child: Icon(
-                            Iconsax.user,
-                            size: 40,
-                            color: Colors.teal,
+                          padding: EdgeInsets.all(4.0),
+                          child: ProfileImageWidget(
+                            size: 100,
+                            isEditable: false,
                           ),
                         ),
                       ),
@@ -103,6 +120,15 @@ class ProfileScreen extends StatelessWidget {
                       );
                     },
                   ),
+                  _buildProfileTile(
+                    icon: Icons.bookmark_outlined,
+                    title: 'Saved Posts',
+                    onTap: () {
+                      Navigator.of(context).push(
+                        _elegantRoute(const SavedPostsPage()),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 24),
                   _buildSectionTitle('Support'),
                   const SizedBox(height: 16),
@@ -126,7 +152,7 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(height: 24),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () => authController
+                      onPressed: () => _authController
                           .signOutAndEndSession(context)
                           .then((value) {
                         ScaffoldMessenger.of(context).showSnackBar(

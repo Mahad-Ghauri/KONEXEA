@@ -193,7 +193,7 @@ class _UploadPageState extends State<UploadPage>
                                   color: Theme.of(context)
                                       .colorScheme
                                       .tertiary
-                                      .withOpacity(0.2),
+                                      .withOpacity(0.7),
                                   fontSize: width * 0.035,
                                 ),
                                 maxLines: 5,

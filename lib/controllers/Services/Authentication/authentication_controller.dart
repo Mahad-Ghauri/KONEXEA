@@ -3,6 +3,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
 import 'package:Konexea/Views/Interface/Authentication/login.dart';
 import 'package:Konexea/views/Interface/interface.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -24,7 +26,11 @@ class AuthenticationController {
       );
 
       if (response.user != null) {
+        // Initialize user profile
         if (context.mounted) {
+          final userProfileService = Provider.of<UserProfileService>(context, listen: false);
+          await userProfileService.initializeUserProfile();
+          
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const InterfacePage()),
           );
@@ -64,7 +70,12 @@ class AuthenticationController {
 
       if (response.user != null) {
         log('Sign in successful: ${response.user?.email}');
+        
+        // Initialize user profile
         if (context.mounted) {
+          final userProfileService = Provider.of<UserProfileService>(context, listen: false);
+          await userProfileService.initializeUserProfile();
+          
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const InterfacePage()),
           );

@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 // import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:Konexea/Controllers/input_controllers.dart';
+import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
 import 'package:Konexea/views/components/my_form_field.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -25,6 +27,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
   bool _isUploading = false;
 
   @override
+  void initState() {
+    super.initState();
+    // Load the user's profile image when the page loads
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userProfileService =
+          Provider.of<UserProfileService>(context, listen: false);
+      userProfileService.initializeUserProfile().then((_) {
+        if (userProfileService.profileImageUrl != null) {
+          setState(() {
+            _imageUrl = userProfileService.profileImageUrl;
+          });
+        }
+      });
+    });
+  }
+
+  @override
   void dispose() {
     _inputControllers.dispose();
     super.dispose();
@@ -39,26 +58,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
       _isUploading = true;
     });
 
-    final file = File(pickedFile.path);
-    final fileName =
-        '${DateTime.now().millisecondsSinceEpoch}_${pickedFile.name}';
-    final supabase = Supabase.instance.client;
-
     try {
-      // Upload to the profileimage bucket
-      await supabase.storage.from('profileimage').upload(fileName, file);
+      // Use the UserProfileService to upload the image and store in Firebase
+      final userProfileService =
+          Provider.of<UserProfileService>(context, listen: false);
+      final success =
+          await userProfileService.uploadProfileImage(pickedFile, context);
 
-      // Get the public URL
-      final url = supabase.storage.from('profileimage').getPublicUrl(fileName);
+      if (success) {
+        setState(() {
+          _imageUrl = userProfileService.profileImageUrl;
+          _isUploading = false;
+        });
 
-      setState(() {
-        _imageUrl = url;
-        _isUploading = false;
-      });
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile image uploaded successfully!')),
-      );
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Profile image uploaded successfully!'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      } else {
+        throw Exception('Failed to upload image');
+      }
     } catch (e) {
       print('Upload error: $e');
       setState(() {
@@ -67,7 +88,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Upload failed: ${e.toString()}')),
+          SnackBar(
+            content: Text('Upload failed: ${e.toString()}'),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }

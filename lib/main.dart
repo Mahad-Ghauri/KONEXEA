@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:Konexea/Controllers/Services/Feed%20Database/feed_services.dart';
+import 'package:Konexea/Controllers/Services/Feed%20Database/saved_post_services.dart';
 import 'package:Konexea/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
 import 'package:Konexea/Controllers/Services/API/Thrift%20Store/phub_api_services.dart';
 import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
 import 'package:Konexea/Controllers/Services/Chat/chat_services.dart';
+import 'package:Konexea/Controllers/Services/User Profile/user_profile_service.dart';
 import 'dart:developer';
 import 'package:Konexea/Utils/animation_utils.dart';
 import 'package:Konexea/Utils/consts.dart';
@@ -52,10 +54,12 @@ Future<void> main() async {
             ChangeNotifierProvider(create: (context) => ApiServices()),
             ChangeNotifierProvider(create: (context) => PHubApiServices()),
             ChangeNotifierProvider(create: (context) => FeedServices()),
+            ChangeNotifierProvider(create: (context) => SavedPostServices()),
             ChangeNotifierProvider(create: (context) => CartServices()),
             ChangeNotifierProvider(create: (context) => ChatServices()),
             ChangeNotifierProvider(create: (context) => ChatbotController()),
             ChangeNotifierProvider(create: (context) => InterfaceController()),
+            ChangeNotifierProvider(create: (context) => UserProfileService()),
           ],
           child: const MainApp(),
         ),
@@ -77,7 +81,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Social Swap',
+      title: 'Konexea',
       theme: lightMode,
       home: const AppStartupAnimation(),
       // Custom page transitions for the entire app
