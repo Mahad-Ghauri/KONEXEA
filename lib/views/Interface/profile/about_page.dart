@@ -94,7 +94,7 @@ class AboutPage extends StatelessWidget {
                         ),
                         child: Center(
                           child: Icon(
-                            Icons.swap_calls,
+                            Icons.group,
                             size: 70,
                             color: Theme.of(context).colorScheme.tertiary,
                           ),
@@ -102,7 +102,7 @@ class AboutPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        "Social Swap",
+                        "Konexea",
                         style: TextStyle(
                           fontFamily: GoogleFonts.lobsterTwo().fontFamily,
                           fontSize: 36,
@@ -149,13 +149,13 @@ class AboutPage extends StatelessWidget {
                 const SizedBox(height: 32),
 
                 // App description
-                AboutComponents.buildSectionTitle(context, "About Social Swap"),
+                AboutComponents.buildSectionTitle(context, "About Konexea"),
                 AboutComponents.buildCard(
                   context,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
-                      "Social Swap is a modern social media application that combines the power of AI with social networking. Share your thoughts, connect with others, and interact with our intelligent AI chatbot.",
+                      "Konexea is a modern social media application that combines the power of AI with social networking. Share your thoughts, connect with others, and interact with our intelligent AI chatbot.",
                       textAlign: TextAlign.justify,
                       style: TextStyle(
                         fontSize: 16,
@@ -184,6 +184,20 @@ class AboutPage extends StatelessWidget {
                         ),
                         const Divider(),
                         AboutComponents.buildFeatureItem(
+                          icon: Icons.feed,
+                          title: "Social Feed",
+                          description: "Share and interact with posts",
+                          context: context,
+                        ),
+                        const Divider(),
+                        AboutComponents.buildFeatureItem(
+                          icon: Icons.chat,
+                          title: "Chat and Messaging",
+                          description: "Real-time chat with friends",
+                          context: context,
+                        ),
+                        const Divider(),
+                        AboutComponents.buildFeatureItem(
                           icon: Icons.chat_bubble,
                           title: "AI Chat Assistant",
                           description:
@@ -192,24 +206,10 @@ class AboutPage extends StatelessWidget {
                         ),
                         const Divider(),
                         AboutComponents.buildFeatureItem(
-                          icon: Icons.feed,
-                          title: "Social Feed",
-                          description: "Share and interact with posts",
-                          context: context,
-                        ),
-                        const Divider(),
-                        AboutComponents.buildFeatureItem(
                           icon: Icons.image,
                           title: "Image Sharing",
                           description:
                               "Upload and share images with your posts",
-                          context: context,
-                        ),
-                        const Divider(),
-                        AboutComponents.buildFeatureItem(
-                          icon: Icons.auto_awesome,
-                          title: "Modern UI",
-                          description: "Beautiful and responsive design",
                           context: context,
                         ),
                       ],
@@ -449,6 +449,14 @@ class AboutPage extends StatelessWidget {
                           context: context,
                         ),
                         const Divider(),
+                        AboutComponents.buildContactItem(
+                          icon: Icons.public,
+                          title: "GitHub",
+                          value: "https://github.com/MahateerMuhammad",
+                          onTap: () => _launchUrl(
+                              "https://github.com/Mahad-Ghauri/Social-Swap-Main"),
+                          context: context,
+                        ),
                         AboutComponents.buildContactItem(
                           icon: Icons.public,
                           title: "GitHub",

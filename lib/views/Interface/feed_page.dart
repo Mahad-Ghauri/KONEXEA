@@ -1,5 +1,6 @@
 // ignore_for_file: deprecated_member_use, use_build_context_synchronously, no_leading_underscores_for_local_identifiers, unused_local_variable, unused_import
 
+import 'package:Konexea/Views/Interface/upload_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
 import 'package:provider/provider.dart';
@@ -785,31 +786,34 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             ),
           ),
           const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: () {
-              // Add navigation to create post page
-              HapticFeedback.mediumImpact();
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Theme.of(context).colorScheme.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
-              ),
-              elevation: 8,
-              shadowColor:
-                  Theme.of(context).colorScheme.primary.withOpacity(0.5),
-            ),
-            icon: const Icon(Iconsax.add_circle),
-            label: Text(
-              'Create Post',
-              style: GoogleFonts.urbanist(
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-              ),
-            ),
-          ),
+          // ElevatedButton.icon(
+          //   onPressed: () {
+          //     // Add navigation to create post page
+          //     HapticFeedback.mediumImpact();
+          //     Navigator.of(context).pushReplacement(
+          //       (_elegantRoute(const UploadPage())),
+          //     );
+          //   },
+          //   style: ElevatedButton.styleFrom(
+          //     backgroundColor: Theme.of(context).colorScheme.primary,
+          //     foregroundColor: Colors.white,
+          //     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(30),
+          //     ),
+          //     elevation: 8,
+          //     shadowColor:
+          //         Theme.of(context).colorScheme.primary.withOpacity(0.5),
+          //   ),
+          //   icon: const Icon(Iconsax.add_circle),
+          //   label: Text(
+          //     'Create Post',
+          //     style: GoogleFonts.urbanist(
+          //       fontWeight: FontWeight.w600,
+          //       fontSize: 16,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

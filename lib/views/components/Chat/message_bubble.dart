@@ -21,34 +21,39 @@ class MessageBubble extends StatelessWidget {
     final text = message['text'] ?? '';
     final timestamp = message['timestamp'] as DateTime? ?? DateTime.now();
     final formattedTime = DateFormat('h:mm a').format(timestamp);
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
-        mainAxisAlignment: isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment:
+            isCurrentUser ? MainAxisAlignment.end : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isCurrentUser)
             _buildAvatar(
-              context, 
+              context,
               message['senderEmail']?.toString() ?? '',
               Theme.of(context).colorScheme.surface.withOpacity(0.2),
               Theme.of(context).colorScheme.surface,
             ),
           if (!isCurrentUser) const SizedBox(width: 8),
-          
           Flexible(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               decoration: BoxDecoration(
-                color: isCurrentUser 
-                    ? Theme.of(context).colorScheme.primary 
-                    : Theme.of(context).colorScheme.surface,
+                color: isCurrentUser
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.surfaceTint,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
-                  bottomLeft: isCurrentUser ? const Radius.circular(20) : const Radius.circular(5),
-                  bottomRight: isCurrentUser ? const Radius.circular(5) : const Radius.circular(20),
+                  bottomLeft: isCurrentUser
+                      ? const Radius.circular(20)
+                      : const Radius.circular(5),
+                  bottomRight: isCurrentUser
+                      ? const Radius.circular(5)
+                      : const Radius.circular(20),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -64,8 +69,8 @@ class MessageBubble extends StatelessWidget {
                   Text(
                     text,
                     style: GoogleFonts.urbanist(
-                      color: isCurrentUser 
-                          ? Colors.white 
+                      color: isCurrentUser
+                          ? Colors.white
                           : Theme.of(context).textTheme.bodyMedium?.color,
                       fontSize: 16,
                     ),
@@ -77,8 +82,8 @@ class MessageBubble extends StatelessWidget {
                       Text(
                         formattedTime,
                         style: GoogleFonts.urbanist(
-                          color: isCurrentUser 
-                              ? Colors.white.withOpacity(0.7) 
+                          color: isCurrentUser
+                              ? Colors.white.withOpacity(0.7)
                               : Theme.of(context).textTheme.bodySmall?.color,
                           fontSize: 10,
                         ),
@@ -97,11 +102,10 @@ class MessageBubble extends StatelessWidget {
               ),
             ),
           ),
-          
           if (isCurrentUser) const SizedBox(width: 8),
           if (isCurrentUser)
             _buildAvatar(
-              context, 
+              context,
               currentUserEmail ?? '',
               Theme.of(context).colorScheme.primary.withOpacity(0.2),
               Theme.of(context).colorScheme.primary,
@@ -110,8 +114,9 @@ class MessageBubble extends StatelessWidget {
       ),
     );
   }
-  
-  Widget _buildAvatar(BuildContext context, String email, Color backgroundColor, Color textColor) {
+
+  Widget _buildAvatar(BuildContext context, String email, Color backgroundColor,
+      Color textColor) {
     return CircleAvatar(
       radius: 16,
       backgroundColor: backgroundColor,

@@ -17,7 +17,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Color? backgroundColor;
   final Color? foregroundColor;
   final double elevation;
-  final Widget? leading;
+  // final Widget? leading;
   final Widget? titleWidget;
   final bool implyLeading;
   final double height;
@@ -38,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.elevation = 0,
-    this.leading,
+    // this.leading,
     this.titleWidget,
     this.implyLeading = true,
     this.height = kToolbarHeight,
@@ -51,7 +51,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   });
 
   @override
-  Size get preferredSize => Size.fromHeight(height + (bottom?.preferredSize.height ?? 0));
+  Size get preferredSize =>
+      Size.fromHeight(height + (bottom?.preferredSize.height ?? 0));
 
   @override
   Widget build(BuildContext context) {
@@ -60,30 +61,32 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     final fgColor = foregroundColor ?? theme.colorScheme.tertiary;
 
     Widget appBarContent = AppBar(
-      title: titleWidget ?? Text(
-        title,
-        style: GoogleFonts.outfit(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: fgColor,
-        ),
-      ),
+      title: titleWidget ??
+          Text(
+            title,
+            style: GoogleFonts.outfit(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: fgColor,
+            ),
+          ),
       centerTitle: centerTitle,
       backgroundColor: bgColor,
       foregroundColor: fgColor,
       elevation: enableShadow ? elevation : 0,
-      systemOverlayStyle: systemOverlayStyle ?? SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: bgColor.computeLuminance() > 0.5 
-            ? Brightness.dark 
-            : Brightness.light,
-        statusBarBrightness: bgColor.computeLuminance() > 0.5 
-            ? Brightness.light 
-            : Brightness.dark,
-      ),
-      leading: leading ?? (showBackButton && Navigator.canPop(context)
-          ? _buildBackButton(context, fgColor)
-          : null),
+      systemOverlayStyle: systemOverlayStyle ??
+          SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: bgColor.computeLuminance() > 0.5
+                ? Brightness.dark
+                : Brightness.light,
+            statusBarBrightness: bgColor.computeLuminance() > 0.5
+                ? Brightness.light
+                : Brightness.dark,
+          ),
+      // leading: leading ?? (showBackButton && Navigator.canPop(context)
+      //     ? _buildBackButton(context, fgColor)
+      //     : null),
       automaticallyImplyLeading: implyLeading,
       actions: actions,
       bottom: bottom,
@@ -201,30 +204,33 @@ class CustomSliverAppBar extends StatelessWidget {
     final fgColor = foregroundColor ?? theme.colorScheme.tertiary;
 
     return SliverAppBar(
-      title: titleWidget ?? Text(
-        title,
-        style: GoogleFonts.outfit(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-          color: fgColor,
-        ),
-      ),
+      title: titleWidget ??
+          Text(
+            title,
+            style: GoogleFonts.outfit(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: fgColor,
+            ),
+          ),
       centerTitle: centerTitle,
       backgroundColor: bgColor,
       foregroundColor: fgColor,
       elevation: enableShadow ? 4 : 0,
-      systemOverlayStyle: systemOverlayStyle ?? SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: bgColor.computeLuminance() > 0.5 
-            ? Brightness.dark 
-            : Brightness.light,
-        statusBarBrightness: bgColor.computeLuminance() > 0.5 
-            ? Brightness.light 
-            : Brightness.dark,
-      ),
-      leading: leading ?? (showBackButton && Navigator.canPop(context)
-          ? _buildBackButton(context, fgColor)
-          : null),
+      systemOverlayStyle: systemOverlayStyle ??
+          SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: bgColor.computeLuminance() > 0.5
+                ? Brightness.dark
+                : Brightness.light,
+            statusBarBrightness: bgColor.computeLuminance() > 0.5
+                ? Brightness.light
+                : Brightness.dark,
+          ),
+      leading: leading ??
+          (showBackButton && Navigator.canPop(context)
+              ? _buildBackButton(context, fgColor)
+              : null),
       actions: actions,
       expandedHeight: expandedHeight,
       flexibleSpace: flexibleSpace,
@@ -241,7 +247,8 @@ class CustomSliverAppBar extends StatelessWidget {
               ),
             )
           : null,
-      shadowColor: enableShadow ? Colors.black.withOpacity(0.1) : Colors.transparent,
+      shadowColor:
+          enableShadow ? Colors.black.withOpacity(0.1) : Colors.transparent,
     );
   }
 

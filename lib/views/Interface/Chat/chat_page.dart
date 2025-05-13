@@ -299,28 +299,18 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          image: const DecorationImage(
-            image: AssetImage('assets/images/chat_background.png'),
-            fit: BoxFit.cover,
-            opacity: 0.05,
+      body: Column(
+        children: [
+          // Main content - either chat list or messages
+          Expanded(
+            child: _currentChatId != null
+                ? _buildChatMessages()
+                : _buildChatList(),
           ),
-        ),
-        child: Column(
-          children: [
-            // Main content - either chat list or messages
-            Expanded(
-              child: _currentChatId != null
-                  ? _buildChatMessages()
-                  : _buildChatList(),
-            ),
 
-            // Message composer - only show when in a chat
-            if (_currentChatId != null) _buildMessageComposer(),
-          ],
-        ),
+          // Message composer - only show when in a chat
+          if (_currentChatId != null) _buildMessageComposer(),
+        ],
       ),
       floatingActionButton: _currentChatId == null
           ? FloatingActionButton.extended(
