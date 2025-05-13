@@ -140,16 +140,6 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return appBarContent;
   }
 
-  Widget _buildBackButton(BuildContext context, Color color) {
-    return IconButton(
-      icon: Icon(
-        Iconsax.arrow_left_2,
-        color: color,
-      ),
-      splashRadius: 24,
-      onPressed: onBackPressed ?? () => Navigator.of(context).pop(),
-    );
-  }
 }
 
 /// A sliver version of the CustomAppBar

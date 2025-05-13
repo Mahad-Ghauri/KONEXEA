@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:Konexea/Views/Components/Profile/profile_image_widget.dart';
 
 class ChatListItem extends StatelessWidget {
   final Map<String, dynamic> chat;
@@ -19,10 +20,11 @@ class ChatListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final otherUsername = chat['otherParticipantUsername'] ?? 'User';
     final lastMessage = chat['lastMessage'] ?? '';
-    final lastMessageTime = chat['lastMessageTime'] as DateTime? ?? DateTime.now();
+    final lastMessageTime =
+        chat['lastMessageTime'] as DateTime? ?? DateTime.now();
     final unreadCount = chat['unreadCount'] ?? 0;
     final formattedTime = formatChatTime(lastMessageTime);
-    
+
     return Card(
       elevation: 0.5,
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -30,19 +32,14 @@ class ChatListItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         onTap: () => onChatSelected(chat['chatId']),
-        leading: CircleAvatar(
-          radius: 24,
-          backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-          child: Text(
-            otherUsername.isNotEmpty ? otherUsername[0].toUpperCase() : '?',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
-            ),
-          ),
+        leading: ProfileImageWidget(
+          size: 48.0, // Double the radius to get diameter (24*2)
+          isEditable: false,
+          email: chat[
+              'otherParticipantEmail'], // Use the email of the other participant
         ),
         title: Text(
           otherUsername,
@@ -58,8 +55,8 @@ class ChatListItem extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: GoogleFonts.urbanist(
-              color: unreadCount > 0 
-                  ? Theme.of(context).colorScheme.primary 
+              color: unreadCount > 0
+                  ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).textTheme.bodyMedium?.color,
               fontWeight: unreadCount > 0 ? FontWeight.w500 : FontWeight.normal,
             ),
@@ -73,8 +70,8 @@ class ChatListItem extends StatelessWidget {
               formattedTime,
               style: GoogleFonts.urbanist(
                 fontSize: 12,
-                color: unreadCount > 0 
-                    ? Theme.of(context).colorScheme.primary 
+                color: unreadCount > 0
+                    ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).textTheme.bodySmall?.color,
               ),
             ),
