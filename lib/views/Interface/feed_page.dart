@@ -1175,9 +1175,8 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
 
                             // Share button
                             IconButton(
-                              icon: const Icon(Iconsax.send1),
+                              icon: const Icon(Iconsax.send_1),
                               onPressed: () {
-                                // Bookmark post
                                 HapticFeedback.lightImpact();
                               },
                             ),

@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:Konexea/Controllers/Services/Chat/chat_services.dart';
 import 'package:Konexea/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 // import 'package:shimmer/shimmer.dart';
 import 'package:Konexea/Views/Auth%20Gate/auth_gate.dart';
 
@@ -201,7 +202,39 @@ class _ChatPageState extends State<ChatPage> {
     return MessageComposer(
       controller: _messageController,
       onSendMessage: _handleSendMessage,
+      onImageSelected: _handleImageSelected,
     );
+  }
+
+  // Handle image selection
+  void _handleImageSelected(XFile image) async {
+    if (_currentChatId != null) {
+      // Get the recipient email from the current chat
+      final chat = _chatServices.chats.firstWhere(
+        (chat) => chat['chatId'] == _currentChatId,
+        orElse: () => {'participants': []},
+      );
+
+      final participants = List<String>.from(chat['participants'] ?? []);
+      final recipientEmail = participants.firstWhere(
+        (email) => email != _currentUserEmail,
+        orElse: () => widget.recipientEmail ?? '',
+      );
+
+      if (recipientEmail.isNotEmpty) {
+        await _chatServices.sendImageMessage(recipientEmail, image);
+        // Scroll to the bottom after sending
+        Future.delayed(const Duration(milliseconds: 100), _scrollToBottom);
+      }
+    } else if (widget.recipientEmail != null) {
+      // If we're starting a new chat
+      await _chatServices.sendImageMessage(widget.recipientEmail!, image);
+      setState(() {
+        _currentChatId = _chatServices.currentChatId;
+      });
+      // Scroll to the bottom after sending
+      Future.delayed(const Duration(milliseconds: 100), _scrollToBottom);
+    }
   }
 
   // Empty state widgets have been moved to the EmptyStates class

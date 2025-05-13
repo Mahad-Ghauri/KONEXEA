@@ -183,6 +183,9 @@ class AuthenticationController {
   String? getCurrentUserEmail() {
     return supabase.auth.currentUser?.email;
   }
+  String? getCurrentUserId() {
+    return supabase.auth.currentUser?.id;
+  }
 
   bool isUserLoggedIn() {
     return supabase.auth.currentUser != null;

@@ -1,9 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:Konexea/controllers/Services/Authentication/authentication_controller.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:path/path.dart' as path;
 
 class ChatServices extends ChangeNotifier {
   // Instance for Firebase Firestore
@@ -107,7 +110,10 @@ class ChatServices extends ChangeNotifier {
           'senderId': data['senderId'] ?? '',
           'senderEmail': data['senderEmail'] ?? '',
           'text': data['text'] ?? '',
-          'timestamp': (data['timestamp'] as Timestamp).toDate(),
+          'imageUrl': data['imageUrl'] ?? '',
+          'type': data['type'] ?? 'text',
+          'timestamp':
+              (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
           'isRead': data['isRead'] ?? false,
         };
       }).toList();
@@ -300,6 +306,8 @@ class ChatServices extends ChangeNotifier {
           'senderId': data['senderId'] ?? '',
           'senderEmail': data['senderEmail'] ?? '',
           'text': data['text'] ?? '',
+          'imageUrl': data['imageUrl'] ?? '',
+          'type': data['type'] ?? 'text',
           'timestamp':
               (data['timestamp'] as Timestamp?)?.toDate() ?? DateTime.now(),
           'isRead': data['isRead'] ?? false,
@@ -371,6 +379,133 @@ class ChatServices extends ChangeNotifier {
       _loading = false;
       log('Error fetching users: $error');
       notifyListeners();
+    }
+  }
+
+  // Method to upload an image to Supabase and send as a message
+  Future<void> sendImageMessage(String recipientEmail, XFile imageFile) async {
+    try {
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) return;
+
+      // Find or create a chat with the recipient
+      final chatId = await _findOrCreateChat(userEmail, recipientEmail);
+      _currentChatId = chatId;
+
+      // Upload the image to Supabase
+      final String imageUrl = await _uploadImageToSupabase(imageFile);
+
+      if (imageUrl.isNotEmpty) {
+        // Store the image message in Firebase
+        await _storeImageMessageInFirebase(chatId, userEmail, imageUrl);
+
+        // Update the chat's last message
+        await _fireStore.collection("Chats").doc(chatId).update({
+          'lastMessage': '📷 Image',
+          'lastMessageTime': FieldValue.serverTimestamp(),
+          'unreadCount': FieldValue.increment(1),
+        });
+
+        // Refresh messages
+        await fetchMessages(chatId);
+      }
+    } catch (error) {
+      log('Error sending image message: $error');
+    }
+  }
+
+  // Helper method to upload an image to Supabase
+  Future<String> _uploadImageToSupabase(XFile imageFile) async {
+    try {
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) return '';
+
+      // Generate a unique file name
+      final String fileName =
+          '${DateTime.now().millisecondsSinceEpoch}_${path.basename(imageFile.path)}';
+
+      // Upload the file to the 'chatimages' bucket
+      final file = File(imageFile.path);
+      final fileExtension = path.extension(imageFile.path).replaceAll('.', '');
+
+      final response = await _supabase.storage.from('chatimages').upload(
+            'chat/$userEmail/$fileName',
+            file,
+            fileOptions: FileOptions(
+              contentType: 'image/$fileExtension',
+              upsert: true,
+            ),
+          );
+
+      // Get the public URL
+      final imageUrl = _supabase.storage
+          .from('chatimages')
+          .getPublicUrl('chat/$userEmail/$fileName');
+
+      return imageUrl;
+    } catch (error) {
+      log('Error uploading image to Supabase: $error');
+      return '';
+    }
+  }
+
+  // Helper method to store image message metadata in Firebase
+  Future<void> _storeImageMessageInFirebase(
+      String chatId, String senderEmail, String imageUrl) async {
+    try {
+      await _fireStore
+          .collection("Chats")
+          .doc(chatId)
+          .collection("Messages")
+          .add({
+        'senderId': _authController.getCurrentUserId(),
+        'senderEmail': senderEmail,
+        'text': '',
+        'imageUrl': imageUrl,
+        'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
+        'type': 'image',
+      });
+    } catch (error) {
+      log('Error storing image message in Firebase: $error');
+    }
+  }
+
+  // Method to send a text message
+  Future<void> sendTextMessage(String recipientEmail, String text) async {
+    try {
+      final userEmail = _authController.getCurrentUserEmail();
+      if (userEmail == null) return;
+
+      // Find or create a chat with the recipient
+      final chatId = await _findOrCreateChat(userEmail, recipientEmail);
+      _currentChatId = chatId;
+
+      // Add the message to the chat
+      await _fireStore
+          .collection("Chats")
+          .doc(chatId)
+          .collection("Messages")
+          .add({
+        'senderId': _authController.getCurrentUserId(),
+        'senderEmail': userEmail,
+        'text': text,
+        'timestamp': FieldValue.serverTimestamp(),
+        'isRead': false,
+        'type': 'text',
+      });
+
+      // Update the chat's last message
+      await _fireStore.collection("Chats").doc(chatId).update({
+        'lastMessage': text,
+        'lastMessageTime': FieldValue.serverTimestamp(),
+        'unreadCount': FieldValue.increment(1),
+      });
+
+      // Refresh messages
+      await fetchMessages(chatId);
+    } catch (error) {
+      log('Error sending message: $error');
     }
   }
 }

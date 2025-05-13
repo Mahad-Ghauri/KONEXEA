@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:Konexea/Views/Components/Chat/message_image.dart';
+import 'package:Konexea/Views/Components/Profile/profile_image_widget.dart';
 
 class MessageBubble extends StatelessWidget {
   final Map<String, dynamic> message;
@@ -19,6 +21,8 @@ class MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = message['text'] ?? '';
+    final imageUrl = message['imageUrl'] ?? '';
+    final messageType = message['type'] ?? 'text';
     final timestamp = message['timestamp'] as DateTime? ?? DateTime.now();
     final formattedTime = DateFormat('h:mm a').format(timestamp);
 
@@ -30,17 +34,16 @@ class MessageBubble extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isCurrentUser)
-            _buildAvatar(
+            _buildProfileImage(
               context,
               message['senderEmail']?.toString() ?? '',
-              Theme.of(context).colorScheme.surface.withOpacity(0.2),
-              Theme.of(context).colorScheme.surface,
             ),
           if (!isCurrentUser) const SizedBox(width: 8),
           Flexible(
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+              padding: messageType == 'image'
+                  ? const EdgeInsets.all(4.0)
+                  : const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
               decoration: BoxDecoration(
                 color: isCurrentUser
                     ? Theme.of(context).colorScheme.primary
@@ -66,15 +69,23 @@ class MessageBubble extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    text,
-                    style: GoogleFonts.urbanist(
-                      color: isCurrentUser
-                          ? Colors.white
-                          : Theme.of(context).textTheme.bodyMedium?.color,
-                      fontSize: 16,
+                  // Display content based on message type
+                  if (messageType == 'text')
+                    Text(
+                      text,
+                      style: GoogleFonts.urbanist(
+                        color: isCurrentUser
+                            ? Colors.white
+                            : Theme.of(context).textTheme.bodyMedium?.color,
+                        fontSize: 16,
+                      ),
+                    )
+                  else if (messageType == 'image')
+                    MessageImage(
+                      imageUrl: imageUrl,
+                      isCurrentUser: isCurrentUser,
                     ),
-                  ),
+                  
                   const SizedBox(height: 4),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -104,30 +115,20 @@ class MessageBubble extends StatelessWidget {
           ),
           if (isCurrentUser) const SizedBox(width: 8),
           if (isCurrentUser)
-            _buildAvatar(
+            _buildProfileImage(
               context,
               currentUserEmail ?? '',
-              Theme.of(context).colorScheme.primary.withOpacity(0.2),
-              Theme.of(context).colorScheme.primary,
             ),
         ],
       ),
     );
   }
 
-  Widget _buildAvatar(BuildContext context, String email, Color backgroundColor,
-      Color textColor) {
-    return CircleAvatar(
-      radius: 16,
-      backgroundColor: backgroundColor,
-      child: Text(
-        email.isNotEmpty ? email[0].toUpperCase() : '?',
-        style: TextStyle(
-          color: textColor,
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-        ),
-      ),
+  Widget _buildProfileImage(BuildContext context, String email) {
+    return ProfileImageWidget(
+      size: 32.0, // Diameter of 32 (radius of 16)
+      isEditable: false,
+      email: email,
     );
   }
 }
