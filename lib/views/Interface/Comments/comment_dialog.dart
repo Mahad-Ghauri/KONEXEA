@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,10 +12,10 @@ class CommentDialog extends StatefulWidget {
   final String posterUsername;
 
   const CommentDialog({
-    Key? key,
+    super.key,
     required this.postId,
     required this.posterUsername,
-  }) : super(key: key);
+  });
 
   @override
   State<CommentDialog> createState() => _CommentDialogState();

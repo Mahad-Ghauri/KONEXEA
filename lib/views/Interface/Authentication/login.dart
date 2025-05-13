@@ -193,7 +193,7 @@ class _LoginPageState extends State<LoginPage>
                     ),
                   ),
                   SizedBox(height: height * 0.03),
-                  
+
                   // Card with login form
                   FadeTransition(
                     opacity: _fadeAnimation,
@@ -220,185 +220,217 @@ class _LoginPageState extends State<LoginPage>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 // Login Header
-                            Text(
-                              "Log In",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.tertiary,
-                                fontWeight: FontWeight.bold,
-                                fontSize: height * 0.045,
-                                letterSpacing: 2,
-                                fontFamily: GoogleFonts.italiana().fontFamily,
-                                shadows: const [
-                                  Shadow(
-                                    color: Colors.black26,
-                                    offset: Offset(2, 2),
-                                    blurRadius: 4,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: height * 0.01),
-
-                            // Subtitle
-                            Text(
-                              "Welcome back! You've been missed",
-                              style: TextStyle(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .tertiary
-                                    .withOpacity(0.9),
-                                fontSize: height * 0.018,
-                                fontFamily: GoogleFonts.urbanist().fontFamily,
-                                letterSpacing: 0.5,
-                              ),
-                            ),
-                            SizedBox(height: height * 0.035),
-
-                            // Form
-                            Form(
-                              key: _formKey,
-                              child: Column(
-                                children: [
-                                  // Email Field
-                                  MyFormField(
-                                    hintText: "Email",
-                                    hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.7),
-                                    ),
-                                    prefixIcon: Icons.alternate_email,
-                                    controller:
-                                        _inputControllers.emailController,
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your email';
-                                      }
-                                      if (!value.contains('@')) {
-                                        return 'Please enter a valid email';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  SizedBox(height: height * 0.02),
-
-                                  // Password Field
-                                  MyFormField(
-                                    hintText: "Password",
-                                    hintStyle: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary
-                                          .withOpacity(0.7),
-                                    ),
-                                    prefixIcon: Icons.lock_outline_rounded,
-                                    controller:
-                                        _inputControllers.passwordController,
-                                    obscureText: true,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter your password';
-                                      }
-                                      if (value.length < 6) {
-                                        return 'Password must be at least 6 characters';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-
-                            // Forgot Password Link
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    _elegantRoute(
-                                      const ForgotPassword(),
-                                    ),
-                                  );
-                                },
-                                style: TextButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  minimumSize: const Size(0, 36),
-                                  tapTargetSize:
-                                      MaterialTapTargetSize.shrinkWrap,
-                                ),
-                                child: Text(
-                                  "Forgot Password?",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    fontFamily: GoogleFonts.outfit().fontFamily,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: height * 0.02),
-
-                            // Login Button
-                            AuthButton(
-                              onPressed: _handleLogin,
-                              text: "Log In",
-                              textStyle: TextStyle(
-                                fontFamily: GoogleFonts.outfit().fontFamily,
-                                color: Theme.of(context).colorScheme.surface,
-                                fontSize: 19,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              isLoading: _inputControllers.loading,
-                            ),
-                            SizedBox(height: height * 0.025),
-
-                            // Sign Up Link
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
                                 Text(
-                                  'Don\'t have an account?',
+                                  "Log In",
                                   style: TextStyle(
-                                    fontSize: 16,
                                     color:
                                         Theme.of(context).colorScheme.tertiary,
-                                    fontFamily: GoogleFonts.outfit().fontFamily,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: height * 0.045,
+                                    letterSpacing: 2,
+                                    fontFamily:
+                                        GoogleFonts.italiana().fontFamily,
+                                    shadows: const [
+                                      Shadow(
+                                        color: Colors.black26,
+                                        offset: Offset(2, 2),
+                                        blurRadius: 4,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                        _elegantRoute(const SignUpPage()));
-                                  },
-                                  child: Text(
-                                    'Sign Up',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily:
-                                          GoogleFonts.outfit().fontFamily,
+                                SizedBox(height: height * 0.01),
+
+                                // Subtitle
+                                Text(
+                                  "Welcome back! You've been missed",
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .tertiary
+                                        .withOpacity(0.9),
+                                    fontSize: height * 0.018,
+                                    fontFamily:
+                                        GoogleFonts.urbanist().fontFamily,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                                SizedBox(height: height * 0.035),
+
+                                // Form
+                                Form(
+                                  key: _formKey,
+                                  child: Column(
+                                    children: [
+                                      // Email Field
+                                      MyFormField(
+                                        hintText: "Email",
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary
+                                              .withOpacity(0.7),
+                                        ),
+                                        prefixIcon: Icons.alternate_email,
+                                        controller:
+                                            _inputControllers.emailController,
+                                        keyboardType:
+                                            TextInputType.emailAddress,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your email';
+                                          }
+                                          if (!value.contains('@')) {
+                                            return 'Please enter a valid email';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                      SizedBox(height: height * 0.02),
+
+                                      // Password Field
+                                      MyFormField(
+                                        hintText: "Password",
+                                        hintStyle: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .tertiary
+                                              .withOpacity(0.7),
+                                        ),
+                                        prefixIcon: Icons.lock_outline_rounded,
+                                        controller: _inputControllers
+                                            .passwordController,
+                                        obscureText: true,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your password';
+                                          }
+                                          if (value.length < 6) {
+                                            return 'Password must be at least 6 characters';
+                                          }
+                                          return null;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+
+                                // Forgot Password Link
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).push(
+                                        _elegantRoute(
+                                          const ForgotPassword(),
+                                        ),
+                                      );
+                                    },
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.zero,
+                                      minimumSize: const Size(0, 36),
+                                      tapTargetSize:
+                                          MaterialTapTargetSize.shrinkWrap,
+                                    ),
+                                    child: Text(
+                                      "Forgot Password?",
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary,
+                                        fontFamily:
+                                            GoogleFonts.outfit().fontFamily,
+                                      ),
                                     ),
                                   ),
+                                ),
+                                SizedBox(height: height * 0.02),
+
+                                // Login Button
+                                AuthButton(
+                                  onPressed: _handleLogin,
+                                  text: "Log In",
+                                  textStyle: TextStyle(
+                                    fontFamily: GoogleFonts.outfit().fontFamily,
+                                    color:
+                                        Theme.of(context).colorScheme.surface,
+                                    fontSize: 19,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  isLoading: _inputControllers.loading,
+                                ),
+                                SizedBox(height: height * 0.025),
+
+                                // Sign Up Link
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Don\'t have an account?',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .tertiary,
+                                        fontFamily:
+                                            GoogleFonts.outfit().fontFamily,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: _navigateToSignUpScreen,
+                                      child: Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily:
+                                              GoogleFonts.outfit().fontFamily,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
-  ],),
+            ),
           ),
         ),
       ),
-    ),
+    );
+  }
+
+  void _navigateToSignUpScreen() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const SignUpPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutCubic;
+
+          var tween = Tween(
+            begin: begin,
+            end: end,
+          ).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 500),
+      ),
     );
   }
 

@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, use_build_context_synchronously, no_leading_underscores_for_local_identifiers
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously, no_leading_underscores_for_local_identifiers, unused_local_variable, unused_import
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // For haptic feedback
@@ -19,7 +19,7 @@ import 'dart:async'; // For periodic animations
 import 'package:cached_network_image/cached_network_image.dart';
 // import 'package:photo_view/photo_view.dart'; // For image zoom
 import 'package:video_player/video_player.dart'; // For video playback
-// import 'package:visibility_detector/visibility_detector.dart'; // For autoplay
+// import 'package:visibility_  detector/visibility_detector.dart'; // For autoplay
 
 class FeedPage extends StatefulWidget {
   const FeedPage({super.key});

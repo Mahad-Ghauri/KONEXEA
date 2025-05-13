@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,10 +10,10 @@ class MessageComposer extends StatefulWidget {
   final Function() onSendMessage;
   
   const MessageComposer({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onSendMessage,
-  }) : super(key: key);
+  });
 
   @override
   State<MessageComposer> createState() => _MessageComposerState();

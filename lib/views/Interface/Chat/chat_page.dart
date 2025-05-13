@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, unnecessary_import
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:social_swap/Controllers/Services/Chat/chat_services.dart';
 import 'package:social_swap/Controllers/Services/Authentication/authentication_controller.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
+// import 'package:shimmer/shimmer.dart';
 import 'package:social_swap/Views/Auth%20Gate/auth_gate.dart';
 
 // Import components
 import 'package:social_swap/Views/Components/Chat/chat_list_item.dart';
 import 'package:social_swap/Views/Components/Chat/message_bubble.dart';
 import 'package:social_swap/Views/Components/Chat/message_composer.dart';
-import 'package:social_swap/Views/Components/Chat/chat_app_bar.dart';
+// import 'package:social_swap/Views/Components/Chat/chat_app_bar.dart';
 import 'package:social_swap/Views/Components/Chat/empty_states.dart';
 
 class ChatPage extends StatefulWidget {
@@ -32,6 +32,7 @@ class _ChatPageState extends State<ChatPage> {
   final ScrollController _scrollController = ScrollController();
   final AuthenticationController _authController = AuthenticationController();
   late ChatServices _chatServices;
+  // ignore: unused_field
   bool _isComposing = false;
   String? _currentChatId;
   String? _currentUserEmail;
@@ -285,7 +286,7 @@ class _ChatPageState extends State<ChatPage> {
         leading: IconButton(
           icon: const Icon(Iconsax.arrow_left),
           onPressed: () {
-            Navigator.of(context).pop(_elegantRoute(AuthGate()));
+            Navigator.of(context).pop(_elegantRoute(const AuthGate()));
             _chatServices.fetchChats();
           },
         ),

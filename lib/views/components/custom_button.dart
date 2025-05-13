@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, unused_field
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -23,7 +25,7 @@ class CustomButton extends StatefulWidget {
   final bool animateOnTap;
 
   const CustomButton({
-    Key? key,
+    super.key,
     this.text,
     this.icon,
     required this.onPressed,
@@ -41,7 +43,7 @@ class CustomButton extends StatefulWidget {
     this.enableShadow = true,
     this.elevation = 2.0,
     this.animateOnTap = true,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomButton> createState() => _CustomButtonState();

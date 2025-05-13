@@ -61,7 +61,7 @@ class LargeCategoryTile extends StatelessWidget {
                 right: 0,
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.tertiary,
+                    color: Theme.of(context).colorScheme.surface,
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(8),
                     ),
@@ -75,7 +75,7 @@ class LargeCategoryTile extends StatelessWidget {
                           child: Icon(
                             Icons.arrow_right,
                             color: Colors.black,
-                            size: 20,
+                            size: 22,
                           ),
                         ),
                       ),

@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -27,7 +29,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   const CustomAppBar({
-    Key? key,
+    super.key,
     this.title = '',
     this.actions,
     this.centerTitle = true,
@@ -46,7 +48,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.enableBlur = false,
     this.blurStrength = 10,
     this.systemOverlayStyle,
-  }) : super(key: key);
+  });
 
   @override
   Size get preferredSize => Size.fromHeight(height + (bottom?.preferredSize.height ?? 0));
@@ -170,7 +172,7 @@ class CustomSliverAppBar extends StatelessWidget {
   final SystemUiOverlayStyle? systemOverlayStyle;
 
   const CustomSliverAppBar({
-    Key? key,
+    super.key,
     this.title = '',
     this.actions,
     this.centerTitle = true,
@@ -190,7 +192,7 @@ class CustomSliverAppBar extends StatelessWidget {
     this.bottom,
     this.enableShadow = false,
     this.systemOverlayStyle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
