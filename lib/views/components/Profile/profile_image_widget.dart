@@ -9,11 +9,11 @@ class ProfileImageWidget extends StatelessWidget {
   final String? email;
   
   const ProfileImageWidget({
-    Key? key,
+    super.key,
     this.size = 60.0,
     this.isEditable = false,
     this.email,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
