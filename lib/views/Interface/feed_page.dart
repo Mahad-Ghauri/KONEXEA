@@ -884,34 +884,7 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
             ),
           ),
           const SizedBox(height: 32),
-          // ElevatedButton.icon(
-          //   onPressed: () {
-          //     // Add navigation to create post page
-          //     HapticFeedback.mediumImpact();
-          //     Navigator.of(context).pushReplacement(
-          //       (_elegantRoute(const UploadPage())),
-          //     );
-          //   },
-          //   style: ElevatedButton.styleFrom(
-          //     backgroundColor: Theme.of(context).colorScheme.primary,
-          //     foregroundColor: Colors.white,
-          //     padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-          //     shape: RoundedRectangleBorder(
-          //       borderRadius: BorderRadius.circular(30),
-          //     ),
-          //     elevation: 8,
-          //     shadowColor:
-          //         Theme.of(context).colorScheme.primary.withOpacity(0.5),
-          //   ),
-          //   icon: const Icon(Iconsax.add_circle),
-          //   label: Text(
-          //     'Create Post',
-          //     style: GoogleFonts.urbanist(
-          //       fontWeight: FontWeight.w600,
-          //       fontSize: 16,
-          //     ),
-          //   ),
-          // ),
+         
         ],
       ),
     );
@@ -1032,11 +1005,6 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                                           ),
                                         ),
                                       ),
-                                      // const Icon(
-                                      //   Iconsax.tick_circle,
-                                      //   size: 14,
-                                      //   color: Colors.teal,
-                                      // )
                                     ],
                                   ),
                                   Text(
