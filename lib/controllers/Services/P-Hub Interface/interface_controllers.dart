@@ -7,29 +7,29 @@ class InterfaceController extends ChangeNotifier {
       "ShopEase is a full-featured e-commerce mobile application built with Flutter that delivers a seamless shopping experience. The app provides users with a comprehensive platform to browse products, manage their shopping cart, and complete purchases with ease. Our integrated AI-powered chatbot assistant helps users with product recommendations, answers questions, and provides support throughout their shopping journey while maintaining a conversation history for continuity.";
   //  List of images for carousel view on interface page
   final List<String> _carouselItems = [
-    "Assets/Carousel/carousel1.jpg",
-    "Assets/Carousel/carousel2.jpg",
-    "Assets/Carousel/carousel3.jpg",
-    "Assets/Carousel/carousel4.jpg",
-    "Assets/Carousel/carousel5.jpg",
-    "Assets/Carousel/carousel6.jpg",
-    "Assets/Carousel/carousel7.jpg",
-    "Assets/Carousel/carousel8.jpg",
-    "Assets/Carousel/carousel9.jpg",
+    "assets/Carousel/carousel1.jpg",
+    "assets/Carousel/carousel2.jpg",
+    "assets/Carousel/carousel3.jpg",
+    "assets/Carousel/carousel4.jpg",
+    "assets/Carousel/carousel5.jpg",
+    "assets/Carousel/carousel6.jpg",
+    "assets/Carousel/carousel7.jpg",
+    "assets/Carousel/carousel8.jpg",
+    "assets/Carousel/carousel9.jpg",
   ];
 
   //  List of images for large category tiles on interface page
   final List<String> _largeCategoryItems = [
-    "Assets/Categories/Clothing.jpeg",
-    "Assets/Categories/Cosmetics.jpeg",
-    "Assets/Categories/Female Footwear.jpeg",
-    "Assets/Categories/Male Footwear.jpeg",
-    "Assets/Categories/Female Accessories.jpeg",
-    "Assets/Categories/Male Accessories.jpeg",
-    "Assets/Categories/Men Clothing.jpeg",
-    "Assets/Categories/Women Clothing.jpeg",
-    "Assets/Categories/Furniture.jpeg",
-    "Assets/Categories/Smoke.jpeg",
+    "assets/categories/Clothing.jpeg",
+    "assets/categories/Cosmetics.jpeg",
+    "assets/categories/Female Footwear.jpeg",
+    "assets/categories/Male Footwear.jpeg",
+    "assets/categories/Female Accessories.jpeg",
+    "assets/categories/Male Accessories.jpeg",
+    "assets/categories/Men Clothing.jpeg",
+    "assets/categories/Women Clothing.jpeg",
+    "assets/categories/Furniture.jpeg",
+    "assets/categories/Smoke.jpeg",
   ];
 
   //  List of titles for large category tiles on interface page

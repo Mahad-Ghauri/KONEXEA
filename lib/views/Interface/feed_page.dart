@@ -1173,13 +1173,13 @@ class _FeedPageState extends State<FeedPage> with TickerProviderStateMixin {
                             ),
                             const SizedBox(width: 16),
 
-                            // Share button
-                            IconButton(
-                              icon: const Icon(Iconsax.send_1),
-                              onPressed: () {
-                                HapticFeedback.lightImpact();
-                              },
-                            ),
+                            // // Share button
+                            // IconButton(
+                            //   icon: const Icon(Iconsax.send_1),
+                            //   onPressed: () {
+                            //     HapticFeedback.lightImpact();
+                            //   },
+                            // ),
 
                             const Spacer(),
                             //Save button

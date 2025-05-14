@@ -1,17 +1,17 @@
 // ignore_for_file: deprecated_member_use
 
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
-import 'package:Konexea/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
-import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
 
+import 'package:Konexea/Controllers/Services/Cart%20Services/cart_service.dart';
+import 'package:Konexea/Controllers/Services/P-Hub%20Interface/interface_controllers.dart';
 import 'package:Konexea/Controllers/input_controllers.dart';
 import 'package:Konexea/Model/featured_product_model.dart';
 import 'package:Konexea/Views/Components/Product%20Hub/cart_icon.dart';
 import 'package:Konexea/Views/Interface/PHub/Cart/cart_page.dart';
 import 'package:Konexea/Views/Interface/PHub/Featured%20Categories/featured_details.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class FeaturedProducts extends StatefulWidget {
   final String category;
@@ -90,7 +90,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
             ),
           ],
         ),
-        actions: const [CartIcon()],
+        actions: [CartIcon()],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
@@ -255,7 +255,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
       padding: const EdgeInsets.only(bottom: 16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.65,
+        childAspectRatio: 0.60, // Adjusted from 0.65 to give more height
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
       ),
@@ -386,7 +386,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
             // Product details
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(8.0), // Reduced padding
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -395,35 +395,35 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                       doc['title'] ?? '',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 13, // Slightly reduced font size
                         fontFamily: GoogleFonts.outfit().fontFamily,
                       ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
 
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4), // Reduced spacing
                     // Price
                     Text(
                       "Rs.${doc['price'] ?? 0.0}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 16,
+                        fontSize: 15, // Slightly reduced font size
                         color: Colors.yellow.shade900,
                         fontFamily: GoogleFonts.outfit().fontFamily,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 4), // Reduced spacing
 
                     // Description
                     Expanded(
                       child: Text(
                         doc['description'] ?? '',
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 11, // Reduced font size
                           color: Colors.grey.shade700,
                         ),
-                        maxLines: 3,
+                        maxLines: 2, // Reduced from 3 to 2 lines
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -469,7 +469,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
       children: [
         Expanded(
           child: Container(
-            height: 36,
+            height: 30, // Reduced height to match button
             decoration: BoxDecoration(
               color: Colors.yellow.shade800,
               borderRadius: BorderRadius.circular(8),
@@ -478,7 +478,8 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: const Icon(Icons.remove, color: Colors.white, size: 16),
+                  icon: const Icon(Icons.remove,
+                      color: Colors.white, size: 14), // Smaller icon
                   onPressed: () => cartServices.decrementQuantity(product.id),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -488,10 +489,12 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
                   style: const TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 12, // Smaller text
                   ),
                 ),
                 IconButton(
-                  icon: const Icon(Icons.add, color: Colors.white, size: 16),
+                  icon: const Icon(Icons.add,
+                      color: Colors.white, size: 14), // Smaller icon
                   onPressed: () => cartServices.incrementQuantity(product.id),
                   padding: EdgeInsets.zero,
                   constraints: const BoxConstraints(),
@@ -532,14 +535,18 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
           ),
         );
       },
-      icon: const Icon(Icons.add_shopping_cart, size: 16),
-      label: const Text("Add to Cart"),
+      icon: const Icon(Icons.add_shopping_cart, size: 14), // Reduced icon size
+      label: const Text(
+        "Add to Cart",
+        style: TextStyle(fontSize: 12), // Reduced text size
+      ),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.yellow.shade800,
         foregroundColor: Colors.white,
         elevation: 2,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6), // Reduced padding
+        minimumSize: const Size(0, 30), // Set minimum height
       ),
     );
   }
