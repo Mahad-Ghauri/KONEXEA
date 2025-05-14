@@ -1,14 +1,17 @@
 # Konexea
 
 A modern social media application built with Flutter, featuring AI-powered interactions and seamless user experience.
-![Konexea]([https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-icon/App%20Icon.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaWNvbi9BcHAgSWNvbi5qcGVnIiwiaWF0IjoxNzQyNzQxNTU0LCJleHAiOjE3NTEwNzQxNTU0fQ.yVPnwkj5nbnWspxG8adR28DKdDg4yw4CMyadFou6kvQ](https://vfazqatlbiewmmsbiboh.supabase.co/storage/v1/object/public/appicon//Icon.png))
+![Konexea](https://vfazqatlbiewmmsbiboh.supabase.co/storage/v1/object/public/appicon//Icon.png)
 
 ## 🌟 Features
 
-- **AI Chat Assistant**: Intelligent chatbot powered by Gemini AI
+
+- **User Authentication**: Secure login and signup
 - **Social Feed**: Dynamic post sharing and interaction
 - **Modern UI**: Elegant design with smooth animations
-- **User Authentication**: Secure login and signup
+- **AI Chat Assistant**: Intelligent chatbot powered by Gemini AI
+- **Messaging**: Realtime chating
+- **Integrated E-Commerce**: Integrated marketplace
 - **Real-time Updates**: Live feed updates
 - **Responsive Design**: Works on all screen sizes
 
