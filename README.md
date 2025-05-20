@@ -163,6 +163,352 @@ dependencies:
   fluttertoast: ^8.2.4
   google_mlkit_translation: ^0.13.0```
 ```
+# Social Swap Activity Diagrams
+
+## System Architecture
+
+```mermaid
+graph TB
+    subgraph Frontend
+        A[Flutter UI] --> B[State Management]
+        B --> C[Controllers]
+        C --> D[Services]
+    end
+    
+    subgraph Backend
+        E[Firebase] --> F[Authentication]
+        E --> G[Cloud Storage]
+        E --> H[Cloud Functions]
+        
+        I[Supabase] --> J[PostgreSQL DB]
+        I --> K[Storage]
+        I --> L[Real-time Subscriptions]
+    end
+    
+    D --> E
+    D --> I
+    
+    subgraph External Services
+        M[Image Processing]
+        N[Push Notifications]
+        O[Analytics]
+    end
+    
+    E --> M
+    E --> N
+    E --> O
+```
+
+## User Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant Firebase
+    participant Supabase
+    
+    User->>App: Open App
+    App->>User: Show Login/Register Screen
+    
+    alt New User
+        User->>App: Click Register
+        App->>Firebase: Create Account
+        Firebase-->>App: Account Created
+        App->>Supabase: Create User Profile
+        Supabase-->>App: Profile Created
+        App->>User: Show Home Screen
+    else Existing User
+        User->>App: Enter Credentials
+        App->>Firebase: Authenticate
+        Firebase-->>App: Authentication Success
+        App->>Supabase: Fetch User Profile
+        Supabase-->>App: Profile Data
+        App->>User: Show Home Screen
+    end
+```
+
+## Post Creation Flow
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant Firebase
+    participant Supabase
+    
+    User->>App: Click Create Post
+    App->>User: Show Post Creation UI
+    
+    User->>App: Add Content & Media
+    App->>Firebase: Upload Media
+    Firebase-->>App: Media URLs
+    
+    App->>Supabase: Save Post Data
+    Supabase-->>App: Post Created
+    
+    App->>User: Show Success Message
+    App->>User: Update Feed
+```
+
+## Social Interaction Flow
+
+```mermaid
+graph TB
+    A[User] --> B{Action}
+    B -->|Like| C[Update Like Count]
+    B -->|Comment| D[Add Comment]
+    B -->|Share| E[Create Share]
+    B -->|Follow| F[Update Followers]
+    
+    C --> G[Update UI]
+    D --> G
+    E --> G
+    F --> G
+    
+    G --> H[Real-time Updates]
+    H --> I[Other Users]
+```
+
+## Content Discovery Flow
+
+```mermaid
+graph LR
+    A[User] --> B[Search]
+    A --> C[Explore]
+    A --> D[Feed]
+    
+    B --> E[Results]
+    C --> F[Trending]
+    D --> G[Following]
+    
+    E --> H[Content]
+    F --> H
+    G --> H
+    
+    H --> I[Interact]
+    I --> J[Update Feed]
+```
+
+## Data Flow Architecture
+
+```mermaid
+graph TB
+    subgraph Client
+        A[UI Components] --> B[State Management]
+        B --> C[API Services]
+    end
+    
+    subgraph API Layer
+        C --> D[Firebase SDK]
+        C --> E[Supabase Client]
+    end
+    
+    subgraph Backend Services
+        D --> F[Auth Service]
+        D --> G[Storage Service]
+        E --> H[Database Service]
+        E --> I[Real-time Service]
+    end
+    
+    subgraph External APIs
+        J[Image Processing]
+        K[Push Notifications]
+        L[Analytics]
+    end
+    
+    F --> J
+    G --> K
+    H --> L
+```
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class User {
+        +String id
+        +String username
+        +String email
+        +String profileImage
+        +DateTime createdAt
+        +updateProfile()
+        +deleteAccount()
+    }
+
+    class Post {
+        +String id
+        +String userId
+        +String content
+        +List~String~ mediaUrls
+        +DateTime createdAt
+        +int likeCount
+        +createPost()
+        +deletePost()
+        +updatePost()
+    }
+
+    class Comment {
+        +String id
+        +String postId
+        +String userId
+        +String content
+        +DateTime createdAt
+        +addComment()
+        +deleteComment()
+    }
+
+    class AuthService {
+        +signUp()
+        +signIn()
+        +signOut()
+        +resetPassword()
+    }
+
+    class PostService {
+        +createPost()
+        +getPosts()
+        +updatePost()
+        +deletePost()
+    }
+
+    class UserService {
+        +getUserProfile()
+        +updateUserProfile()
+        +followUser()
+        +unfollowUser()
+    }
+
+    class StorageService {
+        +uploadMedia()
+        +deleteMedia()
+        +getMediaUrl()
+    }
+
+    User "1" -- "many" Post : creates
+    User "1" -- "many" Comment : writes
+    Post "1" -- "many" Comment : has
+    AuthService --> User : manages
+    PostService --> Post : manages
+    UserService --> User : manages
+    StorageService --> Post : stores media
+```
+
+## Detailed Sequence Diagrams
+
+### User Registration Sequence
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI
+    participant AuthService
+    participant UserService
+    participant StorageService
+    participant Database
+
+    User->>UI: Enter Registration Details
+    UI->>AuthService: Register User
+    AuthService->>Database: Create Auth Record
+    Database-->>AuthService: Auth Created
+    
+    AuthService->>UserService: Create User Profile
+    UserService->>Database: Save User Data
+    Database-->>UserService: Profile Created
+    
+    User->>UI: Upload Profile Picture
+    UI->>StorageService: Upload Image
+    StorageService->>Database: Update Profile Image URL
+    Database-->>UI: Profile Complete
+    UI-->>User: Show Home Screen
+```
+
+### Post Interaction Sequence
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI
+    participant PostService
+    participant StorageService
+    participant Database
+    participant NotificationService
+
+    User->>UI: Create New Post
+    UI->>PostService: Initiate Post Creation
+    
+    alt With Media
+        PostService->>StorageService: Upload Media
+        StorageService-->>PostService: Media URLs
+    end
+    
+    PostService->>Database: Save Post Data
+    Database-->>PostService: Post Created
+    
+    PostService->>NotificationService: Notify Followers
+    NotificationService-->>Database: Update Feed
+    
+    Database-->>UI: Update Feed
+    UI-->>User: Show Success Message
+```
+
+### Social Interaction Sequence
+
+```mermaid
+sequenceDiagram
+    participant UserA
+    participant UserB
+    participant UI
+    participant SocialService
+    participant Database
+    participant NotificationService
+
+    UserA->>UI: Follow UserB
+    UI->>SocialService: Process Follow Request
+    SocialService->>Database: Update Followers
+    Database-->>SocialService: Update Complete
+    
+    SocialService->>NotificationService: Send Notification
+    NotificationService-->>UserB: New Follower Alert
+    
+    UserB->>UI: View New Follower
+    UI->>SocialService: Get Follower Details
+    SocialService-->>UI: Follower Information
+    UI-->>UserB: Display Follower Profile
+```
+
+### Content Discovery Sequence
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant UI
+    participant SearchService
+    participant RecommendationService
+    participant Database
+
+    User->>UI: Search Content
+    UI->>SearchService: Process Search Query
+    SearchService->>Database: Query Content
+    Database-->>SearchService: Search Results
+    
+    SearchService->>RecommendationService: Get Recommendations
+    RecommendationService->>Database: Fetch Related Content
+    Database-->>RecommendationService: Related Items
+    
+    RecommendationService-->>UI: Combined Results
+    UI-->>User: Display Results
+```
+
+These diagrams provide a comprehensive view of:
+1. System Architecture
+2. User Authentication Flow
+3. Post Creation Process
+4. Social Interaction Flow
+5. Content Discovery Flow
+6. Data Flow Architecture
+
+Each diagram represents different aspects of the application's functionality and can be used as a reference for development and understanding the system's behavior. 
 
 ## 🤝 Contributing
 
