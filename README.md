@@ -3,6 +3,15 @@
 A modern social media application built with Flutter, featuring AI-powered interactions and seamless user experience.
 ![Konexea](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-icon/App%20Icon.jpeg?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1cmwiOiJhcHAtaWNvbi9BcHAgSWNvbi5qcGVnIiwiaWF0IjoxNzQyNzQxNTU0LCJleHAiOjE3NTEwNzQxNTU0fQ.yVPnwkj5nbnWspxG8adR28DKdDg4yw4CMyadFou6kvQ)
 
+## 📱 Current Version: v1.3.0
+
+### What's New in v1.3.0
+- Enhanced UI/UX with improved animations and transitions
+- Optimized performance for smoother scrolling and loading
+- Added new visualization features for better data representation
+- Improved error handling and user feedback
+- Bug fixes and stability improvements
+
 ## 🌟 Features
 
 - **AI Chat Assistant**: Intelligent chatbot powered by Gemini AI
@@ -158,7 +167,7 @@ dependencies:
   # Utilities
   http: ^1.1.0
   fluttertoast: ^8.2.4
-  google_mlkit_translation: ^0.13.0```
+  google_mlkit_translation: ^0.13.0
 ```
 
 ## 🤝 Contributing
