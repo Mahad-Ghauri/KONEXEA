@@ -298,6 +298,81 @@ graph TB
     F --> H[Fallback]
 ```
 
+# Konexea Class Diagram
+
+
+## Class Diagram
+
+```mermaid
+classDiagram
+    class User {
+        +String id
+        +String username
+        +String email
+        +String profileImage
+        +DateTime createdAt
+        +updateProfile()
+        +deleteAccount()
+    }
+
+    class Post {
+        +String id
+        +String userId
+        +String content
+        +List~String~ mediaUrls
+        +DateTime createdAt
+        +int likeCount
+        +createPost()
+        +deletePost()
+        +updatePost()
+    }
+
+    class Comment {
+        +String id
+        +String postId
+        +String userId
+        +String content
+        +DateTime createdAt
+        +addComment()
+        +deleteComment()
+    }
+
+    class AuthService {
+        +signUp()
+        +signIn()
+        +signOut()
+        +resetPassword()
+    }
+
+    class PostService {
+        +createPost()
+        +getPosts()
+        +updatePost()
+        +deletePost()
+    }
+
+    class UserService {
+        +getUserProfile()
+        +updateUserProfile()
+        +followUser()
+        +unfollowUser()
+    }
+
+    class StorageService {
+        +uploadMedia()
+        +deleteMedia()
+        +getMediaUrl()
+    }
+
+    User "1" -- "many" Post : creates
+    User "1" -- "many" Comment : writes
+    Post "1" -- "many" Comment : has
+    AuthService --> User : manages
+    PostService --> Post : manages
+    UserService --> User : manages
+    StorageService --> Post : stores media
+```
+
 
 
 # Konexea Activity Diagrams
@@ -458,79 +533,6 @@ graph TB
     G --> K
     H --> L
 ```
-
-## Class Diagram
-
-```mermaid
-classDiagram
-    class User {
-        +String id
-        +String username
-        +String email
-        +String profileImage
-        +DateTime createdAt
-        +updateProfile()
-        +deleteAccount()
-    }
-
-    class Post {
-        +String id
-        +String userId
-        +String content
-        +List~String~ mediaUrls
-        +DateTime createdAt
-        +int likeCount
-        +createPost()
-        +deletePost()
-        +updatePost()
-    }
-
-    class Comment {
-        +String id
-        +String postId
-        +String userId
-        +String content
-        +DateTime createdAt
-        +addComment()
-        +deleteComment()
-    }
-
-    class AuthService {
-        +signUp()
-        +signIn()
-        +signOut()
-        +resetPassword()
-    }
-
-    class PostService {
-        +createPost()
-        +getPosts()
-        +updatePost()
-        +deletePost()
-    }
-
-    class UserService {
-        +getUserProfile()
-        +updateUserProfile()
-        +followUser()
-        +unfollowUser()
-    }
-
-    class StorageService {
-        +uploadMedia()
-        +deleteMedia()
-        +getMediaUrl()
-    }
-
-    User "1" -- "many" Post : creates
-    User "1" -- "many" Comment : writes
-    Post "1" -- "many" Comment : has
-    AuthService --> User : manages
-    PostService --> Post : manages
-    UserService --> User : manages
-    StorageService --> Post : stores media
-```
-
 ## Detailed Sequence Diagrams
 
 ### User Registration Sequence
