@@ -163,7 +163,7 @@ dependencies:
   fluttertoast: ^8.2.4
   google_mlkit_translation: ^0.13.0```
 ```
-# Social Swap Activity Diagrams
+# Konexea Activity Diagrams
 
 ## System Architecture
 
