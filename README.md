@@ -15,62 +15,6 @@ A modern social media application built with Flutter, featuring AI-powered inter
 - **Real-time Updates**: Live feed updates
 - **Responsive Design**: Works on all screen sizes
 
-## 📱 Application Preview
-
-### Login Interface
-![Login Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/APP%20SS%202%20.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FQUCBTUyAyIC5wbmciLCJpYXQiOjE3NDU4ODgyODUsImV4cCI6MTc1MTM4ODgyODV9.DIPO-1HhO_qPGBRZQWc7zGUcPBj0lFY9poXKISdnda0)
-- Modern login UI with unique color combinations
-- Loading indicators and animations
-- User-friendly input field
-- Secure Authentication
-
-### Sign Up Interface
-![Sign Up Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%201.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyAxLnBuZyIsImlhdCI6MTc0NTg4ODkzNywiZXhwIjoxNzUxMzg4ODkzN30.c7OCyfHJkrNhxmBA5E8PhgsgDSuizvET3rfGZVUc9-4)
-- Modern signup UI with unique color combinations
-- Loading indicators and animations
-- User-friendly input field
-- Secure Authentication
-
-### Feed Interface
-![Feed Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/APP%20SS%203.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FQUCBTUyAzLnBuZyIsImlhdCI6MTc0NTg4ODMyNCwiZXhwIjoxNzUxMzg4ODMyNH0.ugWKF0SEkXFlVdmopoGzo8-HwqUATIef17MhlGiwf_c)
-- Clean post layout
-- Interactive elements
-- Smooth scrolling
-- Dynamic content loading
-
-### Upload Page Interface
-![Upload post Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%204.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA0LnBuZyIsImlhdCI6MTc0NTg4OTAwNSwiZXhwIjoxNzUxMzg4OTAwNX0.8TImLFbs7efPKlxLIj8K5Qmx5ZhcKy8GL4iJDQqKA-Q)
-- Minimal Upload Post UI 
-- Real-time Response
-- Loading indicators and animations
-- User-friendly input field
-
-### News Page Interface
-![News Page Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%207.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA3LnBuZyIsImlhdCI6MTc0NTg4OTE1NSwiZXhwIjoxNzUxMzg4OTE1NX0.5KZaf16jbUPsaHl6XQPo56oz8hnlPj_YrGn9Nqs0skM)
-- Minimal User Interface
-- Real-time Responses
-- Loading indicators and animations
-
-### Chat Bot Interface
-![Chat Bot Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%208.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA4LnBuZyIsImlhdCI6MTc0NTg4OTA4MywiZXhwIjoxNzUxMzg4OTA4M30.PPhC97vDqDkdNaZBA1csJsYux4nqfyK4CFDwA3G7WDI)
-- Modern chat UI with message bubbles
-- Real-time AI responses
-- Loading indicators and animations
-- User-friendly input field
-
-
-### Product Hub Interface
-![Product HUb Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%209.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA5LnBuZyIsImlhdCI6MTc0NTg4OTEwMCwiZXhwIjoxNzUxMzg4OTEwMH0.tfz6RXh13onTCT3_qkqvc1zRISmrSQsVFHPo-hfaaHk)
-- Modern UI interface for the cart and categories
-- Real-time Responses
-- Loading indicators and animations
-  
-  ### Profile Page Interface
-![Profile Page Interface](https://gttdwnnthusaqvujxoll.supabase.co/storage/v1/object/sign/app-images/App%20SS%206.png?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InN0b3JhZ2UtdXJsLXNpZ25pbmcta2V5X2FiNzU1MTRhLTM0NDktNDkyMS1hMWQxLTliYWJiMjk5YzkyMSJ9.eyJ1cmwiOiJhcHAtaW1hZ2VzL0FwcCBTUyA2LnBuZyIsImlhdCI6MTc0NTg4OTEzMiwiZXhwIjoxNzUxMzg4OTEzMn0.f8nNL9rjauRP28eat_VMQeIs9Tjv6HTSCFfy2TyB5Xc)
-- Minimal Prpfile Interface
-- Smooth Responses
-- Loading , saving indicators and animations
-
 ## 🛠️ Tech Stack
 
 - **Frontend**: Flutter
@@ -500,15 +444,195 @@ sequenceDiagram
     UI-->>User: Display Results
 ```
 
-These diagrams provide a comprehensive view of:
-1. System Architecture
-2. User Authentication Flow
-3. Post Creation Process
-4. Social Interaction Flow
-5. Content Discovery Flow
-6. Data Flow Architecture
 
-Each diagram represents different aspects of the application's functionality and can be used as a reference for development and understanding the system's behavior. 
+# Konexea Project Visualization
+
+## Project Architecture Overview
+
+```mermaid
+graph TB
+    subgraph Frontend
+        A[Flutter UI] --> B[State Management]
+        B --> C[Controllers]
+        C --> D[Services]
+    end
+    
+    subgraph Backend
+        E[Firebase] --> F[Authentication]
+        E --> G[Cloud Storage]
+        E --> H[Cloud Functions]
+        
+        I[Supabase] --> J[PostgreSQL DB]
+        I --> K[Storage]
+        I --> L[Real-time Subscriptions]
+    end
+    
+    D --> E
+    D --> I
+```
+
+## Development Workflow
+
+```mermaid
+graph LR
+    A[Setup] --> B[Development]
+    B --> C[Testing]
+    C --> D[Deployment]
+    
+    subgraph Setup
+        A1[Clone Repo] --> A2[Install Dependencies]
+        A2 --> A3[Configure Services]
+    end
+    
+    subgraph Development
+        B1[Create Branch] --> B2[Implement Feature]
+        B2 --> B3[Code Review]
+    end
+    
+    subgraph Testing
+        C1[Unit Tests] --> C2[Widget Tests]
+        C2 --> C3[Integration Tests]
+    end
+    
+    subgraph Deployment
+        D1[Build] --> D2[Sign]
+        D2 --> D3[Deploy]
+    end
+```
+
+## Feature Implementation Flow
+
+```mermaid
+graph TB
+    A[Feature Request] --> B{Analysis}
+    B -->|Approved| C[Development]
+    B -->|Rejected| D[Document]
+    
+    C --> E[Testing]
+    E -->|Pass| F[Code Review]
+    E -->|Fail| C
+    
+    F -->|Approved| G[Deployment]
+    F -->|Changes Needed| C
+    
+    G --> H[Monitoring]
+    H --> I[Documentation]
+```
+
+## Project Structure
+
+```mermaid
+graph TB
+    subgraph Project Root
+        A[social_swap/] --> B[lib/]
+        A --> C[assets/]
+        A --> D[test/]
+        A --> E[platform/]
+    end
+    
+    subgraph lib/
+        B --> B1[Controllers/]
+        B --> B2[Model/]
+        B --> B3[Utils/]
+        B --> B4[Views/]
+        B --> B5[main.dart]
+    end
+    
+    subgraph platform/
+        E --> E1[android/]
+        E --> E2[ios/]
+        E --> E3[web/]
+    end
+```
+
+## State Management Flow
+
+```mermaid
+graph LR
+    A[UI] --> B[Provider/Bloc]
+    B --> C[Controllers]
+    C --> D[Services]
+    D --> E[Backend]
+    
+    E --> D
+    D --> C
+    C --> B
+    B --> A
+```
+
+## Testing Strategy
+
+```mermaid
+graph TB
+    A[Testing] --> B[Unit Tests]
+    A --> C[Widget Tests]
+    A --> D[Integration Tests]
+    
+    B --> B1[Controllers]
+    B --> B2[Services]
+    B --> B3[Utils]
+    
+    C --> C1[UI Components]
+    C --> C2[Screens]
+    
+    D --> D1[Feature Flows]
+    D --> D2[End-to-End]
+```
+
+## Deployment Pipeline
+
+```mermaid
+graph LR
+    A[Code] --> B[Build]
+    B --> C[Test]
+    C --> D[Deploy]
+    
+    subgraph Build
+        B1[Flutter Build] --> B2[Asset Processing]
+        B2 --> B3[Bundle Creation]
+    end
+    
+    subgraph Deploy
+        D1[Version Update] --> D2[Sign]
+        D2 --> D3[Store Upload]
+    end
+```
+
+## Security Flow
+
+```mermaid
+graph TB
+    A[User] --> B[Authentication]
+    B --> C[Authorization]
+    C --> D[Resource Access]
+    
+    subgraph Authentication
+        B1[Login] --> B2[Token Generation]
+        B2 --> B3[Session Management]
+    end
+    
+    subgraph Authorization
+        C1[Role Check] --> C2[Permission Verify]
+        C2 --> C3[Access Grant]
+    end
+```
+
+## Error Handling Flow
+
+```mermaid
+graph TB
+    A[Error Occurs] --> B{Error Type}
+    B -->|Network| C[Retry Logic]
+    B -->|Validation| D[User Feedback]
+    B -->|System| E[Logging]
+    
+    C --> F[Recovery]
+    D --> F
+    E --> F
+    
+    F --> G[Continue Flow]
+    F --> H[Fallback]
+```
 
 ## 🤝 Contributing
 
