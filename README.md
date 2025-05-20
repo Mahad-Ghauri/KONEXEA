@@ -107,6 +107,199 @@ dependencies:
   fluttertoast: ^8.2.4
   google_mlkit_translation: ^0.13.0```
 ```
+
+
+# Konexea Project Visualization
+
+## Project Architecture Overview
+
+```mermaid
+graph TB
+    subgraph Frontend
+        A[Flutter UI] --> B[State Management]
+        B --> C[Controllers]
+        C --> D[Services]
+    end
+    
+    subgraph Backend
+        E[Firebase] --> F[Authentication]
+        E --> G[Cloud Storage]
+        E --> H[Cloud Functions]
+        
+        I[Supabase] --> J[PostgreSQL DB]
+        I --> K[Storage]
+        I --> L[Real-time Subscriptions]
+    end
+    
+    D --> E
+    D --> I
+```
+
+## Development Workflow
+
+```mermaid
+graph LR
+    A[Setup] --> B[Development]
+    B --> C[Testing]
+    C --> D[Deployment]
+    
+    subgraph Setup
+        A1[Clone Repo] --> A2[Install Dependencies]
+        A2 --> A3[Configure Services]
+    end
+    
+    subgraph Development
+        B1[Create Branch] --> B2[Implement Feature]
+        B2 --> B3[Code Review]
+    end
+    
+    subgraph Testing
+        C1[Unit Tests] --> C2[Widget Tests]
+        C2 --> C3[Integration Tests]
+    end
+    
+    subgraph Deployment
+        D1[Build] --> D2[Sign]
+        D2 --> D3[Deploy]
+    end
+```
+
+## Feature Implementation Flow
+
+```mermaid
+graph TB
+    A[Feature Request] --> B{Analysis}
+    B -->|Approved| C[Development]
+    B -->|Rejected| D[Document]
+    
+    C --> E[Testing]
+    E -->|Pass| F[Code Review]
+    E -->|Fail| C
+    
+    F -->|Approved| G[Deployment]
+    F -->|Changes Needed| C
+    
+    G --> H[Monitoring]
+    H --> I[Documentation]
+```
+
+## Project Structure
+
+```mermaid
+graph TB
+    subgraph Project Root
+        A[social_swap/] --> B[lib/]
+        A --> C[assets/]
+        A --> D[test/]
+        A --> E[platform/]
+    end
+    
+    subgraph lib/
+        B --> B1[Controllers/]
+        B --> B2[Model/]
+        B --> B3[Utils/]
+        B --> B4[Views/]
+        B --> B5[main.dart]
+    end
+    
+    subgraph platform/
+        E --> E1[android/]
+        E --> E2[ios/]
+        E --> E3[web/]
+    end
+```
+
+## State Management Flow
+
+```mermaid
+graph LR
+    A[UI] --> B[Provider/Bloc]
+    B --> C[Controllers]
+    C --> D[Services]
+    D --> E[Backend]
+    
+    E --> D
+    D --> C
+    C --> B
+    B --> A
+```
+
+## Testing Strategy
+
+```mermaid
+graph TB
+    A[Testing] --> B[Unit Tests]
+    A --> C[Widget Tests]
+    A --> D[Integration Tests]
+    
+    B --> B1[Controllers]
+    B --> B2[Services]
+    B --> B3[Utils]
+    
+    C --> C1[UI Components]
+    C --> C2[Screens]
+    
+    D --> D1[Feature Flows]
+    D --> D2[End-to-End]
+```
+
+## Deployment Pipeline
+
+```mermaid
+graph LR
+    A[Code] --> B[Build]
+    B --> C[Test]
+    C --> D[Deploy]
+    
+    subgraph Build
+        B1[Flutter Build] --> B2[Asset Processing]
+        B2 --> B3[Bundle Creation]
+    end
+    
+    subgraph Deploy
+        D1[Version Update] --> D2[Sign]
+        D2 --> D3[Store Upload]
+    end
+```
+
+## Security Flow
+
+```mermaid
+graph TB
+    A[User] --> B[Authentication]
+    B --> C[Authorization]
+    C --> D[Resource Access]
+    
+    subgraph Authentication
+        B1[Login] --> B2[Token Generation]
+        B2 --> B3[Session Management]
+    end
+    
+    subgraph Authorization
+        C1[Role Check] --> C2[Permission Verify]
+        C2 --> C3[Access Grant]
+    end
+```
+
+## Error Handling Flow
+
+```mermaid
+graph TB
+    A[Error Occurs] --> B{Error Type}
+    B -->|Network| C[Retry Logic]
+    B -->|Validation| D[User Feedback]
+    B -->|System| E[Logging]
+    
+    C --> F[Recovery]
+    D --> F
+    E --> F
+    
+    F --> G[Continue Flow]
+    F --> H[Fallback]
+```
+
+
+
 # Konexea Activity Diagrams
 
 ## System Architecture
@@ -445,194 +638,6 @@ sequenceDiagram
 ```
 
 
-# Konexea Project Visualization
-
-## Project Architecture Overview
-
-```mermaid
-graph TB
-    subgraph Frontend
-        A[Flutter UI] --> B[State Management]
-        B --> C[Controllers]
-        C --> D[Services]
-    end
-    
-    subgraph Backend
-        E[Firebase] --> F[Authentication]
-        E --> G[Cloud Storage]
-        E --> H[Cloud Functions]
-        
-        I[Supabase] --> J[PostgreSQL DB]
-        I --> K[Storage]
-        I --> L[Real-time Subscriptions]
-    end
-    
-    D --> E
-    D --> I
-```
-
-## Development Workflow
-
-```mermaid
-graph LR
-    A[Setup] --> B[Development]
-    B --> C[Testing]
-    C --> D[Deployment]
-    
-    subgraph Setup
-        A1[Clone Repo] --> A2[Install Dependencies]
-        A2 --> A3[Configure Services]
-    end
-    
-    subgraph Development
-        B1[Create Branch] --> B2[Implement Feature]
-        B2 --> B3[Code Review]
-    end
-    
-    subgraph Testing
-        C1[Unit Tests] --> C2[Widget Tests]
-        C2 --> C3[Integration Tests]
-    end
-    
-    subgraph Deployment
-        D1[Build] --> D2[Sign]
-        D2 --> D3[Deploy]
-    end
-```
-
-## Feature Implementation Flow
-
-```mermaid
-graph TB
-    A[Feature Request] --> B{Analysis}
-    B -->|Approved| C[Development]
-    B -->|Rejected| D[Document]
-    
-    C --> E[Testing]
-    E -->|Pass| F[Code Review]
-    E -->|Fail| C
-    
-    F -->|Approved| G[Deployment]
-    F -->|Changes Needed| C
-    
-    G --> H[Monitoring]
-    H --> I[Documentation]
-```
-
-## Project Structure
-
-```mermaid
-graph TB
-    subgraph Project Root
-        A[social_swap/] --> B[lib/]
-        A --> C[assets/]
-        A --> D[test/]
-        A --> E[platform/]
-    end
-    
-    subgraph lib/
-        B --> B1[Controllers/]
-        B --> B2[Model/]
-        B --> B3[Utils/]
-        B --> B4[Views/]
-        B --> B5[main.dart]
-    end
-    
-    subgraph platform/
-        E --> E1[android/]
-        E --> E2[ios/]
-        E --> E3[web/]
-    end
-```
-
-## State Management Flow
-
-```mermaid
-graph LR
-    A[UI] --> B[Provider/Bloc]
-    B --> C[Controllers]
-    C --> D[Services]
-    D --> E[Backend]
-    
-    E --> D
-    D --> C
-    C --> B
-    B --> A
-```
-
-## Testing Strategy
-
-```mermaid
-graph TB
-    A[Testing] --> B[Unit Tests]
-    A --> C[Widget Tests]
-    A --> D[Integration Tests]
-    
-    B --> B1[Controllers]
-    B --> B2[Services]
-    B --> B3[Utils]
-    
-    C --> C1[UI Components]
-    C --> C2[Screens]
-    
-    D --> D1[Feature Flows]
-    D --> D2[End-to-End]
-```
-
-## Deployment Pipeline
-
-```mermaid
-graph LR
-    A[Code] --> B[Build]
-    B --> C[Test]
-    C --> D[Deploy]
-    
-    subgraph Build
-        B1[Flutter Build] --> B2[Asset Processing]
-        B2 --> B3[Bundle Creation]
-    end
-    
-    subgraph Deploy
-        D1[Version Update] --> D2[Sign]
-        D2 --> D3[Store Upload]
-    end
-```
-
-## Security Flow
-
-```mermaid
-graph TB
-    A[User] --> B[Authentication]
-    B --> C[Authorization]
-    C --> D[Resource Access]
-    
-    subgraph Authentication
-        B1[Login] --> B2[Token Generation]
-        B2 --> B3[Session Management]
-    end
-    
-    subgraph Authorization
-        C1[Role Check] --> C2[Permission Verify]
-        C2 --> C3[Access Grant]
-    end
-```
-
-## Error Handling Flow
-
-```mermaid
-graph TB
-    A[Error Occurs] --> B{Error Type}
-    B -->|Network| C[Retry Logic]
-    B -->|Validation| D[User Feedback]
-    B -->|System| E[Logging]
-    
-    C --> F[Recovery]
-    D --> F
-    E --> F
-    
-    F --> G[Continue Flow]
-    F --> H[Fallback]
-```
 
 ## 🤝 Contributing
 
