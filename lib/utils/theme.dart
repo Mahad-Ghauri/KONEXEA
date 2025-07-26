@@ -31,7 +31,7 @@ ThemeData lightMode = ThemeData(
     surfaceTint: const Color(0xFF00A19A).withOpacity(0.05),
   ),
   // Enhanced card theme
-  cardTheme: CardTheme(
+  cardTheme: CardThemeData(
     elevation: 2,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     clipBehavior: Clip.antiAlias,

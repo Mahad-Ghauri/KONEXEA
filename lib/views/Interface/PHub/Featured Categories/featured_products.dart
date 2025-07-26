@@ -90,7 +90,7 @@ class _FeaturedProductsState extends State<FeaturedProducts> {
             ),
           ],
         ),
-        actions: [CartIcon()],
+        actions: const [CartIcon()],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
