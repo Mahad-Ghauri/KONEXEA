@@ -1,7 +1,8 @@
 # Konexea
 
 A modern social media application built with Flutter, featuring AI-powered interactions and seamless user experience.
-![Konexea](https://vfazqatlbiewmmsbiboh.supabase.co/storage/v1/object/public/appicon//Icon.png)
+![Konexea](https://github.com/user-attachments/assets/86c17ba1-25b8-462a-9df7-e87981f7651e)
+
 
 ## 📱 Current Version: v1.3.0
 
